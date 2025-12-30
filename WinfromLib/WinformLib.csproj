@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<UseWindowsForms>true</UseWindowsForms>
+		<id>WinformLib</id>
+	  <version>1.0.5</version>
+	  <authors>SueShonLey</authors>
+	  <owners>SueShonLey</owners>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <Description>本 NuGet 包提供了对 WinForms 常见功能的扩展，旨在简化开发过程并提高效率。该扩展适用于 .NET 6 及以上版本，涵盖了多个常用组件和实用工具，帮助开发者更快速地实现常见功能。</Description>
+	  <PackageIcon>\pics\winform.png</PackageIcon>
+	  <PackageReadmeFile>readme.md</PackageReadmeFile>
+	  <FileVersion></FileVersion>
+	  <AssemblyVersion></AssemblyVersion>
+	  <PackageTags>Winform;Net;Desktop development;桌面开发;</PackageTags>
+	  <PackageReleaseNotes>本 NuGet 包提供了对 WinForms 常见功能的扩展，旨在简化开发过程并提高效率。该扩展适用于 .NET 6 及以上版本，涵盖了多个常用组件和实用工具，帮助开发者更快速地实现常见功能。</PackageReleaseNotes>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="pics\winform.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="readme.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
