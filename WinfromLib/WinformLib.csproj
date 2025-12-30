@@ -21,6 +21,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="打包Nuget.bat" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="pics\winform.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
