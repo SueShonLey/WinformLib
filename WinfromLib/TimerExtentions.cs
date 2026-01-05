@@ -13,7 +13,7 @@ namespace WinformLib
         private static ConcurrentDictionary<string, System.Windows.Forms.Timer> timerDict = new ConcurrentDictionary<string, System.Windows.Forms.Timer>();
 
         /// <summary>
-        /// 注册定时器（定时器名称、间隔触发时间、方法、是否立即开始）
+        /// 注册定时器（定时器名称、间隔触发时间 ms、方法、是否立即开始）
         /// </summary>
         public static void RegisterTimer(string TimerName, int interval,Action funs, bool isStartNow = false)
         {
