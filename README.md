@@ -1,109 +1,168 @@
-我是作者SueShonley，欢迎使用WinformLib！期待您的建议!以下是Winform扩展方法的部分说明：
-您可以观看视频：https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769
-【CheckedListBoxExtentions】
-1.SetCommon:设置数据源
-2.SetCommonAll:设置全选和取消全选
-3.GetCommonStatus:获取选中或未选中的数据
-【ClipboardExtentions】
-1.ToClipboard:将字符串导出到剪切板
-2.GetClipboard:从剪切板读取数据
-【ComboBoxExtentions】
-1.SetCommon:设置下拉框内容
-2.GetCommonSelect:获取当前选择索引 / 文字
-3.SetCommonItems:根据文字锁定下拉框
-【DataGridViewExtentions】
-1.SetCommon:设置表格内容
-2.GetCommon:获取表格内容
-3.GetCommonByButton:根据按钮上的文字获取实体
-【FileExtentions】
-1.PopUpFolder:文件夹选择
-2.PopUpFile:文件选择
-3.PopUpMutiFile:文件选择（多选）
-4.OpenFolder:打开指定的文件夹
-5.OpenFile:打开文件
-6.SplitFileName:劈分文件
-【FormExtentions】
-1.SetCommon:常见窗体设置
-2.BindForm:绑定双向窗体传输
-3.SendMessage:发送字符串到另一个窗体
-【GroupBoxExtentions】
-1.ClearAll:清空文本框、复选框、富文本框
-2.SetAllEnable:设置控件的可用性
-【PanelExtentions】
-1.SetCommonDefualt:设置默认窗体（以便后续恢复）
-2.SetCommonRecover:恢复默认窗体（要设置默认窗体才可以恢复）
-3.SetCommon:切换窗体
-【ProgressBarExtentions】
-1.SetCommon:设置进度条
-【RichTextBoxExtentions】
-1.SetCommonWithColors:富文本框颜色设定
-【StatusStripExtensions】
-1.SetStatusStripCommon:设置StatusStrip（下边框栏）的文本和进度
-2.SetStatusStripTextAndRate:更新StatusStrip的文本和进度
-【TaskExtentions】
-1.TaskRun:后台运行（同步）
-2.TaskRunAsync:后台运行（异步）
-【TipsForm】
-1.PopUpTips:提示弹窗
-2.PopUpTipsRight:提示弹窗（右下角）
-3.PopUpDialog:询问弹窗
-【TimerExtentions】
-1.RegisterTimer：定时器注册（可传入方法）
-2.StartTimer：定时器启动
-3.StopTimer：定时器停止
-4.ReStartTimer：定时器重启
+# WinformLib
 
-I am SueShonley, the author. Welcome to WinformLib! I look forward to your suggestions! Here is a partial explanation of the Winform extension methods:
-You can watch the video：https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769
-【CheckedListBoxExtentions】
-1.SetCommon: Set data source
-2.SetCommonAll: Set to select all and cancel all selection
-3. GetCommonStatus: Get selected or unselected data
-【ClipboardExtentions】
-1.ToClipboard: Export string to clipboard
-2. GetClipboard: Read data from the clipboard
-【ComboBoxExtentions】
-1.SetCommon: Set the content of the dropdown box
-2. GetCommonSelect: Get the current selection index/text
-3.SetCommonItems: Lock the dropdown box based on the text
-【DataGridViewExtentions】
-1.SetCommon: Set table content
-2. GetCommon: Obtain table content
-3. GetCommonByButton: Obtain entities based on the text on the button
-【File Extensions】
-1. PopUpFolder: Folder selection
-2. PopUpFile: File selection
-3. PopUpMutiFile: File selection (multiple selection)
-4. OpenFolder: Open the specified folder
-5. OpenFile: Open a file
-6. SplitFileName: Split files
-【FormExtentions】
-1.SetCommon: Common window settings
-2.BindForm: Bind two-way form transmission
-3. SendMessage: Send a string to another window
-【GroupBoxExtentions】
-1.ClearAll: Clear the text box, check box, and rich text box
-2.SetAllEnable: Set the availability of controls
-【Panel Extensions】
-1. SetCommonDefault: Set the default form (for subsequent restoration)
-2.SetCommonRecover: Restore the default form (the default form must be set before it can be restored)
-3.SetCommon: Switch window
-【ProgressBarExtentions】
-1.SetCommon: Set the progress bar
-【RichTextBoxExtentions】
-1.SetCommonWithColors: Set common colors for rich text boxes
-【StatusStripExtensions】
-1. SetStatusStripCommon: Set the text and progress of the StatusStrip (lower border bar)
-2. SetStatusStripTextAndRate: Update the text and progress of the StatusStrip
-【Task Extensions】
-1. TaskRun: Background operation (synchronous)
-2. TaskRunAsync: Background execution (asynchronous)
-【TipsForm】
-1. PopUpTips: Pop-up tips
-2. PopUpTipsRight: Pop-up tips (located in the bottom right corner)
-3. PopUpDialog: Inquiry pop-up window
-【TimerExtentions】
-1.RegisterTimer: Timer registration (method can be passed in)
-2.StartTimer: Timer start
-3. StopTimer: Timer stop
-4. ReStartTimer: Timer restart
+欢迎使用 **WinformLib**！我是作者 **SueShonley**，期待您的建议！
+
+您可以观看以下视频以获取更多信息：[观看视频](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
+
+您可以访问Github查看源代码：[跳转链接](https://github.com/SueShonLey/WinformLib)
+
+您如果有疑问或建议，敬请联系：sueshonley@qq.com
+
+## 扩展方法说明
+
+### CheckedListBoxExtentions
+- **SetCommon**: 设置数据源
+- **SetCommonAll**: 设置全选和取消全选
+- **GetCommonStatus**: 获取选中或未选中的数据
+
+### ClipboardExtentions
+- **ToClipboard**: 将字符串导出到剪切板
+- **GetClipboard**: 从剪切板读取数据
+
+### ComboBoxExtentions
+- **SetCommon**: 设置下拉框内容
+- **GetCommonSelect**: 获取当前选择索引/文字
+- **SetCommonItems**: 根据文字锁定下拉框
+
+### DataGridViewExtentions
+- **SetCommon**: 设置表格内容
+- **GetCommon**: 获取表格内容
+- **GetCommonByButton**: 根据按钮上的文字获取实体
+
+### FileExtentions
+- **PopUpFolder**: 文件夹选择
+- **PopUpFile**: 文件选择
+- **PopUpMutiFile**: 多文件选择
+- **OpenFolder**: 打开指定的文件夹
+- **OpenFile**: 打开文件
+- **SplitFileName**: 劈分文件名
+
+### FormExtentions
+- **SetCommon**: 常见窗体设置
+- **BindForm**: 绑定双向窗体传输
+- **SendMessage**: 发送字符串到另一个窗体
+
+### GroupBoxExtentions
+- **ClearAll**: 清空文本框、复选框、富文本框
+- **SetAllEnable**: 设置控件的可用性
+
+### PanelExtentions
+- **SetCommonDefault**: 设置默认窗体（以便后续恢复）
+- **SetCommonRecover**: 恢复默认窗体（必须先设置默认窗体才能恢复）
+- **SetCommon**: 切换窗体
+
+### ProgressBarExtentions
+- **SetCommon**: 设置进度条
+
+### RichTextBoxExtentions
+- **SetCommonWithColors**: 富文本框颜色设定
+
+### StatusStripExtensions
+- **SetStatusStripCommon**: 设置 StatusStrip（下边框栏）的文本和进度
+- **SetStatusStripTextAndRate**: 更新 StatusStrip 的文本和进度
+
+### TaskExtentions
+- **TaskRun**: 后台运行（同步）
+- **TaskRunAsync**: 后台运行（异步）
+
+### TipsForm
+- **PopUpTips**: 提示弹窗
+- **PopUpTipsRight**: 提示弹窗（右下角）
+- **PopUpDialog**: 询问弹窗
+
+### TimerExtentions
+- **RegisterTimer**: 定时器注册（可传入方法）
+- **StartTimer**: 定时器启动
+- **StopTimer**: 定时器停止
+- **ReStartTimer**: 定时器重启
+
+### CustomizeFormsExtentions
+- **SetCustomizeForms**: 自定义窗体（传入控件及控件的内容）
+
+##### 感谢您的使用与支持！如有任何建议，请随时联系我。
+---
+
+
+# WinformLib
+
+Welcome to **WinformLib**! I am the author **SueShonley**, and I look forward to your suggestions!
+
+You can watch the following video to obtain more information: [Watch Video](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
+
+You can visit Github to view the source code: [Jump Link](https://github.com/SueShonLey/WinformLib)
+
+If you have any questions or suggestions, please contact: sueshonley@qq.com
+
+## Description of extension methods
+
+### CheckedListBoxExtentions
+- **SetCommon**: Set data source
+- **SetCommonAll**: Set to select all and cancel all
+- **GetCommonStatus**: Get the selected or unselected data
+
+### ClipboardExtentions
+- **ToClipboard**: Export the string to the clipboard
+- **GetClipboard**: Read data from the clipboard
+
+### ComboBoxExtentions
+- **SetCommon**: Set the content of the dropdown box
+- **GetCommonSelect**: Gets the current selected index/text
+- **SetCommonItems**: Lock the dropdown box based on the text
+
+### DataGridViewExtentions
+- **SetCommon**: Set table content
+- **GetCommon**: Get table content
+- **GetCommonByButton**: Get entities based on the text on the button
+
+### FileExtentions
+- **PopUpFolder**: Folder selection
+- **PopUpFile**: File selection
+- **PopUpMutiFile**: Multi-file selection
+- **OpenFolder**: Open the specified folder
+- **OpenFile**: Open a file
+- **SplitFileName**: Split File Name
+
+### FormExtentions
+- **SetCommon**: Common window settings
+- **BindForm**: Bind two-way form transmission
+- **SendMessage**: Send a string to another form
+
+### GroupBoxExtentions
+- **ClearAll**: Clear the text box, check box, and rich text box
+- **SetAllEnable**: Set the availability of controls
+
+### PanelExtentions
+- **SetCommonDefault**: Set the default window (for subsequent restoration)
+- **SetCommonRecover**: Restores the default form (the default form must be set before it can be restored)
+- **SetCommon**: Switch window
+
+### ProgressBarExtentions
+- **SetCommon**: Set the progress bar
+
+### RichTextBoxExtentions
+- **SetCommonWithColors**: Set rich text box colors
+
+### StatusStripExtensions
+- **SetStatusStripCommon**: Set the text and progress of the StatusStrip (lower border bar)
+- **SetStatusStripTextAndRate**: Updates the text and progress of the StatusStrip
+
+### TaskExtentions
+- **TaskRun**: Background execution (synchronous)
+- **TaskRunAsync**: Run in the background (asynchronously)
+
+### TipsForm
+- **PopUpTips**: Pop-up tips
+- **PopUpTipsRight**: Pop-up tips (located in the bottom right corner)
+- **PopUpDialog**: Pop-up dialog for inquiry
+
+### TimerExtentions
+- **RegisterTimer**: Timer registration (method can be passed in)
+- **StartTimer**: Timer start
+- **StopTimer**: Timer stop
+- **ReStartTimer**: Timer restart
+
+### CustomizeFormsExtentions
+- **SetCustomizeForms**: Customize forms (passing in controls and their contents)
+
+##### Thank you for your use and support! If you have any suggestions, please feel free to contact me.
+---
