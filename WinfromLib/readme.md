@@ -1,8 +1,12 @@
 # WinformLib
 
-欢迎使用 **WinformLib**！我是作者 **Sue Shonley**，期待您的建议！
+欢迎使用 **WinformLib**！我是作者 **SueShonley**，期待您的建议！
 
 您可以观看以下视频以获取更多信息：[观看视频](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
+
+您可以访问Github查看源代码：[跳转链接](https://github.com/SueShonLey/WinformLib)
+
+您如果有疑问或建议，敬请联系：sueshonley@qq.com
 
 ## 扩展方法说明
 
@@ -72,15 +76,22 @@
 - **StopTimer**: 定时器停止
 - **ReStartTimer**: 定时器重启
 
+### CustomizeFormsExtentions
+- **SetCustomizeForms**: 自定义窗体（传入控件及控件的内容）
+
+##### 感谢您的使用与支持！如有任何建议，请随时联系我。
 ---
 
-感谢您的使用与支持！如有任何建议，请随时联系我。
 
 # WinformLib
 
-Welcome to **WinformLib**! I am the author **Sue Shonley**, and I look forward to your suggestions!
+Welcome to **WinformLib**! I am the author **SueShonley**, and I look forward to your suggestions!
 
 You can watch the following video to obtain more information: [Watch Video](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
+
+You can visit Github to view the source code: [Jump Link](https://github.com/SueShonLey/WinformLib)
+
+If you have any questions or suggestions, please contact: sueshonley@qq.com
 
 ## Description of extension methods
 
@@ -95,7 +106,7 @@ You can watch the following video to obtain more information: [Watch Video](http
 
 ### ComboBoxExtentions
 - **SetCommon**: Set the content of the dropdown box
-- **GetCommonSelect**: Get the current selected index/text
+- **GetCommonSelect**: Gets the current selected index/text
 - **SetCommonItems**: Lock the dropdown box based on the text
 
 ### DataGridViewExtentions
@@ -121,8 +132,8 @@ You can watch the following video to obtain more information: [Watch Video](http
 - **SetAllEnable**: Set the availability of controls
 
 ### PanelExtentions
-- **SetCommonDefault**: Set the default form (for subsequent restoration)
-- **SetCommonRecover**: Restore the default form (the default form must be set before it can be restored)
+- **SetCommonDefault**: Set the default window (for subsequent restoration)
+- **SetCommonRecover**: Restores the default form (the default form must be set before it can be restored)
 - **SetCommon**: Switch window
 
 ### ProgressBarExtentions
@@ -150,6 +161,8 @@ You can watch the following video to obtain more information: [Watch Video](http
 - **StopTimer**: Timer stop
 - **ReStartTimer**: Timer restart
 
----
+### CustomizeFormsExtentions
+- **SetCustomizeForms**: Customize forms (passing in controls and their contents)
 
-Thank you for your use and support! If you have any suggestions, please feel free to contact me.
+##### Thank you for your use and support! If you have any suggestions, please feel free to contact me.
+---

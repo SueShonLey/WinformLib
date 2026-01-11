@@ -60,7 +60,11 @@ namespace WinfromLib
                 }
                 else
                 {
-                    MessageBox.Show($"内容'{content}'未找到", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    // 默认选中第一个项（如果有项存在）
+                    if (comboBox.Items.Count > 0)
+                    {
+                        comboBox.SelectedIndex = 0;
+                    }
                 }
             }
             else
