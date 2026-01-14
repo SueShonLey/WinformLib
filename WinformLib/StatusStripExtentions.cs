@@ -124,7 +124,7 @@ namespace WinformLib
                 var rateValue = Math.Min(rates.Value, 100);
                 var add = rates.Value != 100 ? " " : "";
                 controls.ProgressBar.Value = Convert.ToInt32(rateValue);
-                controls.PercentLabel.Text = $"{add}{rates.Value:F2}%";
+                controls.PercentLabel.Text = $"{add}{rates.Value*100:F2}%";
 
                 // 显示进度控件
                 controls.ProgressBar.Visible = true;
