@@ -28,70 +28,75 @@
         /// </summary>
         private void InitializeComponent()
         {
-            richTextBox1 = new RichTextBox();
             button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            textBox1 = new TextBox();
+            label1 = new Label();
+            textBox2 = new TextBox();
+            textBox3 = new TextBox();
             SuspendLayout();
-            // 
-            // richTextBox1
-            // 
-            richTextBox1.Location = new Point(173, 71);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(388, 271);
-            richTextBox1.TabIndex = 5;
-            richTextBox1.Text = "";
             // 
             // button1
             // 
-            button1.Location = new Point(182, 372);
+            button1.Location = new Point(325, 224);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
-            button1.TabIndex = 4;
-            button1.Text = "注册";
+            button1.TabIndex = 6;
+            button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            button1.Click += button1_Click_1;
             // 
-            // button2
+            // textBox1
             // 
-            button2.Location = new Point(467, 372);
-            button2.Name = "button2";
-            button2.Size = new Size(94, 29);
-            button2.TabIndex = 6;
-            button2.Text = "停止";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            textBox1.Location = new Point(255, 36);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(240, 27);
+            textBox1.TabIndex = 7;
             // 
-            // button3
+            // label1
             // 
-            button3.Location = new Point(330, 438);
-            button3.Name = "button3";
-            button3.Size = new Size(94, 29);
-            button3.TabIndex = 7;
-            button3.Text = "开始";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            label1.AutoSize = true;
+            label1.Location = new Point(442, 228);
+            label1.Name = "label1";
+            label1.Size = new Size(53, 20);
+            label1.TabIndex = 8;
+            label1.Text = "label1";
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(255, 76);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(240, 27);
+            textBox2.TabIndex = 9;
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(255, 123);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(240, 27);
+            textBox3.TabIndex = 10;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(787, 494);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(richTextBox1);
+            Controls.Add(textBox3);
+            Controls.Add(textBox2);
+            Controls.Add(label1);
+            Controls.Add(textBox1);
             Controls.Add(button1);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private RichTextBox richTextBox1;
         private Button button1;
-        private Button button2;
-        private Button button3;
+        private TextBox textBox1;
+        private Label label1;
+        private TextBox textBox2;
+        private TextBox textBox3;
     }
 }

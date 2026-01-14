@@ -41,6 +41,8 @@
 - **SetCommon**: 常见窗体设置
 - **BindForm**: 绑定双向窗体传输
 - **SendMessage**: 发送字符串到另一个窗体
+- **HideForm**: 隐藏任务栏窗体，显示到右下角托盘
+- **CheckNotNull**: 判断控件值都非空
 
 ### GroupBoxExtentions
 - **ClearAll**: 清空文本框、复选框、富文本框

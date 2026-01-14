@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinfromLib
+namespace WinformLib
 {
     public static class RichTextBoxExtentions
     {

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsApp1", "WinFormsApp1\WinFormsApp1.csproj", "{2DA27449-5A4B-44C8-B464-D75AC4438A39}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinformLib", "WinfromLib\WinformLib.csproj", "{2D24ED1D-403D-4989-80EE-FCBE0D166264}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinformLib", "WinformLib\WinformLib.csproj", "{2D24ED1D-403D-4989-80EE-FCBE0D166264}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

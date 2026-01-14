@@ -1,9 +1,10 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace WinfromLib
+namespace WinformLib
 {
     public class FormSettings
     {
@@ -30,6 +31,7 @@ namespace WinfromLib
 
     public static class FormExtentions
     {
+        #region 初始化相关
         /// <summary>
         /// 初始化默认设置（禁调大小、窗口居中、标题设定、询问退出）
         /// </summary>
@@ -75,9 +77,10 @@ namespace WinfromLib
             }
         }
 
+        #endregion
 
+        #region 消息绑定相关
         public static Dictionary<string, Action<string>> msgDict = new Dictionary<string, Action<string>>();
-
         public class BindFormInput<TForm1, TForm2>
         {
             public TForm1 Form1 { get; set; }
@@ -138,7 +141,43 @@ namespace WinfromLib
                 throw new InvalidOperationException($"未找到消息处理器！Key: {key}");
             }
         }
+        #endregion
 
+        #region 控件判断空值相关
+        public static Dictionary<string, ErrorProvider> errDict = new Dictionary<string, ErrorProvider>();
+
+        /// <summary>
+        /// 判断传入的控件是否为都不为空，是则返回True(可指定提示词)
+        /// </summary>
+        public static bool CheckNotNull(this Form form,string tips, params Control[] controls)
+        {
+            var key = typeof(Form).Name;
+            errDict.TryAdd(key, new ErrorProvider()
+            {
+                BlinkStyle = ErrorBlinkStyle.NeverBlink
+            });
+            string errorMsg = string.Empty;
+            int NullCount = 0;
+            foreach (var control in controls)
+            {
+                errorMsg = string.IsNullOrEmpty(control.Text) ? tips : "";
+                NullCount = string.IsNullOrEmpty(control.Text) ? NullCount + 1 : NullCount;
+                if (errDict.TryGetValue(key, out var errorProvider))
+                {
+                    errorProvider.SetError(control, errorMsg);
+                }
+            }
+            return NullCount==0;
+        }
+
+        /// <summary>
+        /// 判断传入的控件是否为都不为空，是则返回True
+        /// </summary>
+        public static bool CheckNotNull(this Form form, params Control[] controls)
+        {
+            return CheckNotNull(form, "不可为空", controls);
+        }
+        #endregion
 
     }
 
