@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WinfromLib\WinformLib.csproj" />
+    <ProjectReference Include="..\WinformLib\WinformLib.csproj" />
   </ItemGroup>
 
 </Project>

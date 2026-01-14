@@ -1,9 +1,4 @@
-﻿
-
-using System.Windows.Forms;
-using WinfromLib;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static WinformLib.CustomizeFormsExtentions;
+﻿using WinformLib;
 
 namespace WinFormsApp1
 {
@@ -21,15 +16,11 @@ namespace WinFormsApp1
         {
 
         }
-        // 窗体全局唯一的错误提示组件，初始化并配置样式
-        private readonly ErrorProvider _errorProvider = new ErrorProvider()
-        {
-            BlinkStyle = ErrorBlinkStyle.NeverBlink
-        };
+
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            if(this.CheckNotNull(textBox1, textBox2, textBox3))
+            if(this.CheckNotNull("输入有误，不准为空！",textBox1, textBox2, textBox3))
             {
                 this.PopUpTips("都不为空");
             }

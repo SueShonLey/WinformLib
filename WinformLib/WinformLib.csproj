@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 	<UseWindowsForms>true</UseWindowsForms>
 		<id>WinformLib</id>
-	  <version>1.0.5</version>
+	  <version>1.0.6</version>
 	  <authors>SueShonLey</authors>
 	  <owners>SueShonLey</owners>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
