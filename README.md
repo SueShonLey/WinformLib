@@ -79,6 +79,10 @@
 ### CustomizeFormsExtentions
 - **SetCustomizeForms**: 自定义窗体（传入控件及控件的内容）
 
+### ListBoxExtentions
+- **SetCommon**: 设置ListBox的内容及其回调方法
+- **SetRightCommon**: 设置ListBox的右键菜单及其回调方法
+
 ##### 感谢您的使用与支持！如有任何建议，请随时联系我。
 ---
 

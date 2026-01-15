@@ -11,7 +11,7 @@ namespace WinformLib
         /// <summary>
         /// 标题
         /// </summary>
-        public string TitleText { get; set; } = "Form";
+        public string TitleText { get; set; } = string.Empty;
 
         /// <summary>
         /// 是否固定尺寸

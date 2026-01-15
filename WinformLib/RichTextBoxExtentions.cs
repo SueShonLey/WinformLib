@@ -21,8 +21,8 @@ namespace WinformLib
             int originalSelectionStart = richTextBox.SelectionStart;
             int originalSelectionLength = richTextBox.SelectionLength;
 
-            // 记录原始文本
-            string originalText = richTextBox.Text;
+            // 字体调整为同UI风格
+            richTextBox.LanguageOption = RichTextBoxLanguageOptions.UIFonts;
 
             // 重置选择
             richTextBox.Select(0, 0);
