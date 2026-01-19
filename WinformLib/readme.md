@@ -43,6 +43,8 @@
 - **SendMessage**: 发送字符串到另一个窗体
 - **HideForm**: 隐藏任务栏窗体，显示到右下角托盘
 - **CheckNotNull**: 判断控件值都非空
+- **IsRunningByAdmin**: 是否以管理员身份运行该Winform程序
+- **SetMenuMDIForm**: MDI窗体设计
 
 ### GroupBoxExtentions
 - **ClearAll**: 清空文本框、复选框、富文本框

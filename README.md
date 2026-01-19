@@ -41,6 +41,9 @@
 - **SetCommon**: 常见窗体设置
 - **BindForm**: 绑定双向窗体传输
 - **SendMessage**: 发送字符串到另一个窗体
+- **HideForm**: 隐藏任务栏窗体，显示到右下角托盘
+- **CheckNotNull**: 判断控件值都非空
+- **IsRunningByAdmin**: 是否以管理员身份运行该Winform程序
 
 ### GroupBoxExtentions
 - **ClearAll**: 清空文本框、复选框、富文本框
@@ -78,10 +81,6 @@
 
 ### CustomizeFormsExtentions
 - **SetCustomizeForms**: 自定义窗体（传入控件及控件的内容）
-
-### ListBoxExtentions
-- **SetCommon**: 设置ListBox的内容及其回调方法
-- **SetRightCommon**: 设置ListBox的右键菜单及其回调方法
 
 ##### 感谢您的使用与支持！如有任何建议，请随时联系我。
 ---

@@ -28,34 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            listBox1 = new ListBox();
+            checkedListBox1 = new CheckedListBox();
+            progressBar1 = new ProgressBar();
             SuspendLayout();
             // 
-            // listBox1
+            // checkedListBox1
             // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(70, 32);
-            listBox1.Margin = new Padding(3, 2, 3, 2);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(216, 304);
-            listBox1.TabIndex = 7;
+            checkedListBox1.FormattingEnabled = true;
+            checkedListBox1.Location = new Point(181, 155);
+            checkedListBox1.Name = "checkedListBox1";
+            checkedListBox1.Size = new Size(230, 164);
+            checkedListBox1.TabIndex = 1;
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(190, 107);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(474, 29);
+            progressBar1.TabIndex = 2;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(700, 370);
-            Controls.Add(listBox1);
+            Controls.Add(progressBar1);
+            Controls.Add(checkedListBox1);
             Font = new Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form100";
-            Load += Form1_Load;
             ResumeLayout(false);
         }
 
         #endregion
-        private ListBox listBox1;
+
+        private CheckedListBox checkedListBox1;
+        private ProgressBar progressBar1;
     }
 }

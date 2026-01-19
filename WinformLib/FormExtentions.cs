@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace WinformLib
@@ -179,6 +180,78 @@ namespace WinformLib
         }
         #endregion
 
+        #region 权限判断相关
+        /// <summary>
+        /// 是否以管理员身份运行该Winform程序
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsRunningByAdmin()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+        #endregion
+
+        #region MDI设计
+        // 全局变量
+        private static Panel panel1 = new Panel();
+        private static Form mainForm = null;//主窗体
+        /// <summary>
+        /// 设置子窗体菜单及绑定窗体
+        /// </summary>
+        public static void SetMenuMDIForm(this Form parentForm, List<(string MenuName, Form TargetForm)> menuFormList)
+        {
+            #region 1. 遍历父窗体所有控件 → 全部移入panel1，排除panel1自身
+            foreach (Control ctl in parentForm.Controls.OfType<Control>().ToArray())
+            {
+                if (ctl != panel1)
+                {
+                    ctl.Parent = panel1;  // 控件移入Panel，根治悬浮穿透
+                }
+            }
+            #endregion
+
+            #region 2. Panel基础配置
+            panel1.Dock = DockStyle.Fill;
+            panel1.SetCommonDefualt(parentForm);
+            parentForm.Controls.Add(panel1);
+            #endregion
+
+            #region 3. 动态创建MenuStrip菜单 + 遍历集合自动添加菜单项
+            MenuStrip menuStrip = new MenuStrip();
+            menuStrip.Dock = DockStyle.Top;      // 菜单置顶，永不被遮挡
+            parentForm.MainMenuStrip = menuStrip; // 绑定窗体主菜单，防止菜单失效
+            // 遍历传入的集合，自动创建菜单项
+            foreach (var item in menuFormList)
+            {
+                ToolStripMenuItem menuItem = new ToolStripMenuItem(item.MenuName);
+                menuItem.Tag = item.TargetForm;
+                menuItem.Click += Universal_MenuItem_Click;
+                menuStrip.Items.Add(menuItem);
+            }
+            parentForm.Controls.Add(menuStrip);
+            mainForm = parentForm;
+            #endregion
+        }
+
+        /// <summary>
+        /// 点击打开相应窗体
+        /// </summary>
+        private static void Universal_MenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem clickMenu = sender as ToolStripMenuItem;
+            Form targetForm = clickMenu.Tag as Form;
+            if (targetForm == mainForm)// 点击了主窗体
+            {
+                panel1.SetCommonRecover(mainForm);
+            }
+            else
+            {
+                panel1.SetCommon(targetForm);
+            }
+        }
+        #endregion
     }
 
     public static class HideFormExtensions
