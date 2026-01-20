@@ -28,6 +28,7 @@
 - **SetCommon**: 设置表格内容
 - **GetCommon**: 获取表格内容
 - **GetCommonByButton**: 根据按钮上的文字获取实体
+- **SetCommonWithUI**: 设置表格内容+UI（复杂情况）
 
 ### FileExtentions
 - **PopUpFolder**: 文件夹选择
@@ -93,19 +94,19 @@ Welcome to **WinformLib**! I am the author **SueShonley**, and I look forward to
 
 You can watch the following video to obtain more information: [Watch Video](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
 
-You can visit Github to view the source code: [Jump Link](https://github.com/SueShonLey/WinformLib)
+You can visit Github to view the source code: [Link](https://github.com/SueShonLey/WinformLib)
 
 If you have any questions or suggestions, please contact: sueshonley@qq.com
 
 ## Description of extension methods
 
 ### CheckedListBoxExtentions
-- **SetCommon**: Set data source
-- **SetCommonAll**: Set to select all and cancel all
+- **SetCommon**: Set the data source
+- **SetCommonAll**: Set to select all and cancel all selection
 - **GetCommonStatus**: Get the selected or unselected data
 
 ### ClipboardExtentions
-- **ToClipboard**: Export the string to the clipboard
+- **ToClipboard**: Export string to clipboard
 - **GetClipboard**: Read data from the clipboard
 
 ### ComboBoxExtentions
@@ -117,6 +118,7 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 - **SetCommon**: Set table content
 - **GetCommon**: Get table content
 - **GetCommonByButton**: Get entities based on the text on the button
+- **SetCommonWithUI**: Set table content + UI (complex case)
 
 ### FileExtentions
 - **PopUpFolder**: Folder selection
@@ -124,20 +126,24 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 - **PopUpMutiFile**: Multi-file selection
 - **OpenFolder**: Open the specified folder
 - **OpenFile**: Open a file
-- **SplitFileName**: Split File Name
+- **SplitFileName**: Split file name
 
 ### FormExtentions
 - **SetCommon**: Common window settings
 - **BindForm**: Bind two-way form transmission
 - **SendMessage**: Send a string to another form
+- **HideForm**: Hides the taskbar window and displays it in the lower right corner tray
+- **CheckNotNull**: Check if all control values are non-null
+- **IsRunningByAdmin**: Whether to run the Winform program as an administrator
+- **SetMenuMDIForm**: MDI window design
 
 ### GroupBoxExtentions
-- **ClearAll**: Clear the text box, check box, and rich text box
+- **ClearAll**: Clear the text box, checkbox, and rich text box
 - **SetAllEnable**: Set the availability of controls
 
 ### PanelExtentions
 - **SetCommonDefault**: Set the default window (for subsequent restoration)
-- **SetCommonRecover**: Restores the default form (the default form must be set before it can be restored)
+- **SetCommonRecover**: Restore the default form (the default form must be set before it can be restored)
 - **SetCommon**: Switch window
 
 ### ProgressBarExtentions
@@ -162,8 +168,8 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 ### TimerExtentions
 - **RegisterTimer**: Timer registration (method can be passed in)
 - **StartTimer**: Timer start
-- **StopTimer**: Timer stop
-- **ReStartTimer**: Timer restart
+- **StopTimer**: Stop the timer
+- **ReStartTimer**: Restart Timer
 
 ### CustomizeFormsExtentions
 - **SetCustomizeForms**: Customize forms (passing in controls and their contents)

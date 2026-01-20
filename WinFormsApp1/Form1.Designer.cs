@@ -28,42 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            checkedListBox1 = new CheckedListBox();
-            progressBar1 = new ProgressBar();
+            dataGridView1 = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
-            // checkedListBox1
+            // dataGridView1
             // 
-            checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Location = new Point(181, 155);
-            checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(230, 164);
-            checkedListBox1.TabIndex = 1;
-            // 
-            // progressBar1
-            // 
-            progressBar1.Location = new Point(190, 107);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(474, 29);
-            progressBar1.TabIndex = 2;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(80, 29);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.RowTemplate.Height = 29;
+            dataGridView1.Size = new Size(458, 277);
+            dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(700, 370);
-            Controls.Add(progressBar1);
-            Controls.Add(checkedListBox1);
+            Controls.Add(dataGridView1);
             Font = new Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form100";
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private CheckedListBox checkedListBox1;
-        private ProgressBar progressBar1;
+        private DataGridView dataGridView1;
     }
 }
