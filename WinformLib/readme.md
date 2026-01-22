@@ -47,6 +47,9 @@
 - **IsRunningByAdmin**: 是否以管理员身份运行该Winform程序
 - **SetMenuMDIForm**: MDI窗体设计
 
+### FlowLayoutPanelExtentions
+- **AddButtons**: 为流布局控件增加按钮
+
 ### GroupBoxExtentions
 - **ClearAll**: 清空文本框、复选框、富文本框
 - **SetAllEnable**: 设置控件的可用性
@@ -83,6 +86,10 @@
 
 ### CustomizeFormsExtentions
 - **SetCustomizeForms**: 自定义窗体（传入控件及控件的内容）
+
+### ObjExtentions
+- **ToControl**: 尝试将object sender转化为控件
+
 
 ##### 感谢您的使用与支持！如有任何建议，请随时联系我。
 ---

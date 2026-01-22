@@ -28,95 +28,93 @@
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            checkBox1 = new CheckBox();
+            radioButton1 = new RadioButton();
+            radioButton2 = new RadioButton();
             button1 = new Button();
             button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            button5 = new Button();
-            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // checkBox1
             // 
-            flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
-            flowLayoutPanel1.Controls.Add(button1);
-            flowLayoutPanel1.Controls.Add(button2);
-            flowLayoutPanel1.Controls.Add(button3);
-            flowLayoutPanel1.Controls.Add(button4);
-            flowLayoutPanel1.Controls.Add(button5);
-            flowLayoutPanel1.Location = new Point(190, 29);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(235, 329);
-            flowLayoutPanel1.TabIndex = 0;
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(145, 103);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(101, 19);
+            checkBox1.TabIndex = 0;
+            checkBox1.Text = "checkBox1";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.Click += checkBox1_Click;
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(145, 181);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(124, 19);
+            radioButton1.TabIndex = 1;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "radioButton1";
+            radioButton1.UseVisualStyleBackColor = true;
+            radioButton1.Click += checkBox1_Click;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(309, 181);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(124, 19);
+            radioButton2.TabIndex = 2;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "radioButton2";
+            radioButton2.UseVisualStyleBackColor = true;
+            radioButton2.Click += checkBox1_Click;
             // 
             // button1
             // 
-            button1.Location = new Point(3, 3);
+            button1.Location = new Point(145, 263);
             button1.Name = "button1";
-            button1.Size = new Size(228, 59);
-            button1.TabIndex = 0;
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 3;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += checkBox1_Click;
             // 
             // button2
             // 
-            button2.Location = new Point(3, 68);
+            button2.Location = new Point(309, 263);
             button2.Name = "button2";
-            button2.Size = new Size(228, 59);
-            button2.TabIndex = 1;
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 4;
             button2.Text = "button2";
             button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(3, 133);
-            button3.Name = "button3";
-            button3.Size = new Size(228, 59);
-            button3.TabIndex = 2;
-            button3.Text = "button3";
-            button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(3, 198);
-            button4.Name = "button4";
-            button4.Size = new Size(228, 59);
-            button4.TabIndex = 3;
-            button4.Text = "button4";
-            button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            button5.Location = new Point(3, 263);
-            button5.Name = "button5";
-            button5.Size = new Size(228, 59);
-            button5.TabIndex = 4;
-            button5.Text = "button5";
-            button5.UseVisualStyleBackColor = true;
+            button2.Click += checkBox1_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(576, 410);
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Controls.Add(radioButton2);
+            Controls.Add(radioButton1);
+            Controls.Add(checkBox1);
             Font = new Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form100";
             Load += Form1_Load;
-            flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private FlowLayoutPanel flowLayoutPanel1;
+        private CheckBox checkBox1;
+        private RadioButton radioButton1;
+        private RadioButton radioButton2;
         private Button button1;
         private Button button2;
-        private Button button3;
-        private Button button4;
-        private Button button5;
     }
 }
