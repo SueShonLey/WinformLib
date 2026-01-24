@@ -46,6 +46,8 @@
 - **CheckNotNull**: 判断控件值都非空
 - **IsRunningByAdmin**: 是否以管理员身份运行该Winform程序
 - **SetMenuMDIForm**: MDI窗体设计
+- **ShowOnlyOne**: 打开窗体（不重复）
+
 
 ### FlowLayoutPanelExtentions
 - **AddButtons**: 为流布局控件增加按钮

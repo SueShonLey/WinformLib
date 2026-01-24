@@ -16,15 +16,22 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
         }
 
         private void checkBox1_Click(object sender, EventArgs e)
         {
-            var a = sender.ToControl<CheckBox>();
-            var b = sender.ToControl<RadioButton>();
-            var c = sender.ToControl<Button>();
+            this.ShowOnlyOne<Form2>();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            new Form2().Show();
+        }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.HideForm();
+        }
     }
 }

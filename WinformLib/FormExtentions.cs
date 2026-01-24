@@ -252,6 +252,46 @@ namespace WinformLib
             }
         }
         #endregion
+
+        #region 子窗体相关
+        /// <summary>
+        /// 尝试打开窗体（不重复打开，入参：是否继承父窗体UI）
+        /// </summary>
+        public static T ShowOnlyOne<T>(this Form currentForm,bool inheritUI=true) where T : Form, new()
+        {
+            // 1. 查找应用程序中已打开的指定类型窗体（排除已释放的实例）
+            T targetForm = Application.OpenForms.OfType<T>().FirstOrDefault();
+
+            // 2. 如果不存在，则创建新实例
+            if (targetForm == null)
+            {
+                targetForm = new T();
+                targetForm.StartPosition = FormStartPosition.CenterScreen;
+                if (inheritUI)
+                {
+                    targetForm.Icon = currentForm.Icon;
+                    targetForm.Font = currentForm.Font;
+                }
+            }
+            else
+            {
+                // 3. 如果存在，先判断是否被最小化，恢复窗口
+                if (targetForm.WindowState == FormWindowState.Minimized)
+                {
+                    targetForm.WindowState = FormWindowState.Normal;
+                }
+
+                // 4. 将窗体置顶显示（核心：BringToFront + Activate 双重保障）
+                targetForm.BringToFront();
+                targetForm.Activate();
+            }
+
+            // 5. 显示窗体（新建实例需要Show，已存在的实例Show无副作用）
+            targetForm.Show();
+
+            return targetForm;
+        }
+        #endregion
     }
 
     public static class HideFormExtensions
