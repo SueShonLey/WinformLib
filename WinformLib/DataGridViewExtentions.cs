@@ -170,7 +170,7 @@ namespace WinformLib
                     HeaderText = header.name,
                     Name = propName,
                     Width = header.width,
-                    ReadOnly = true,
+                    ReadOnly = input.IsReadOnly,
                     SortMode = DataGridViewColumnSortMode.NotSortable
                 });
             }
