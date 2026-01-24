@@ -277,95 +277,70 @@ namespace WinformLib
         public static List<T> GetCommon<T>(this DataGridView dataGridView, List<(Expression<Func<T, object>> fields, string name)> headtext = null) where T : new()
         {
             List<T> list = new List<T>();
-
-            // 如果传入了 headtext，先解析字段名列表
-            List<string> propertyNames = null;
-            if (headtext != null)
+            // 解析需要更新的字段名（用户编辑的列）
+            List<string> editableFieldNames = headtext?.Select(x =>
             {
-                propertyNames = headtext.Select(x =>
+                if (x.fields.Body is MemberExpression memberExpression)
                 {
-                    if (x.fields.Body is MemberExpression memberExpr)
-                        return memberExpr.Member.Name;
-                    else if (x.fields.Body is UnaryExpression unaryExpr && unaryExpr.Operand is MemberExpression memberOperand)
-                        return memberOperand.Member.Name;
-                    else
-                        return string.Empty;
-                }).ToList();
-            }
+                    return memberExpression.Member.Name;
+                }
+                return (x.fields.Body is UnaryExpression unaryExpression && unaryExpression.Operand is MemberExpression memberExpression2)
+                    ? memberExpression2.Member.Name : string.Empty;
+            }).Where(name => !string.IsNullOrEmpty(name)).ToList() ?? new List<string>();
 
-            foreach (DataGridViewRow row in dataGridView.Rows)
+            // 遍历每一行
+            foreach (DataGridViewRow item in dataGridView.Rows)
             {
-                if (row.IsNewRow) continue;
+                T val = default(T);
 
-                T obj = new T();
-
-                if (propertyNames != null)
+                // 核心1：优先从Tag读取原始对象（包含完整字段如Id）
+                if (item.Tag != null && item.Tag is T originalObj)
                 {
-                    // 按 headtext 指定字段反射
-                    foreach (var propName in propertyNames)
-                    {
-                        PropertyInfo property = typeof(T).GetProperty(propName);
-                        if (property != null && property.CanWrite)
-                        {
-                            if (dataGridView.Columns.Contains(propName))
-                            {
-                                object cellValue = row.Cells[propName].Value;
-                                if (cellValue != DBNull.Value && cellValue != null)
-                                {
-                                    try
-                                    {
-                                        property.SetValue(obj, Convert.ChangeType(cellValue, property.PropertyType));
-                                    }
-                                    catch
-                                    {
-                                        property.SetValue(obj, Activator.CreateInstance(property.PropertyType));
-                                    }
-                                }
-                                else
-                                {
-                                    property.SetValue(obj, Activator.CreateInstance(property.PropertyType));
-                                }
-                            }
-                        }
-                    }
+                    val = originalObj; // 直接复用原始对象，保留Id等未编辑字段
                 }
                 else
                 {
-                    // 默认按所有列反射
-                    foreach (DataGridViewColumn column in dataGridView.Columns)
-                    {
-                        string propertyName = string.Empty;
+                    val = new T(); // Tag为空时新建对象（兼容新增行）
+                }
 
-                        if (column is DataGridViewTextBoxColumn || column is DataGridViewComboBoxColumn || column is DataGridViewCheckBoxColumn)
+                // 核心2：覆盖用户编辑后的单元格值（仅更新指定字段）
+                if (editableFieldNames.Any() && !item.IsNewRow)
+                {
+                    foreach (string fieldName in editableFieldNames)
+                    {
+                        PropertyInfo property = typeof(T).GetProperty(fieldName);
+                        if (property == null || !property.CanWrite || !dataGridView.Columns.Contains(fieldName))
                         {
-                            propertyName = column.DataPropertyName;
+                            continue;
                         }
 
-                        PropertyInfo property = typeof(T).GetProperty(propertyName);
-
-                        if (property != null && property.CanWrite)
+                        // 获取单元格最新值
+                        object cellValue = item.Cells[fieldName].Value;
+                        if (cellValue == DBNull.Value || cellValue == null)
                         {
-                            object cellValue = row.Cells[column.Name].Value;
-                            if (cellValue != DBNull.Value && cellValue != null)
+                            // 空值时赋类型默认值（避免报错）
+                            property.SetValue(val, Activator.CreateInstance(property.PropertyType));
+                        }
+                        else
+                        {
+                            try
                             {
-                                try
-                                {
-                                    property.SetValue(obj, Convert.ChangeType(cellValue, property.PropertyType));
-                                }
-                                catch
-                                {
-                                    property.SetValue(obj, Activator.CreateInstance(property.PropertyType));
-                                }
+                                // 转换类型并更新值（用户编辑后的最新值）
+                                property.SetValue(val, Convert.ChangeType(cellValue, property.PropertyType));
                             }
-                            else
+                            catch
                             {
-                                property.SetValue(obj, Activator.CreateInstance(property.PropertyType));
+                                property.SetValue(val, Activator.CreateInstance(property.PropertyType));
                             }
                         }
                     }
                 }
 
-                list.Add(obj);
+                // 排除新增行（空行）
+                if (!item.IsNewRow)
+                {
+                    list.Add(val);
+                }
             }
 
             return list;
