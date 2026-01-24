@@ -1,9 +1,6 @@
 ﻿
-using Microsoft.VisualBasic.ApplicationServices;
-using System.Linq.Expressions;
 using WinformLib;
-using static WinformLib.DataGridViewExtentions;
-using static WinformLib.FlowLayoutPanelExtentions;
+
 
 namespace WinFormsApp1
 {
@@ -21,7 +18,7 @@ namespace WinFormsApp1
 
         private void checkBox1_Click(object sender, EventArgs e)
         {
-            this.ShowOnlyOne<Form2>();
+            this.ShowOnlyOne<Form2>(false);
         }
 
         private void button2_Click(object sender, EventArgs e)

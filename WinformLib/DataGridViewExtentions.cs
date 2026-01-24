@@ -145,7 +145,7 @@ namespace WinformLib
             // 2. 基础样式+列配置（通用）
             dataGridView.AllowUserToAddRows = false;
             dataGridView.AllowUserToDeleteRows = false;
-            dataGridView.ReadOnly = true;
+            dataGridView.ReadOnly = input.IsReadOnly;
             dataGridView.RowHeadersVisible = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             dataGridView.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
@@ -424,6 +424,11 @@ namespace WinformLib
             /// 传入字段、值、不显示的按钮（用于【按钮】是否显示，false则不显示按钮）
             /// </summary>
             public List<Func<string, string, string, bool>> changeBtnList { get; set; } = new List<Func<string, string, string, bool>>();
+
+            /// <summary>
+            /// 是否只读
+            /// </summary>
+            public bool IsReadOnly { get; set; } = true;
         }
         #endregion
     }
