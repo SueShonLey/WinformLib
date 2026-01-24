@@ -86,6 +86,10 @@
 - **StopTimer**: 定时器停止
 - **ReStartTimer**: 定时器重启
 
+### TableLayoutPanelExtentions
+- **SetCommon**: 设置表格容器
+- **GetCommon**: 获取表格容器
+
 ### CustomizeFormsExtentions
 - **SetCustomizeForms**: 自定义窗体（传入控件及控件的内容）
 
