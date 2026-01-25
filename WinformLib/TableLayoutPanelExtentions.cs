@@ -17,6 +17,7 @@ namespace WinformLib
         /// <param name="leftPercent">Label列宽度占比（0-100）</param>
         public static void SetCommon(this TableLayoutPanel tableLayoutPanel,List<CustomizeValueInput> Inputs, TableLayoutPanelCellBorderStyle CellStyle = TableLayoutPanelCellBorderStyle.Single, double? LeftPercent = null)
         {
+            tableLayoutPanel.Visible = false; // 先隐藏控件，操作完成后再显示
             // 空值校验
             if (Inputs == null || Inputs.Count == 0)
             {
@@ -72,6 +73,7 @@ namespace WinformLib
 
             // 可选：TableLayoutPanel整体样式
             tableLayoutPanel.CellBorderStyle = CellStyle; // 显示网格（调试用）
+            tableLayoutPanel.Visible = true;
         }
 
         /// <summary>
