@@ -1,6 +1,9 @@
 ﻿
 
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
+using System.Windows.Forms;
 using WinformLib;
 using static WinformLib.CustomizeFormsExtentions;
 
@@ -19,18 +22,24 @@ namespace WinFormsApp1
 
         }
 
-
-        private void button1_Click(object sender, EventArgs e)
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            throw new Exception("自定义的报错");
+            linkLabel1.OpenLink("www.baidu.com");
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            int a = 0;
-            int b = 1;
-            //int c = b / a;
+            linkLabel2.OpenLink("F:\\Test\\Backup", LinkLabel1Extensions.EnumLinkType.Folder);
+
+
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkLabel3.OpenLink("F:\\Test\\Backup\\helloWorld.txt", LinkLabel1Extensions.EnumLinkType.Document);
         }
     }
+
+
 
 }
