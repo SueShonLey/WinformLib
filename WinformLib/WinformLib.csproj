@@ -19,6 +19,7 @@
 	  <PackageReleaseNotes>本 NuGet 包提供了对 WinForms 常见功能的扩展，旨在简化开发过程并提高效率。该扩展适用于 .NET 6 及以上版本，涵盖了多个常用组件和实用工具，帮助开发者更快速地实现常见功能。</PackageReleaseNotes>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	  <RepositoryUrl>https://github.com/SueShonLey/WinformLib.git</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
