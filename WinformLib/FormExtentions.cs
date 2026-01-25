@@ -292,6 +292,41 @@ namespace WinformLib
             return targetForm;
         }
         #endregion
+
+        #region 出错相关
+        /// <summary>
+        /// 设置全局错误弹窗提示（仅开发环境生效）
+        /// </summary>
+        public static void SetGlobalErrorTips() 
+        {
+            if (System.Diagnostics.Debugger.IsAttached)//是开发环境
+            {
+                // 1. 捕获UI线程未处理异常（窗体、控件相关报错）
+                Application.ThreadException += (sender,e) =>
+                {
+                    MessageBox.Show(
+                        $"程序运行出错：{e.Exception.Message}\r\n详细信息：{e.Exception.StackTrace}",
+                        "错误提示",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+  
+                };
+                // 2. 捕获非UI线程未处理异常（后台线程、异步任务报错）
+                AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+                {
+                    Exception? ex = e.ExceptionObject as Exception;
+                    if (ex != null)
+                    {
+                        MessageBox.Show(
+                            $"后台线程出错：{ex.Message}\r\n详细信息：{ex.StackTrace}\r\n{(e.IsTerminating ? "程序即将退出" : "")}",
+                            "后台错误",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                };
+            }
+        }
+        #endregion
     }
 
     public static class HideFormExtensions

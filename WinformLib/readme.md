@@ -47,6 +47,7 @@
 - **IsRunningByAdmin**: 是否以管理员身份运行该Winform程序
 - **SetMenuMDIForm**: MDI窗体设计
 - **ShowOnlyOne**: 打开窗体（不重复）
+- **SetGlobalErrorTips**: 全局报错不退出系统（仅限开发环境）
 
 
 ### FlowLayoutPanelExtentions

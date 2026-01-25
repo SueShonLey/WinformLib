@@ -1,3 +1,5 @@
+using WinformLib;
+
 namespace WinFormsApp1
 {
     internal static class Program
@@ -8,8 +10,8 @@ namespace WinFormsApp1
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            FormExtentions.SetGlobalErrorTips();
+
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }
