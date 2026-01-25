@@ -1,6 +1,6 @@
 # WinformLib
 
-欢迎使用 **WinformLib**！我是作者 **SueShonley**，期待您的建议！
+欢迎使用 **WinformLib**！我是作者 **SueShonley**，本Nuget包对许多常用控件进行了实用的扩展方法封装。期待您的反馈与建议！
 
 您可以观看以下视频以获取更多信息：[观看视频](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
 
@@ -28,6 +28,7 @@
 - **SetCommon**: 设置表格内容
 - **GetCommon**: 获取表格内容
 - **GetCommonByButton**: 根据按钮上的文字获取实体
+- **SetCommonWithUI**: 设置表格内容+UI（复杂情况）
 
 ### FileExtentions
 - **PopUpFolder**: 文件夹选择
@@ -44,6 +45,13 @@
 - **HideForm**: 隐藏任务栏窗体，显示到右下角托盘
 - **CheckNotNull**: 判断控件值都非空
 - **IsRunningByAdmin**: 是否以管理员身份运行该Winform程序
+- **SetMenuMDIForm**: MDI窗体设计
+- **ShowOnlyOne**: 打开窗体（不重复）
+- **SetGlobalErrorTips**: 全局报错不退出系统（仅限开发环境）
+
+
+### FlowLayoutPanelExtentions
+- **AddButtons**: 为流布局控件增加按钮
 
 ### GroupBoxExtentions
 - **ClearAll**: 清空文本框、复选框、富文本框
@@ -79,20 +87,27 @@
 - **StopTimer**: 定时器停止
 - **ReStartTimer**: 定时器重启
 
+### TableLayoutPanelExtentions
+- **SetCommon**: 设置表格容器
+- **GetCommon**: 获取表格容器
+
 ### CustomizeFormsExtentions
 - **SetCustomizeForms**: 自定义窗体（传入控件及控件的内容）
+
+### ObjExtentions
+- **ToControl**: 尝试将object sender转化为控件
+
 
 ##### 感谢您的使用与支持！如有任何建议，请随时联系我。
 ---
 
-
 # WinformLib
 
-Welcome to **WinformLib**! I am the author **SueShonley**, and I look forward to your suggestions!
+Welcome to **WinformLib**! I'm the author **SueShonley**. This NuGet package encapsulates practical extension methods for many commonly used controls. We look forward to your feedback and suggestions!
 
 You can watch the following video to obtain more information: [Watch Video](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
 
-You can visit Github to view the source code: [Jump Link](https://github.com/SueShonLey/WinformLib)
+You can visit Github to view the source code: [Link](https://github.com/SueShonLey/WinformLib)
 
 If you have any questions or suggestions, please contact: sueshonley@qq.com
 
@@ -109,13 +124,14 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 
 ### ComboBoxExtentions
 - **SetCommon**: Set the content of the dropdown box
-- **GetCommonSelect**: Gets the current selected index/text
+- **GetCommonSelect**: Get the current selected index/text
 - **SetCommonItems**: Lock the dropdown box based on the text
 
 ### DataGridViewExtentions
 - **SetCommon**: Set table content
 - **GetCommon**: Get table content
 - **GetCommonByButton**: Get entities based on the text on the button
+- **SetCommonWithUI**: Set table content + UI (complex case)
 
 ### FileExtentions
 - **PopUpFolder**: Folder selection
@@ -129,6 +145,16 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 - **SetCommon**: Common window settings
 - **BindForm**: Bind two-way form transmission
 - **SendMessage**: Send a string to another form
+- **HideForm**: Hide the taskbar window and display it in the lower right corner tray
+- **CheckNotNull**: Check if all control values are not null
+- **IsRunningByAdmin**: Whether to run the Winform program as an administrator
+- **SetMenuMDIForm**: MDI window design
+- **ShowOnlyOne**: Open the window (without duplication)
+- **SetGlobalErrorTips**: Display global error tips without exiting the system (only in development environment)
+
+
+### FlowLayoutPanelExtentions
+- **AddButtons**: Adds buttons to the flow layout control
 
 ### GroupBoxExtentions
 - **ClearAll**: Clear the text box, check box, and rich text box
@@ -136,7 +162,7 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 
 ### PanelExtentions
 - **SetCommonDefault**: Set the default window (for subsequent restoration)
-- **SetCommonRecover**: Restores the default form (the default form must be set before it can be restored)
+- **SetCommonRecover**: Restore the default form (the default form must be set before it can be restored)
 - **SetCommon**: Switch window
 
 ### ProgressBarExtentions
@@ -164,8 +190,17 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 - **StopTimer**: Timer stop
 - **ReStartTimer**: Timer restart
 
+### TableLayoutPanelExtentions
+- **SetCommon**: Set the table container
+- **GetCommon**: Get the table container
+
 ### CustomizeFormsExtentions
 - **SetCustomizeForms**: Customize forms (passing in controls and their contents)
 
+### ObjExtentions
+- **ToControl**: Attempt to convert the object sender into a control
+
+
 ##### Thank you for your use and support! If you have any suggestions, please feel free to contact me.
 ---
+

@@ -1,6 +1,6 @@
 # WinformLib
 
-欢迎使用 **WinformLib**！我是作者 **SueShonley**，期待您的建议！
+欢迎使用 **WinformLib**！我是作者 **SueShonley**，本Nuget包对许多常用控件进行了实用的扩展方法封装。期待您的反馈与建议！
 
 您可以观看以下视频以获取更多信息：[观看视频](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
 
@@ -101,10 +101,9 @@
 ##### 感谢您的使用与支持！如有任何建议，请随时联系我。
 ---
 
-
 # WinformLib
 
-Welcome to **WinformLib**! I am the author **SueShonley**, and I look forward to your suggestions!
+Welcome to **WinformLib**! I'm the author **SueShonley**. This NuGet package encapsulates practical extension methods for many commonly used controls. We look forward to your feedback and suggestions!
 
 You can watch the following video to obtain more information: [Watch Video](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
 
@@ -115,17 +114,17 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 ## Description of extension methods
 
 ### CheckedListBoxExtentions
-- **SetCommon**: Set the data source
-- **SetCommonAll**: Set to select all and cancel all selection
+- **SetCommon**: Set data source
+- **SetCommonAll**: Set to select all and cancel all
 - **GetCommonStatus**: Get the selected or unselected data
 
 ### ClipboardExtentions
-- **ToClipboard**: Export string to clipboard
+- **ToClipboard**: Export the string to the clipboard
 - **GetClipboard**: Read data from the clipboard
 
 ### ComboBoxExtentions
 - **SetCommon**: Set the content of the dropdown box
-- **GetCommonSelect**: Gets the current selected index/text
+- **GetCommonSelect**: Get the current selected index/text
 - **SetCommonItems**: Lock the dropdown box based on the text
 
 ### DataGridViewExtentions
@@ -140,19 +139,25 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 - **PopUpMutiFile**: Multi-file selection
 - **OpenFolder**: Open the specified folder
 - **OpenFile**: Open a file
-- **SplitFileName**: Split file name
+- **SplitFileName**: Split File Name
 
 ### FormExtentions
 - **SetCommon**: Common window settings
 - **BindForm**: Bind two-way form transmission
 - **SendMessage**: Send a string to another form
-- **HideForm**: Hides the taskbar window and displays it in the lower right corner tray
-- **CheckNotNull**: Check if all control values are non-null
+- **HideForm**: Hide the taskbar window and display it in the lower right corner tray
+- **CheckNotNull**: Check if all control values are not null
 - **IsRunningByAdmin**: Whether to run the Winform program as an administrator
 - **SetMenuMDIForm**: MDI window design
+- **ShowOnlyOne**: Open the window (without duplication)
+- **SetGlobalErrorTips**: Display global error tips without exiting the system (only in development environment)
+
+
+### FlowLayoutPanelExtentions
+- **AddButtons**: Adds buttons to the flow layout control
 
 ### GroupBoxExtentions
-- **ClearAll**: Clear the text box, checkbox, and rich text box
+- **ClearAll**: Clear the text box, check box, and rich text box
 - **SetAllEnable**: Set the availability of controls
 
 ### PanelExtentions
@@ -182,11 +187,20 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 ### TimerExtentions
 - **RegisterTimer**: Timer registration (method can be passed in)
 - **StartTimer**: Timer start
-- **StopTimer**: Stop the timer
-- **ReStartTimer**: Restart Timer
+- **StopTimer**: Timer stop
+- **ReStartTimer**: Timer restart
+
+### TableLayoutPanelExtentions
+- **SetCommon**: Set the table container
+- **GetCommon**: Get the table container
 
 ### CustomizeFormsExtentions
 - **SetCustomizeForms**: Customize forms (passing in controls and their contents)
 
+### ObjExtentions
+- **ToControl**: Attempt to convert the object sender into a control
+
+
 ##### Thank you for your use and support! If you have any suggestions, please feel free to contact me.
 ---
+
