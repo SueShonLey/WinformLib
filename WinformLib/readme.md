@@ -23,6 +23,8 @@
 - **SetCommon**: 设置下拉框内容
 - **GetCommonSelect**: 获取当前选择索引/文字
 - **SetCommonItems**: 根据文字锁定下拉框
+- **SetCommonWithEntity**: 根据实体列表和指定字段渲染
+- **GetCommonSelectWithEntity**: 根据选择的下拉框获取实体
 
 ### DataGridViewExtentions
 - **SetCommon**: 设置表格内容
