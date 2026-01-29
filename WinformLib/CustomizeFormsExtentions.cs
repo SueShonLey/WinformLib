@@ -162,6 +162,13 @@ namespace WinformLib
                         {
                             comboBox.SetCommonItems(input.DefaultValue);
                         }
+                        else
+                        {
+                            if(comboBox.Items != null && comboBox.Items.Count > 0)
+                            {
+                                comboBox.SelectedIndex = 0;
+                            }
+                        }
                         break;
 
                     case FormControlType.RadioButton:
