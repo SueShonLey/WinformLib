@@ -100,16 +100,13 @@ namespace WinformLib
                     dataGridView.Rows[rowIndex].Cells[jtem.Name.ToString()].Value = jtem.GetValue(item);//字段
                     dataGridView.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Black;
                     //添加按钮数据
-                    if (ButtonList != null)
+                }
+                if (ButtonList != null)
+                {
+                    foreach (var j in ButtonList)
                     {
-                        int index = 1;
-                        foreach (var j in ButtonList)
-                        {
-                            dataGridView.Rows[rowIndex].Cells[j].Value = j;//按钮名称
-                            index++;
-                        }
+                        dataGridView.Rows[rowIndex].Cells[j].Value = j;//按钮名称
                     }
-
                 }
                 dataGridView.Rows[rowIndex].Tag = item;//绑定到Tag上方便后续调用
             }
