@@ -16,5 +16,21 @@ namespace WinformLib
             return (obj as T);
         }
 
+        /// <summary>
+        /// 给任意WinForm控件开启双缓冲（反射获取原生隐藏属性，无兼容性问题）
+        /// </summary>
+        /// <typeparam name="T">控件类型（TableLayoutPanel/Panel/DataGridView等）</typeparam>
+        /// <param name="control">目标控件</param>
+        /// <param name="enable">是否开启双缓冲</param>
+        public static void SetDoubleBuffered<T>(this T control, bool enable) where T : Control
+        {
+            if (control == null) return;
+            var prop = control.GetType().GetProperty(
+                "DoubleBuffered",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic
+            );
+            prop?.SetValue(control, enable, null);
+        }
+
     }
 }

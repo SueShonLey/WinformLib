@@ -44,7 +44,7 @@ namespace WinformLib
         /// </summary>
         public static void SetCommon<T>(this Panel panel1) where T : Form,new()
         {
-            SetPanelDoubleBuffered(panel1, true);
+            panel1.SetDoubleBuffered(true);
             T form2 = new T();
             panel1.Controls.Clear();//清空旧控件
             form2.TopLevel = false;//嵌入模式
@@ -59,7 +59,7 @@ namespace WinformLib
         /// </summary>
         public static void SetCommon<T>(this Panel panel1,T form2) where T : Form,new()
         {
-            SetPanelDoubleBuffered(panel1, true);
+            panel1.SetDoubleBuffered(true);
             panel1.Controls.Clear();//清空旧控件
             form2.TopLevel = false;//嵌入模式
             form2.Parent = panel1;//转移控件
@@ -67,29 +67,5 @@ namespace WinformLib
             form2.FormBorderStyle = FormBorderStyle.None;//不显示标题栏
             form2.Show();
         }
-
-        #region 辅助方法
-        /// <summary>
-        /// 辅助方法：给Panel开启双缓冲（
-        /// </summary>
-        private static void SetPanelDoubleBuffered(Panel panel, bool enable)
-        {
-            try
-            {
-                Type panelType = panel.GetType();
-                // 获取Panel的非公共DoubleBuffered属性（WinForm原生隐藏属性）
-                System.Reflection.PropertyInfo pi = panelType.GetProperty(
-                    "DoubleBuffered",
-                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic
-                );
-                pi.SetValue(panel, enable, null);
-            }
-            catch (Exception)
-            {
-
-            }
-
-        }
-        #endregion
     }
 }

@@ -15,66 +15,85 @@ namespace WinformLib
         /// <param name="Inputs">控件配置列表</param>
         /// <param name="tableLayoutPanel">目标TableLayoutPanel</param>
         /// <param name="leftPercent">Label列宽度占比（0-100）</param>
-        public static void SetCommon(this TableLayoutPanel tableLayoutPanel,List<CustomizeValueInput> Inputs, TableLayoutPanelCellBorderStyle CellStyle = TableLayoutPanelCellBorderStyle.Single, double? LeftPercent = null)
+        public static void SetCommon(this TableLayoutPanel tableLayoutPanel, List<CustomizeValueInput> Inputs, TableLayoutPanelCellBorderStyle CellStyle = TableLayoutPanelCellBorderStyle.Single, double? LeftPercent = null)
         {
-            tableLayoutPanel.Visible = false; // 先隐藏控件，操作完成后再显示
+            // 原有逻辑：先隐藏控件
+            tableLayoutPanel.Visible = false;
             // 空值校验
             if (Inputs == null || Inputs.Count == 0)
             {
                 tableLayoutPanel.Controls.Clear();
                 tableLayoutPanel.RowCount = 0;
                 tableLayoutPanel.ColumnCount = 0;
+                tableLayoutPanel.Visible = true; // 空值时恢复显示
                 return;
             }
 
-            // 1. 清空原有控件和样式
-            tableLayoutPanel.Controls.Clear();
-            tableLayoutPanel.RowStyles.Clear();
-            tableLayoutPanel.ColumnStyles.Clear();
+            // ========== 优化1：开启TableLayoutPanel双缓冲（核心，消除重绘闪烁） ==========
+            tableLayoutPanel.SetDoubleBuffered(true);
 
-            // 2. 基础布局配置：2列（Label列 + 控件列）
-            tableLayoutPanel.ColumnCount = 2;
-            // 设置列宽度占比
-            if (LeftPercent != null)
+            // ========== 优化2：暂停布局更新，所有渲染操作完成后再一次性计算 ==========
+            tableLayoutPanel.SuspendLayout();
+
+            try
             {
-                if (LeftPercent.Value < 0 || LeftPercent.Value > 100)
+                // 1. 清空原有控件和样式（原有逻辑不变）
+                tableLayoutPanel.Controls.Clear();
+                tableLayoutPanel.RowStyles.Clear();
+                tableLayoutPanel.ColumnStyles.Clear();
+
+                // 2. 基础布局配置：2列（Label列 + 控件列）（原有逻辑不变）
+                tableLayoutPanel.ColumnCount = 2;
+                if (LeftPercent != null)
                 {
-                    throw new ArgumentException("leftPercent（标签宽度比例）的值必须在0到100之间");
+                    if (LeftPercent.Value < 0 || LeftPercent.Value > 100)
+                    {
+                        throw new ArgumentException("leftPercent（标签宽度比例）的值必须在0到100之间");
+                    }
+                    tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, (float)LeftPercent.Value));
+                    tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, (float)(100 - LeftPercent.Value)));
                 }
-                tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, (float)LeftPercent.Value)); // Label列
-                tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, (float)(100 - LeftPercent.Value))); // 控件列
-            }
-            else
-            {
-                tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); // Label列自适应
-                tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F)); // 第二列占剩余空间
-            }
-
-            // 3. 设置行数和行高
-            tableLayoutPanel.RowCount = Inputs.Count;
-            for (int i = 0; i < Inputs.Count; i++)
-            {
-                tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F / Inputs.Count));//平均设置行高
-
-                // 4. 创建Label控件
-                Label label = new Label
+                else
                 {
-                    Text = Inputs[i].Label,
-                    Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.MiddleCenter
-                };
-                tableLayoutPanel.Controls.Add(label, 0, i); // Label放在第0列
+                    tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+                    tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+                }
 
-                // 5. 根据控件类型创建对应控件
-                Control control = CreateControlByType(Inputs[i], Convert.ToInt32(tableLayoutPanel.GetColumnWidths()[1]));
-                tableLayoutPanel.Controls.Add(control, 1, i); // 控件放在第1列
+                // 3. 设置行数和行高（原有逻辑不变，仅优化行高计算：避免浮点数精度问题）
+                tableLayoutPanel.RowCount = Inputs.Count;
+                float rowPercent = Inputs.Count > 0 ? 100F / Inputs.Count : 0; // 空值保护
+                for (int i = 0; i < Inputs.Count; i++)
+                {
+                    tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, rowPercent));//平均设置行高
 
+                    // 4. 创建Label控件（原有逻辑不变）
+                    Label label = new Label
+                    {
+                        Text = Inputs[i].Label,
+                        Dock = DockStyle.Fill,
+                        TextAlign = ContentAlignment.MiddleCenter
+                    };
+                    tableLayoutPanel.Controls.Add(label, 0, i);
+
+                    // 5. 根据控件类型创建对应控件（原有逻辑不变）
+                    Control control = CreateControlByType(Inputs[i], Convert.ToInt32(tableLayoutPanel.GetColumnWidths()[1]));
+                    tableLayoutPanel.Controls.Add(control, 1, i);
+                }
+
+                // 可选：TableLayoutPanel整体样式（原有逻辑不变）
+                tableLayoutPanel.CellBorderStyle = CellStyle;
+            }
+            finally
+            {
+                // ========== 优化3：恢复布局+强制刷新，一次性完成所有重绘和布局计算 ==========
+                tableLayoutPanel.ResumeLayout(true); // true=立即执行布局计算+重绘
+                tableLayoutPanel.Refresh(); // 强制刷新控件，确保渲染完整
             }
 
-            // 可选：TableLayoutPanel整体样式
-            tableLayoutPanel.CellBorderStyle = CellStyle; // 显示网格（调试用）
+            // 原有逻辑：恢复显示
             tableLayoutPanel.Visible = true;
         }
+
 
         /// <summary>
         /// 读取控件值：返回 Label -> 选中/输入值 的字典
@@ -249,6 +268,7 @@ namespace WinformLib
                     return string.Empty;
             }
         }
+
         #endregion
     }
 }
