@@ -109,14 +109,11 @@ namespace WinformLib
             string key1 = $"{typeof(TForm1).Name}To{typeof(TForm2).Name}";
             string key2 = $"{typeof(TForm2).Name}To{typeof(TForm1).Name}";
 
-            if (!msgDict.ContainsKey(key1))
-            {
-                msgDict.Add(key1, input.Funs2);
-            }
+            msgDict[key1] = input.Funs2;
 
-            if (!msgDict.ContainsKey(key2))
+            if (input.Funs1 != null)
             {
-                msgDict.Add(key2, input.Funs1);
+                msgDict[key2] = input.Funs1;
             }
         }
 
