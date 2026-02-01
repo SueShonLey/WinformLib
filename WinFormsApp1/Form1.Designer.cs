@@ -29,35 +29,58 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            comboBox1 = new ComboBox();
+            dateTimePicker1 = new DateTimePicker();
             button1 = new Button();
+            label1 = new Label();
+            label2 = new Label();
             SuspendLayout();
             // 
-            // comboBox1
+            // dateTimePicker1
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(119, 186);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(351, 23);
-            comboBox1.TabIndex = 0;
+            dateTimePicker1.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            dateTimePicker1.Format = DateTimePickerFormat.Custom;
+            dateTimePicker1.Location = new Point(161, 139);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(250, 25);
+            dateTimePicker1.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(253, 254);
+            button1.Location = new Point(209, 196);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
-            button1.TabIndex = 1;
+            button1.TabIndex = 2;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            button1.Click += button1_Click_1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(161, 271);
+            label1.Name = "label1";
+            label1.Size = new Size(55, 15);
+            label1.TabIndex = 3;
+            label1.Text = "label1";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(161, 312);
+            label2.Name = "label2";
+            label2.Size = new Size(55, 15);
+            label2.TabIndex = 4;
+            label2.Text = "label2";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(576, 463);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(button1);
-            Controls.Add(comboBox1);
+            Controls.Add(dateTimePicker1);
             Font = new Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
@@ -65,11 +88,14 @@
             Text = "Form100";
             Load += Form1_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private ComboBox comboBox1;
+        private DateTimePicker dateTimePicker1;
         private Button button1;
+        private Label label1;
+        private Label label2;
     }
 }

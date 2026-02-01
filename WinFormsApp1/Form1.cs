@@ -19,35 +19,13 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // 模拟实体数据源
-            var userList = new List<User>()
-                {
-                    new User(){Id=1, Name="张三"},
-                    new User(){Id=2, Name="李四"},
-                    new User(){Id=3, Name="王五"}
-                };
-
-            // 绑定实体到下拉框（启用延迟加载、自动选中第一项、联想提示）
-            comboBox1.SetCommonWithEntity(userList,x=>x.Name);
+            dateTimePicker1.SetCommon( DateTimePickerExtentions.EnumEasyDateTimePicker.Date);
         }
 
-        public class User
+        private void button1_Click_1(object sender, EventArgs e)
         {
-            public int Id { get; set; }
-            public string Name { get; set; }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            User selectedUser = comboBox1.GetCommonSelectWithEntity<User>();
-            if (selectedUser != null)
-            {
-                MessageBox.Show($"选中用户：{selectedUser.Name}，ID：{selectedUser.Id}");
-            }
-            else
-            {
-                MessageBox.Show("未选中任何用户");
-            }
+            label1.Text = dateTimePicker1.GetCommon().date.ToString();
+            label2.Text = dateTimePicker1.GetCommon().dayOfWeek.ToString();
         }
     }
 

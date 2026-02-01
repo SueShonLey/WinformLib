@@ -99,6 +99,10 @@
 ### ObjExtentions
 - **ToControl**: 尝试将object sender转化为控件
 
+### DateTimePickerExtentions
+- **SetCommon**: 渲染日期/时间/日期和时间效果
+- **GetCommon**: 获取日期值和星期几
+
 
 ##### 感谢您的使用与支持！如有任何建议，请随时联系我。
 ---
