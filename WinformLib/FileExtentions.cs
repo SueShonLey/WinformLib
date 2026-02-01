@@ -91,13 +91,17 @@ namespace WinformLib
         /// </summary>
         public static void OpenFolder(string FolderPath)
         {
+            if (File.Exists(FolderPath))//假设这是一个文件
+            {
+                FolderPath = Path.GetDirectoryName(FolderPath);
+            }
             if (Directory.Exists(FolderPath))
             {
                 Process.Start(Environment.GetEnvironmentVariable("WINDIR") + @"\explorer.exe", FolderPath);
             }
             else
             {
-                MessageBox.Show("指定的文件夹路径不存在！");
+                throw new FileNotFoundException("指定的文件夹路径不存在！");
             }
         }
 
