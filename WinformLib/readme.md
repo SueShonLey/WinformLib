@@ -53,7 +53,7 @@
 
 
 ### FlowLayoutPanelExtentions
-- **AddButtons**: 为流布局控件增加按钮
+- **AddButtons**: 为流布局控件增加按钮（ButtonList）
 
 ### GroupBoxExtentions
 - **ClearAll**: 清空文本框、复选框、富文本框
@@ -77,6 +77,10 @@
 ### TaskExtentions
 - **TaskRun**: 后台运行（同步）
 - **TaskRunAsync**: 后台运行（异步）
+- **TaskRunWithUI**: 后台运行+UI更新（同步）
+- **TaskRunWithUIAsync**: 后台运行+UI更新（异步）
+- **UISafeInvoke**: UI更新（同步）
+- **UISafeInvokeAsync**: UI更新（异步）
 
 ### TipsForm
 - **PopUpTips**: 提示弹窗
@@ -98,10 +102,18 @@
 
 ### ObjExtentions
 - **ToControl**: 尝试将object sender转化为控件
+- **SetDoubleBuffered**: 给任意WinForm控件开启双缓冲
 
 ### DateTimePickerExtentions
 - **SetCommon**: 渲染日期/时间/日期和时间效果
 - **GetCommon**: 获取日期值和星期几
+
+### LinkLabel1Extensions
+- **OpenLink**: 打开链接（可指定网站/文件/文件夹）
+
+### ListBoxExtentions
+- **SetCommon**: 设置ListBox的内容（渲染列表内容、回调选中内容）
+- **SetRightCommon**: 设置ListBox右键菜单功能（右键列表内容、回调=选中内容+右键菜单名称）
 
 
 ##### 感谢您的使用与支持！如有任何建议，请随时联系我。
@@ -109,7 +121,7 @@
 
 # WinformLib
 
-Welcome to **WinformLib**! I'm the author **SueShonley**. This NuGet package encapsulates practical extension methods for many commonly used controls. We look forward to your feedback and suggestions!
+Welcome to **WinformLib**! I am the author **SueShonley**. This NuGet package encapsulates practical extension methods for many commonly used controls. We look forward to your feedback and suggestions!
 
 You can watch the following video to obtain more information: [Watch Video](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
 
@@ -120,8 +132,8 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 ## Description of extension methods
 
 ### CheckedListBoxExtentions
-- **SetCommon**: Set data source
-- **SetCommonAll**: Set to select all and cancel all
+- **SetCommon**: Set the data source
+- **SetCommonAll**: Set to select all and cancel all selection
 - **GetCommonStatus**: Get the selected or unselected data
 
 ### ClipboardExtentions
@@ -130,8 +142,10 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 
 ### ComboBoxExtentions
 - **SetCommon**: Set the content of the dropdown box
-- **GetCommonSelect**: Get the current selected index/text
+- **GetCommonSelect**: Gets the current selection index/text
 - **SetCommonItems**: Lock the dropdown box based on the text
+- **SetCommonWithEntity**: Render based on the entity list and specified fields
+- **GetCommonSelectWithEntity**: Obtain the entity based on the selected dropdown box
 
 ### DataGridViewExtentions
 - **SetCommon**: Set table content
@@ -152,15 +166,15 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 - **BindForm**: Bind two-way form transmission
 - **SendMessage**: Send a string to another form
 - **HideForm**: Hide the taskbar window and display it in the lower right corner tray
-- **CheckNotNull**: Check if all control values are not null
+- **CheckNotNull**: Check that the control values are not null
 - **IsRunningByAdmin**: Whether to run the Winform program as an administrator
-- **SetMenuMDIForm**: MDI window design
-- **ShowOnlyOne**: Open the window (without duplication)
-- **SetGlobalErrorTips**: Display global error tips without exiting the system (only in development environment)
+- **SetMenuMDIForm**: MDI form design
+- **ShowOnlyOne**: Open the window (without repetition)
+- **SetGlobalErrorTips**: Set global error tips without exiting the system (only in development environment)
 
 
 ### FlowLayoutPanelExtentions
-- **AddButtons**: Adds buttons to the flow layout control
+- **AddButtons**: Adds buttons (ButtonList) to the flow layout control
 
 ### GroupBoxExtentions
 - **ClearAll**: Clear the text box, check box, and rich text box
@@ -184,6 +198,10 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 ### TaskExtentions
 - **TaskRun**: Background execution (synchronous)
 - **TaskRunAsync**: Run in the background (asynchronously)
+- **TaskRunWithUI**: Background execution + UI update (synchronous)
+- **TaskRunWithUIAsync**: Background operation + UI update (asynchronous)
+- **UISafeInvoke**: UI update (synchronous)
+- **UISafeInvokeAsync**: UI update (asynchronous)
 
 ### TipsForm
 - **PopUpTips**: Pop-up tips
@@ -201,12 +219,23 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 - **GetCommon**: Get the table container
 
 ### CustomizeFormsExtentions
-- **SetCustomizeForms**: Customize forms (passing in controls and their contents)
+- **SetCustomizeForms**: Customize forms (pass in controls and their contents)
 
 ### ObjExtentions
 - **ToControl**: Attempt to convert the object sender into a control
+- **SetDoubleBuffered**: Enable double buffering for any WinForm control
+
+### DateTimePickerExtentions
+- **SetCommon**: Render date/time/date and time effects
+- **GetCommon**: Get the date value and day of the week
+
+### LinkLabel1Extensions
+- **OpenLink**: Open a link (can specify a website/file/folder)
+
+### ListBoxExtentions
+- **SetCommon**: Set the content of the ListBox (render list content, call back selected content)
+- **SetRightCommon**: Sets the right-click menu function of the ListBox (right-click list content, callback = selected content + right-click menu name)
 
 
 ##### Thank you for your use and support! If you have any suggestions, please feel free to contact me.
 ---
-
