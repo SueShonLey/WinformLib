@@ -63,6 +63,8 @@
 - **SetCommonDefault**: 设置默认窗体（以便后续恢复）
 - **SetCommonRecover**: 恢复默认窗体（必须先设置默认窗体才能恢复）
 - **SetCommon**: 切换窗体
+- **ReceiveFiles**: 允许面板接收文件拖放(单个)
+- **ReceiveMutiFiles**: 允许面板接收文件拖放(多个)
 
 ### ProgressBarExtentions
 - **SetCommon**: 设置进度条
@@ -92,6 +94,9 @@
 - **StartTimer**: 定时器启动
 - **StopTimer**: 定时器停止
 - **ReStartTimer**: 定时器重启
+- **ResetInterval**: 定时器重新设置时间
+- **GetTimerStatus**: 获取定时器状态
+
 
 ### TableLayoutPanelExtentions
 - **SetCommon**: 设置表格容器
