@@ -19,16 +19,20 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.SetCommon( DateTimePickerExtentions.EnumEasyDateTimePicker.Date);
+            //panel1.ReceiveFiles((path) =>
+            //{
+            //    label1.Text = path;
+            //});
+
+            panel1.ReceiveMutiFiles((path) =>
+            {
+                label1.Text = string.Join("\n", path);
+            });
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            label1.Text = dateTimePicker1.GetCommon().date.ToString();
-            label2.Text = dateTimePicker1.GetCommon().dayOfWeek.ToString();
-        }
+
     }
-
-
-
 }
+
+
+

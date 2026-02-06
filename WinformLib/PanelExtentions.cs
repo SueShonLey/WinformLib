@@ -67,5 +67,70 @@ namespace WinformLib
             form2.FormBorderStyle = FormBorderStyle.None;//不显示标题栏
             form2.Show();
         }
+
+        /// <summary>
+        /// 允许面板接收文件拖放(多个)
+        /// </summary>
+        /// <param name="panel">需要开启拖放功能的面板</param>
+        public static void ReceiveMutiFiles(this Panel panel, Action<List<string>> funs)
+        {
+            // 1. 初始化面板基础属性（程序启动时立即生效）
+            panel.AllowDrop = true;
+            panel.BorderStyle = BorderStyle.FixedSingle;
+            panel.BackColor = Color.DarkGray; // 初始背景色，打开就显示Gray
+
+            // 2. 拖入事件：鼠标进入面板且有文件时
+            panel.DragEnter += (sender, e) =>
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    e.Effect = DragDropEffects.All;
+                    panel.BackColor = Color.LightGray; // 拖入时高亮（可选，区分初始状态）
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
+            };
+
+            // 3. 拖离事件：鼠标拖入后未放下就离开面板，恢复初始色
+            panel.DragLeave += (sender, e) =>
+            {
+                panel.BackColor = Color.DarkSlateGray;
+            };
+
+            // 4. 拖放完成事件：放下文件后
+            panel.DragDrop += (sender, e) =>
+            {
+                // 放下文件后设置为DarkGray
+                panel.BackColor = Color.DarkGray;
+
+                string[] filePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
+                List<string> result = new List<string>();
+                if (filePaths != null && filePaths.Length > 0)
+                {
+                    foreach (string filePath in filePaths)
+                    {
+                        if (File.Exists(filePath))
+                        {
+                            result.Add(filePath);
+                        }
+                    }
+                    funs(result);
+                }
+            };
+        }        
+        
+        /// <summary>
+        /// 允许面板接收文件拖放(单个)
+        /// </summary>
+        /// <param name="panel">需要开启拖放功能的面板</param>
+        public static void ReceiveFiles(this Panel panel, Action<string> funs)
+        {
+            panel.ReceiveMutiFiles((list) =>
+            {
+                funs(list.FirstOrDefault() ?? string.Empty);
+            });
+        }
     }
 }

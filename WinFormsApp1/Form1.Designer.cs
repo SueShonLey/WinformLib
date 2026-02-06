@@ -29,72 +29,61 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            dateTimePicker1 = new DateTimePicker();
-            button1 = new Button();
-            label1 = new Label();
+            panel1 = new Panel();
             label2 = new Label();
+            label1 = new Label();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // dateTimePicker1
+            // panel1
             // 
-            dateTimePicker1.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-            dateTimePicker1.Format = DateTimePickerFormat.Custom;
-            dateTimePicker1.Location = new Point(161, 139);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(250, 25);
-            dateTimePicker1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(209, 196);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 2;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click_1;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(161, 271);
-            label1.Name = "label1";
-            label1.Size = new Size(55, 15);
-            label1.TabIndex = 3;
-            label1.Text = "label1";
+            panel1.Controls.Add(label2);
+            panel1.Location = new Point(144, 87);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(723, 389);
+            panel1.TabIndex = 0;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(161, 312);
+            label2.Font = new Font("宋体", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Location = new Point(277, 192);
             label2.Name = "label2";
-            label2.Size = new Size(55, 15);
-            label2.TabIndex = 4;
-            label2.Text = "label2";
+            label2.Size = new Size(187, 25);
+            label2.TabIndex = 0;
+            label2.Text = "请拖放文件进来";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(144, 40);
+            label1.Name = "label1";
+            label1.Size = new Size(55, 15);
+            label1.TabIndex = 0;
+            label1.Text = "label1";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(576, 463);
-            Controls.Add(label2);
+            ClientSize = new Size(1003, 501);
             Controls.Add(label1);
-            Controls.Add(button1);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(panel1);
             Font = new Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form100";
             Load += Form1_Load;
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DateTimePicker dateTimePicker1;
-        private Button button1;
+        private Panel panel1;
         private Label label1;
         private Label label2;
     }
