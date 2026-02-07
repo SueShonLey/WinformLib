@@ -21,6 +21,11 @@ namespace WinformLib
         /// <param name="ButtonList">按钮名称，可为空</param>
         public static void SetCommon<T>(this DataGridView dataGridView, List<T> list, List<(Expression<Func<T, object>> fields, string name, int width)> headtext, List<string> ButtonList = null) where T : class
         {
+            if(list == null || !list.Any())//无数据
+            {
+                dataGridView.Rows.Clear();
+                return;
+            }
 
             // 使用 LINQ 通过直接提取表达式来获取字段名称
             var propertyNames = headtext
@@ -119,7 +124,11 @@ namespace WinformLib
         /// <param name="input">配置实体（仅定义规则，不绑定具体字段）</param>
         public static void SetCommonWithUI<T>(this DataGridView dataGridView, DataDisplayEntity<T> input) where T : class
         {
-            if (input == null || input.DataList == null || !input.DataList.Any()) return;
+            if (input == null || input.DataList == null || !input.DataList.Any())
+            {
+                dataGridView.Rows.Clear();
+                return;
+            }
             if (input.headtextList == null || !input.headtextList.Any()) return;
 
             var list = input.DataList;
