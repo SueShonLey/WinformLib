@@ -95,7 +95,7 @@
 - **StopTimer**: 定时器停止
 - **ReStartTimer**: 定时器重启
 - **ResetInterval**: 定时器重新设置时间
-- **GetTimerStatus**: 获取定时器状态
+- **GetStatus**: 获取定时器状态
 
 
 ### TableLayoutPanelExtentions
