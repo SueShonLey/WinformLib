@@ -31,6 +31,7 @@
 - **GetCommon**: 获取表格内容
 - **GetCommonByButton**: 根据按钮上的文字获取实体
 - **SetCommonWithUI**: 设置表格内容+UI（复杂情况）
+- **SetCommonWithCell**: 设置表格内容+行、列、单元格调整（复杂情况）
 
 ### FileExtentions
 - **PopUpFolder**: 文件夹选择

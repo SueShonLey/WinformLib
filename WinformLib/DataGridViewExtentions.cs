@@ -21,7 +21,7 @@ namespace WinformLib
         /// <param name="ButtonList">按钮名称，可为空</param>
         public static void SetCommon<T>(this DataGridView dataGridView, List<T> list, List<(Expression<Func<T, object>> fields, string name, int width)> headtext, List<string> ButtonList = null) where T : class
         {
-            if(list == null || !list.Any())//无数据
+            if (list == null || !list.Any())//无数据
             {
                 dataGridView.Rows.Clear();
                 return;
@@ -44,7 +44,7 @@ namespace WinformLib
             //设置表头样式和属性
             dataGridView.AllowUserToAddRows = false;//不允许添加、删除
             dataGridView.AllowUserToDeleteRows = false;
-            dataGridView.ReadOnly = true;//设置只读
+            dataGridView.ReadOnly = false;//允许编辑（列中控制只读）
             dataGridView.RowHeadersVisible = false;//隐藏最左边的空白栏
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;//不采用自适应宽度
                                                                                     // 设置表头样式
@@ -118,10 +118,8 @@ namespace WinformLib
         }
 
         /// <summary>
-        /// 渲染DataGridView（最终通用版）- 无硬编码、行样式/单元格样式/按钮逻辑全通用
+        /// 渲染DataGridView（可控制UI）
         /// </summary>
-        /// <param name="dataGridView">被渲染控件</param>
-        /// <param name="input">配置实体（仅定义规则，不绑定具体字段）</param>
         public static void SetCommonWithUI<T>(this DataGridView dataGridView, DataDisplayEntity<T> input) where T : class
         {
             if (input == null || input.DataList == null || !input.DataList.Any())
@@ -274,12 +272,52 @@ namespace WinformLib
         }
 
         /// <summary>
-        /// DataGridView转List<T>
-        /// 对应关系：DataGridView的DataPropertyName=实体的属性名称
+        /// 渲染DataGridView（可控制Cell/UI，加强版）
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dataGridView"></param>
-        /// <returns></returns>
+        public static void SetCommonWithCell<T>(this DataGridView dataGridView, DataDisplayEntityCell<T> input) where T : class, new()
+        {
+            // 先渲染数据
+            dataGridView.SetCommon(input.DataList, input.HeadtextList, input.ButtonList.Select(x => x.ButtonName).ToList());
+            // 单独处理UI
+            foreach (DataGridViewRow item in dataGridView.Rows)
+            {
+                // 行操作
+                if (input.RowAction != null)
+                {
+                    input.RowAction(item.Tag as T, item);
+                }
+
+                //单元格操作
+                foreach (DataGridViewCell cell in item.Cells)
+                {
+                    if (input.CellAction != null)
+                    {
+                        input.CellAction(item.Tag as T, cell.OwningColumn, cell);
+                    }
+
+                }
+            }
+            //列操作
+            foreach (DataGridViewColumn item in dataGridView.Columns)
+            {
+                if (input.ColumnAction != null)
+                {
+                    input.ColumnAction(item);
+                }
+            }
+            // 处理按钮宽度
+            foreach (var item in input.ButtonList)
+            {
+                dataGridView.Columns[item.ButtonName].HeaderText =item.TitileName;
+                dataGridView.Columns[item.ButtonName].Width = item.Width;
+            }
+        }
+
+        /// <summary>
+        /// DataGridView转List<T>
+        /// 情况一：不传参，默认读Tag内容
+        /// 情况二：传参（字段和标题头名称），读Tag内容 + 用户填写的内容（优先级高于Tag）
+        /// </summary>
         public static List<T> GetCommon<T>(this DataGridView dataGridView, List<(Expression<Func<T, object>> fields, string name)> headtext = null) where T : new()
         {
             List<T> list = new List<T>();
@@ -366,6 +404,7 @@ namespace WinformLib
             return null;
         }
 
+
         #region 辅助方法
         /// <summary>
         /// 通用数据展示实体（包含数据列表、表头配置、按钮列表）
@@ -410,6 +449,47 @@ namespace WinformLib
             /// 是否只读
             /// </summary>
             public bool IsReadOnly { get; set; } = true;
+        }
+
+        /// <summary>
+        /// UI设置入参Dto
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public class DataDisplayEntityCell<T>
+        {
+            /// <summary>
+            /// 数据列表
+            /// </summary>
+            public List<T> DataList { get; set; } = new List<T>();
+
+            /// <summary>
+            /// 字段、标题名称及宽度
+            /// </summary>
+            public List<(Expression<Func<T, object>> Feild, string TitileName, int Width)> HeadtextList { get; set; } = new List<(Expression<Func<T, object>> Feild, string TitileName, int width)>();
+
+            /// <summary>
+            /// 按钮名称、标题名称及宽度
+            /// </summary>
+            public List<(string ButtonName, string TitileName, int Width)> ButtonList { get; set; } = new List<(string ButtonName, string TitileName, int Width)>();
+
+            /// <summary>
+            /// 行样式样式委托（实体、实体对应的行）
+            /// 示例：if (user.Name.Equals("李四"))row.DefaultCellStyle.ForeColor =  Color.Red;
+            /// </summary>
+            public Action<T, DataGridViewRow>? RowAction { get; set; } = null;
+
+            /// <summary>
+            /// 列按钮委托（列）
+            /// 示例：if (col.Name.Equals("Name"))col.ReadOnly = false;
+            /// </summary>
+            public Action<DataGridViewColumn>? ColumnAction { get; set; } = null;
+
+            /// <summary>
+            /// 单元格样式委托（实体、当前列、通过实体和当前列筛选得到的单元格）
+            /// 示例：if(user.Name.Equals("张三") && col.Name.Equals("Name"))cell.Style.BackColor = Color.Yellow;
+            /// </summary>
+            public Action<T, DataGridViewColumn, DataGridViewCell>? CellAction { get; set; } = null;
+
         }
         #endregion
     }

@@ -253,6 +253,7 @@ namespace WinformLib
         #region 子窗体相关
         /// <summary>
         /// 尝试打开窗体（不重复打开，入参：是否继承父窗体UI）
+        /// 示例：this.ShowOnlyOne<Form2>();//适合构造函数无传参情况
         /// </summary>
         public static T ShowOnlyOne<T>(this Form currentForm,bool inheritUI=true) where T : Form, new()
         {
@@ -287,6 +288,59 @@ namespace WinformLib
             }
 
             // 5. 显示窗体（新建实例需要Show，已存在的实例Show无副作用）
+            targetForm.Show();
+
+            return targetForm;
+        }
+
+        /// <summary>
+        /// 尝试打开窗体（不重复打开，入参：是否继承父窗体UI）
+        /// 示例：this.ShowOnlyOne(new Form2());//构造函数可以传入参数
+        /// </summary>
+        public static Form ShowOnlyOne(this Form currentForm, Form targetForm, bool inheritUI = true)
+        {
+            if (targetForm == null)
+            {
+                throw new ArgumentNullException(nameof(targetForm), "目标窗体实例不能为空！");
+            }
+
+            if (targetForm.IsDisposed)
+            {
+                throw new ObjectDisposedException(nameof(targetForm), "目标窗体实例已被释放，无法重复显示！");
+            }
+
+            Form existingForm = Application.OpenForms
+                                .Cast<Form>() // 先转为强类型IEnumerable<Form>
+                                .Where(f => f.GetType() == targetForm.GetType()) // 运行时判断类型一致
+                                .FirstOrDefault();
+
+            if (existingForm != null && existingForm != targetForm)
+            {
+                // 关闭传入的新实例，复用已打开的实例
+                targetForm.Dispose();
+                targetForm = existingForm;
+            }
+
+            // 继承UI样式（仅在窗体首次显示前执行）
+            if (inheritUI && !targetForm.Visible)
+            {
+                targetForm.StartPosition = FormStartPosition.CenterScreen;
+                targetForm.Icon = currentForm.Icon;
+                targetForm.Font = currentForm.Font;
+                targetForm.MaximizeBox = currentForm.MaximizeBox;
+                targetForm.TopMost = currentForm.TopMost;
+                targetForm.FormBorderStyle = currentForm.FormBorderStyle;
+            }
+
+            // 恢复最小化+置顶激活
+            if (targetForm.WindowState == FormWindowState.Minimized)
+            {
+                targetForm.WindowState = FormWindowState.Normal;
+            }
+            targetForm.BringToFront();
+            targetForm.Activate();
+
+            // 显示窗体
             targetForm.Show();
 
             return targetForm;

@@ -29,62 +29,52 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            panel1 = new Panel();
-            label2 = new Label();
-            label1 = new Label();
-            panel1.SuspendLayout();
+            dataGridView1 = new DataGridView();
+            button1 = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
-            // panel1
+            // dataGridView1
             // 
-            panel1.Controls.Add(label2);
-            panel1.Location = new Point(144, 87);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(723, 389);
-            panel1.TabIndex = 0;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(123, 123);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.RowTemplate.Height = 29;
+            dataGridView1.Size = new Size(776, 354);
+            dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
-            // label2
+            // button1
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("宋体", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(277, 192);
-            label2.Name = "label2";
-            label2.Size = new Size(187, 25);
-            label2.TabIndex = 0;
-            label2.Text = "请拖放文件进来";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(144, 40);
-            label1.Name = "label1";
-            label1.Size = new Size(55, 15);
-            label1.TabIndex = 0;
-            label1.Text = "label1";
+            button1.Location = new Point(805, 69);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 1;
+            button1.Text = "保存";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1003, 501);
-            Controls.Add(label1);
-            Controls.Add(panel1);
+            Controls.Add(button1);
+            Controls.Add(dataGridView1);
             Font = new Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form100";
             Load += Form1_Load;
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Panel panel1;
-        private Label label1;
-        private Label label2;
+        private DataGridView dataGridView1;
+        private Button button1;
     }
 }
