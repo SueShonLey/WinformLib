@@ -270,7 +270,6 @@ namespace WinformLib
                     targetForm.Icon = currentForm.Icon;
                     targetForm.Font = currentForm.Font;
                     targetForm.MaximizeBox = currentForm.MaximizeBox;
-                    targetForm.TopMost = currentForm.TopMost;
                     targetForm.FormBorderStyle = currentForm.FormBorderStyle;
                 }
             }
@@ -328,7 +327,6 @@ namespace WinformLib
                 targetForm.Icon = currentForm.Icon;
                 targetForm.Font = currentForm.Font;
                 targetForm.MaximizeBox = currentForm.MaximizeBox;
-                targetForm.TopMost = currentForm.TopMost;
                 targetForm.FormBorderStyle = currentForm.FormBorderStyle;
             }
 
