@@ -32,5 +32,12 @@ namespace WinformLib
             prop?.SetValue(control, enable, null);
         }
 
+        /// <summary>
+        /// 获取指定类型的子控件(适用对象：Panel类、GroupBox类等)
+        /// </summary>
+        public static List<T> GetChildrenControls<T>(this Control parent) where T : Control
+        {
+            return parent.Controls.OfType<T>().ToList();
+        }
     }
 }

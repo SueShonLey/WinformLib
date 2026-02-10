@@ -51,6 +51,7 @@
 - **SetMenuMDIForm**: MDI窗体设计
 - **ShowOnlyOne**: 打开窗体（不重复）
 - **SetGlobalErrorTips**: 全局报错不退出系统（仅限开发环境）
+- **GetChildrenControls**: 获取指定类型的子控件
 
 
 ### FlowLayoutPanelExtentions

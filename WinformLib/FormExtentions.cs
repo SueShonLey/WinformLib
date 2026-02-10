@@ -81,7 +81,7 @@ namespace WinformLib
         #endregion
 
         #region 消息绑定相关
-        public static Dictionary<string, Action<string>> msgDict = new Dictionary<string, Action<string>>();
+        private static Dictionary<string, Action<string>> msgDict = new Dictionary<string, Action<string>>();
         public class BindFormInput<TForm1, TForm2>
         {
             public TForm1 Form1 { get; set; }
@@ -142,7 +142,7 @@ namespace WinformLib
         #endregion
 
         #region 控件判断空值相关
-        public static Dictionary<string, ErrorProvider> errDict = new Dictionary<string, ErrorProvider>();
+        private static Dictionary<string, ErrorProvider> errDict = new Dictionary<string, ErrorProvider>();
 
         /// <summary>
         /// 判断传入的控件是否为都不为空，是则返回True(可指定提示词)
