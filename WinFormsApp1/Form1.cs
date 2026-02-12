@@ -24,86 +24,76 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // 模拟实体数据源
-            var userList = new List<User>()
-                {
-                    new User(){Id=1, Name="张三",Age = 15},
-                    new User(){Id=2, Name="李四",Age = 20},
-                    new User(){Id=3, Name="王五",Age = 35}
-                };
 
-            dataGridView1.SetCommonWithCell<User>(new DataGridViewExtentions.DataDisplayEntityCell<User>
-            {
-                DataList = userList,
-                ButtonList = new List<(string ButtonName, string TitileName, int Width)>
-                {
-                    ("修改","操作1",80),
-                    ("删除","操作2",200),
-                },
-                HeadtextList = new List<(System.Linq.Expressions.Expression<Func<User, object>> fields, string name, int width)>
-                {
-                    (u => u.Id, "ID", 50),
-                    (u => u.Name, "姓名", 200)
-                },
-                RowAction = (user, row) =>
-                {
-                    if (user.Name.Equals("李四"))
-                    {
-                        row.DefaultCellStyle.ForeColor = Color.Red;
-                    }
-                },
-                ColumnAction = (col) =>
-                {
-                    if (col.Name.Equals("Name"))
-                    {
-                        col.ReadOnly = false;
-                    }
-                },
-                CellAction = (user, col, cell) =>
-                {
-                    if (user.Name.Equals("张三") && col.Name.Equals("Name"))
-                    {
-                        cell.Style.BackColor = Color.Yellow;
-                    }
-                    if (user.Age > 30 && col.Name.Equals("修改"))
-                    {
-                        cell.Value = "不可改";
-                    }
-                },
-            });
         }
 
-        public class User
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public int Age { get; internal set; }
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var result = dataGridView1.GetCommon<User>(new List<(System.Linq.Expressions.Expression<Func<User, object>> fields, string name)>
+            // 构造测试用例
+            var testInput = new CustomizeFormInput
             {
-                    (u => u.Id, "ID"),
-                    (u => u.Name, "姓名")
-            });
-            MessageBox.Show(JsonSerializer.Serialize(result,new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
+                FormTitle = "测试自定义窗体",
+                inputs = new List<CustomizeValueInput>
+                {
+                    // 测试1：输入框（带默认值）
+                    new CustomizeValueInput
+                    {
+                        Label = "用户名",
+                        FormControlType = FormControlType.InputBox,
+                        DefaultValue = "测试用户",
+                        VertiPadding = 0
+                    },
+                    // 测试2：数字框（带默认值）
+                    new CustomizeValueInput
+                    {
+                        Label = "年龄",
+                        FormControlType = FormControlType.NumberBox,
+                        DefaultValue = "25",
+                        VertiPadding = 0
+                    },
+                    // 测试3：下拉框（带默认值）
+                    new CustomizeValueInput
+                    {
+                        Label = "性别",
+                        FormControlType = FormControlType.DropDown,
+                        Value = new List<string> { "男", "女", "未知" },
+                        DefaultValue = "男",
+                        VertiPadding = 0
+                    },
+                    // 测试4：单选框（分组，带默认值）
+                    new CustomizeValueInput
+                    {
+                        Label = "支付方式",
+                        FormControlType = FormControlType.RadioButton,
+                        Value = new List<string> { "微信", "支付宝", "银行卡" },
+                        DefaultValue = "支付宝",
+                        VertiPadding = 0
+                    },
+                    // 测试5：复选框（分组，带默认值）
+                    new CustomizeValueInput
+                    {
+                        Label = "爱好",
+                        FormControlType = FormControlType.CheckBox,
+                        Value = new List<string> { "读书", "运动", "游戏", "音乐" },
+                        DefaultValue = "读书,音乐",
+                        VertiPadding = 0
+                    },
+                    // 测试6：重复Label（用于验证异常）
+                    // new CustomizeValueInput { Label = "用户名", FormControlType = FormControlType.InputBox }
+                }
+            };
+
+            // 调用自定义窗体方法
+            var result = this.SetCustomizeForms(testInput);
+            this.PopUpTips(JsonSerializer.Serialize(result, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                WriteIndented = true
+            }));
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var update = dataGridView1.GetCommonByButton<User>("修改",e);
-            var delete = dataGridView1.GetCommonByButton<User>("删除",e);
-            if (update != null)
-            {
-                MessageBox.Show("修改:"+JsonSerializer.Serialize(update, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
-            }           
-            if (delete != null)
-            {
-                MessageBox.Show("删除:"+JsonSerializer.Serialize(delete, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
-            }
-          
-        }
+
     }
 }
 

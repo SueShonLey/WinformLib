@@ -69,7 +69,8 @@ namespace WinformLib
             InputBox = 1,     // 输入框
             DropDown = 2,     // 下拉框
             RadioButton = 3,  // 单选框
-            CheckBox = 4      // 复选框
+            CheckBox = 4 ,     // 复选框
+            NumberBox = 5     // 数字框
         }
 
         /// <summary>
@@ -108,6 +109,7 @@ namespace WinformLib
             Dictionary<string, List<CheckBox>> checkBoxGroups = new Dictionary<string, List<CheckBox>>();
             Dictionary<string, List<RadioButton>> radioButtonGroups = new Dictionary<string, List<RadioButton>>();
             Dictionary<string, TextBox> textBoxes = new Dictionary<string, TextBox>();
+            Dictionary<string, NumericUpDown> NumberBoxes = new Dictionary<string, NumericUpDown>();
             Dictionary<string, ComboBox> comboBoxes = new Dictionary<string, ComboBox>();
 
             // 算出最大标签宽度
@@ -144,6 +146,20 @@ namespace WinformLib
                         if (!string.IsNullOrEmpty(input.DefaultValue))
                         {
                             textBox.Text = input.DefaultValue;
+                        }
+                        break;                    
+                    case FormControlType.NumberBox:
+                        NumericUpDown number = new NumericUpDown
+                        {
+                            Location = new System.Drawing.Point(FormPadding + LabelAndValuePadding, currentY),
+                            Width = defualtControlWidth,
+                            Height = defualtHeight
+                        };
+                        inputForm.Controls.Add(number);
+                        NumberBoxes[input.Label] = number;
+                        if (!string.IsNullOrEmpty(input.DefaultValue))
+                        {
+                            number.Value = decimal.TryParse(input.DefaultValue,out var outDecimal) ? outDecimal : 0;
                         }
                         break;
 
@@ -278,6 +294,12 @@ namespace WinformLib
                 foreach (var textBox in textBoxes)
                 {
                     tcs[textBox.Key] = textBox.Value.Text;
+                }                
+                
+                // 获取数字框的值
+                foreach (var number in NumberBoxes)
+                {
+                    tcs[number.Key] = number.Value.Text;
                 }
 
                 // 获取下拉框的值
