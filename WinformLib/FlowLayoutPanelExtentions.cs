@@ -34,7 +34,7 @@ namespace WinformLib
         /// <param name="flowPanel">当前FlowLayoutPanel控件</param>
         /// <param name="input">按钮创建的输入参数</param>
         /// <param name="onBtnClick">按钮点击委托：传出(索引, 按钮名称)元组</param>
-        public static void AddButtons(this FlowLayoutPanel flowPanel, FlowLayOutListInput input, Action<int, string> onBtnClick)
+        public static void AddButtons(this FlowLayoutPanel flowPanel, FlowLayOutListInput input, Action<int, string,Button> onBtnClick)
         {
             // 空值校验
             if (flowPanel == null)
@@ -83,7 +83,7 @@ namespace WinformLib
                 // 核心：绑定点击事件，触发委托并传递元组
                 btn.Click += (sender, e) =>
                 {
-                    onBtnClick?.Invoke(currentIndex, currentBtnName);
+                    onBtnClick?.Invoke(currentIndex, currentBtnName,btn);
                 };
 
                 flowPanel.Controls.Add(btn);
