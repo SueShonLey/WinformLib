@@ -33,7 +33,7 @@ namespace WinformLib
             tableLayoutPanel.SetDoubleBuffered(true);
 
             // ========== 优化2：暂停布局更新，所有渲染操作完成后再一次性计算 ==========
-            tableLayoutPanel.SuspendLayout();
+            //tableLayoutPanel.SuspendLayout();
 
             try
             {
@@ -86,7 +86,7 @@ namespace WinformLib
             finally
             {
                 // ========== 优化3：恢复布局+强制刷新，一次性完成所有重绘和布局计算 ==========
-                tableLayoutPanel.ResumeLayout(true); // true=立即执行布局计算+重绘
+                //tableLayoutPanel.ResumeLayout(true); // true=立即执行布局计算+重绘
                 tableLayoutPanel.Refresh(); // 强制刷新控件，确保渲染完整
             }
 
@@ -158,6 +158,21 @@ namespace WinformLib
                         Text = defaultValues.FirstOrDefault() ?? string.Empty,
                     };
                     control = textBox;
+                    break;                
+                
+                case FormControlType.NumberBox:
+                    // 数字输入框
+                    NumericUpDown number = new NumericUpDown
+                    {
+                        Dock = DockStyle.Fill,
+                        Anchor = AnchorStyles.Left,
+                        Width = width
+                    };
+                    if (!string.IsNullOrEmpty(input.DefaultValue))
+                    {
+                        number.Value = decimal.TryParse(input.DefaultValue, out var outDecimal) ? outDecimal : 0;
+                    }
+                    control = number;
                     break;
 
                 case FormControlType.DropDown:
@@ -249,7 +264,9 @@ namespace WinformLib
                 // 输入框
                 case TextBox textBox:
                     return textBox.Text;
-
+                // 数字输入框
+                case NumericUpDown numericUp:
+                    return numericUp.Value.ToString();
                 // 下拉框
                 case ComboBox comboBox:
                     return comboBox.SelectedItem?.ToString() ?? string.Empty;
