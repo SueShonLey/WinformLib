@@ -271,6 +271,8 @@ namespace WinformLib
                     targetForm.Font = currentForm.Font;
                     targetForm.MaximizeBox = currentForm.MaximizeBox;
                     targetForm.FormBorderStyle = currentForm.FormBorderStyle;
+                    targetForm.BackgroundImage = currentForm.BackgroundImage;
+                    targetForm.BackgroundImageLayout = currentForm.BackgroundImageLayout;
                 }
             }
             else

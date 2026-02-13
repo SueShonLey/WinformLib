@@ -274,6 +274,10 @@ namespace WinformLib
             foreach (Control item in inputForm.Controls)
             {
                 item.Width = maxControlWidth;
+                if (item is Label)
+                {
+                    item.SendToBack();
+                }
             }
 
             // 创建一个任务以便返回选定的值
