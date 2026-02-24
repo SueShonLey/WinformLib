@@ -192,7 +192,7 @@ namespace WinformLib
         /// <param name="isLazyLoading">是否延迟加载</param>
         public static void SetCommonWithEnum<T>(this ComboBox comboBox, bool isSelectFirst = true, bool isLazyLoading = true) where T : Enum
         {
-            List<EasyEnumExtensions.EasyEnumDetails<T>> datalist = EasyEnumExtensions.GetEnumDetails<T>();
+            List<WinformLibEnumExtensions.WinformLibEnumDetails<T>> datalist = WinformLibEnumExtensions.GetEnumDetails<T>();
             SetCommonWithEntity(comboBox,datalist, x=> x.Description,isSelectFirst,isLazyLoading);
         }
 
@@ -214,7 +214,7 @@ namespace WinformLib
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="comboBox">目标下拉框</param>
         /// <returns>选中的实体（无选中项/无映射时返回default(T)）</returns>
-        public static EasyEnumExtensions.EasyEnumDetails<T> GetCommonSelectWithEnumDetails<T>(this ComboBox comboBox) where T : Enum
+        public static WinformLibEnumExtensions.WinformLibEnumDetails<T> GetCommonSelectWithEnumDetails<T>(this ComboBox comboBox) where T : Enum
         {
             // 空值校验
             if (comboBox == null) return default;
@@ -222,7 +222,7 @@ namespace WinformLib
             if (comboBox.SelectedIndex < 0) return default;
 
             // 从线程安全字典中获取当前下拉框的「索引-实体」映射列表
-            if (_comboEntityMap.TryGetValue(comboBox, out var obj) && obj is List<(int Index, EasyEnumExtensions.EasyEnumDetails<T> Entity)> entityList)
+            if (_comboEntityMap.TryGetValue(comboBox, out var obj) && obj is List<(int Index, WinformLibEnumExtensions.WinformLibEnumDetails<T> Entity)> entityList)
             {
                 // 根据下拉框当前选中索引，匹配并返回对应的实体
                 var selectedItem = entityList.Find(item => item.Index == comboBox.SelectedIndex);

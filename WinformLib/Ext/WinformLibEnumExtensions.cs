@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace WinformLib.Ext
 {
-    public static class EasyEnumExtensions
+    public static class WinformLibEnumExtensions
     {
         /// <summary>
         /// 获取枚举详情
         /// </summary>
-        public static List<EasyEnumDetails<T>> GetEnumDetails<T>(string defualtComment = "无注释") where T : Enum
+        public static List<WinformLibEnumDetails<T>> GetEnumDetails<T>(string defualtComment = "无注释") where T : Enum
         {
             Type enumType = typeof(T);
             var list = enumType.GetFields().Where(x => !x.IsSpecialName).ToList();
-            var res = new List<EasyEnumDetails<T>>();
+            var res = new List<WinformLibEnumDetails<T>>();
             foreach (var item in list)
             {
                 var value = item.GetValue(null);
@@ -25,7 +25,7 @@ namespace WinformLib.Ext
                 {
                     continue;
                 }
-                var entity = new EasyEnumDetails<T>()
+                var entity = new WinformLibEnumDetails<T>()
                 {
                     Name = item.Name,
                     Index = Convert.ToInt32(value),
@@ -41,7 +41,7 @@ namespace WinformLib.Ext
         /// 枚举详情列表
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public class EasyEnumDetails<T> where T : Enum
+        public class WinformLibEnumDetails<T> where T : Enum
         {
             /// <summary>
             /// 枚举索引
