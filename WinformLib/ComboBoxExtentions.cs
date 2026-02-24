@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinformLib.Ext;
 
 namespace WinformLib
 {
@@ -39,7 +40,7 @@ namespace WinformLib
         }
 
         /// <summary>
-        /// 获取当前选择的索引 & 文字
+        /// 获取当前选择的索引 && 文字
         /// </summary>
         public static (int SelectIndex, string SelectContent) GetCommonSelect(this ComboBox comboBox)
         {
@@ -92,7 +93,7 @@ namespace WinformLib
         /// <param name="isSelectFirst">是否自动选中第一项</param>
         /// <param name="isLazyLoading">是否启用后台延迟加载</param>
         /// <param name="isSuggest">是否启用输入联想提示</param>
-        public static void SetCommonWithEntity<T>(this ComboBox comboBox, List<T> dataList,Func<T,object> funs, bool isSelectFirst = true, bool isLazyLoading = true)
+        public static void SetCommonWithEntity<T>(this ComboBox comboBox, List<T> dataList, Func<T, object> funs, bool isSelectFirst = true, bool isLazyLoading = true)
         {
             // 空值校验：防止空引用异常
             if (comboBox == null) throw new ArgumentNullException(nameof(comboBox), "下拉框控件不能为空");
@@ -178,6 +179,58 @@ namespace WinformLib
             {
                 comboBox.SelectedIndex = 0;
             }
+        }
+        #endregion
+
+        #region setWithEnum
+        /// <summary>
+        /// 根据枚举值设置下拉框选项（含延迟加载、自动选中第一项）
+        /// </summary>
+        /// <typeparam name="T">枚举</typeparam>
+        /// <param name="comboBox">下拉框</param>
+        /// <param name="isSelectFirst">是否选中第一个</param>
+        /// <param name="isLazyLoading">是否延迟加载</param>
+        public static void SetCommonWithEnum<T>(this ComboBox comboBox, bool isSelectFirst = true, bool isLazyLoading = true) where T : Enum
+        {
+            List<EasyEnumExtensions.EasyEnumDetails<T>> datalist = EasyEnumExtensions.GetEnumDetails<T>();
+            SetCommonWithEntity(comboBox,datalist, x=> x.Description,isSelectFirst,isLazyLoading);
+        }
+
+        /// <summary>
+        /// 获取下拉框当前选中的枚举
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="comboBox">目标下拉框</param>
+        /// <returns>选中的实体（无选中项/无映射时返回default(T)）</returns>
+        public static Enum GetCommonSelectWithEnum<T>(this ComboBox comboBox) where T : Enum
+        {
+            var entity = comboBox.GetCommonSelectWithEnumDetails<T>(); 
+            return entity?.EnumData;
+        }
+
+        /// <summary>
+        /// 获取下拉框当前选中的枚举详情
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="comboBox">目标下拉框</param>
+        /// <returns>选中的实体（无选中项/无映射时返回default(T)）</returns>
+        public static EasyEnumExtensions.EasyEnumDetails<T> GetCommonSelectWithEnumDetails<T>(this ComboBox comboBox) where T : Enum
+        {
+            // 空值校验
+            if (comboBox == null) return default;
+            // 无选中项直接返回默认值
+            if (comboBox.SelectedIndex < 0) return default;
+
+            // 从线程安全字典中获取当前下拉框的「索引-实体」映射列表
+            if (_comboEntityMap.TryGetValue(comboBox, out var obj) && obj is List<(int Index, EasyEnumExtensions.EasyEnumDetails<T> Entity)> entityList)
+            {
+                // 根据下拉框当前选中索引，匹配并返回对应的实体
+                var selectedItem = entityList.Find(item => item.Index == comboBox.SelectedIndex);
+                return selectedItem.Entity;
+            }
+
+            // 无映射关系时返回默认值
+            return default;
         }
         #endregion
 
