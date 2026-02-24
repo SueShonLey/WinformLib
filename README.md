@@ -23,14 +23,18 @@
 - **SetCommon**: 设置下拉框内容
 - **GetCommonSelect**: 获取当前选择索引/文字
 - **SetCommonItems**: 根据文字锁定下拉框
-- **SetCommonWithEntity**: 根据实体列表和指定字段渲染
+- **SetCommonWithEntity**: 根据实体列表和指定字段渲染下拉框
 - **GetCommonSelectWithEntity**: 根据选择的下拉框获取实体
+- **SetCommonWithEnum**: 根据枚举渲染下拉框
+- **GetCommonSelectWithEnum**: 根据选择的下拉框获取枚举
+- **GetCommonSelectWithEnumDetails**: 根据选择的下拉框获取枚举详情
 
 ### DataGridViewExtentions
 - **SetCommon**: 设置表格内容
 - **GetCommon**: 获取表格内容
 - **GetCommonByButton**: 根据按钮上的文字获取实体
 - **SetCommonWithUI**: 设置表格内容+UI（复杂情况）
+- **SetCommonWithCell**: 设置表格内容+行、列、单元格调整（复杂情况）
 
 ### FileExtentions
 - **PopUpFolder**: 文件夹选择
@@ -50,6 +54,7 @@
 - **SetMenuMDIForm**: MDI窗体设计
 - **ShowOnlyOne**: 打开窗体（不重复）
 - **SetGlobalErrorTips**: 全局报错不退出系统（仅限开发环境）
+- **GetChildrenControls**: 获取指定类型的子控件
 
 
 ### FlowLayoutPanelExtentions
@@ -63,6 +68,8 @@
 - **SetCommonDefault**: 设置默认窗体（以便后续恢复）
 - **SetCommonRecover**: 恢复默认窗体（必须先设置默认窗体才能恢复）
 - **SetCommon**: 切换窗体
+- **ReceiveFiles**: 允许面板接收文件拖放(单个)
+- **ReceiveMutiFiles**: 允许面板接收文件拖放(多个)
 
 ### ProgressBarExtentions
 - **SetCommon**: 设置进度条
@@ -92,6 +99,9 @@
 - **StartTimer**: 定时器启动
 - **StopTimer**: 定时器停止
 - **ReStartTimer**: 定时器重启
+- **ResetInterval**: 定时器重新设置时间
+- **GetStatus**: 获取定时器状态
+
 
 ### TableLayoutPanelExtentions
 - **SetCommon**: 设置表格容器
