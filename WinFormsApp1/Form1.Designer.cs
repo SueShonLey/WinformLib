@@ -88,9 +88,9 @@
             // 
             button2.Location = new Point(832, 252);
             button2.Name = "button2";
-            button2.Size = new Size(94, 29);
+            button2.Size = new Size(114, 29);
             button2.TabIndex = 6;
-            button2.Text = "不显示";
+            button2.Text = "显示/不显示";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click_1;
             // 

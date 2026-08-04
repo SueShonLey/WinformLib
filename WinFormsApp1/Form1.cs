@@ -20,7 +20,6 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             label1.SetSlideStart(textBox1.Text,speedPixel: Convert.ToInt32(numericUpDown1.Value));
         }
 
@@ -31,7 +30,7 @@ namespace WinFormsApp1
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            label1.Visible = false;//不显示
+            label1.Visible = !label1.Visible;//不显示
         }
     }
 
