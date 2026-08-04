@@ -125,6 +125,10 @@
 - **SetCommon**: 设置ListBox的内容（渲染列表内容、回调选中内容）
 - **SetRightCommon**: 设置ListBox右键菜单功能（右键列表内容、回调=选中内容+右键菜单名称）
 
+### LabelExtensions
+- **SetSlideStart**:开启Label滑动条效果
+- **SetSlideStop**:关闭Label滑动条效果，变为静态效果
+
 
 ##### 感谢您的使用与支持！如有任何建议，请随时联系我。
 ---

@@ -1,98 +1,39 @@
-﻿
-
-using Newtonsoft.Json;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Windows.Forms;
+﻿using System.Collections.Concurrent;
+using System.Drawing.Text;
 using WinformLib;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static WinformLib.CustomizeFormsExtentions;
-
+using static WinformLib.LinkLabel1Extensions;
 
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
+        private System.Windows.Forms.Timer scrollTimer;
+        private int currentPosition = 0;
+        // 要滚动的文本
+        private string scrollText = "这是一段很长的文字，用于演示滚动效果，欢迎使用C# WinForm开发！";
+
         public Form1()
         {
             InitializeComponent();
+            label1.SetSlideStart(scrollText);
         }
 
-        /// <summary>
-        /// 初始化加载
-        /// </summary>
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            comboBox1.SetCommonWithEnum<EnumDataSource>();
-        }
-
-        /// <summary>
-        /// 获取
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            var res = comboBox1.GetCommonSelectWithEnum<EnumDataSource>();
-            this.PopUpTips(JsonConvert.SerializeObject(res.ToString()));
+
+            label1.SetSlideStart(textBox1.Text,speedPixel: Convert.ToInt32(numericUpDown1.Value));
         }
 
-        /// <summary>
-        /// 获取详情
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button2_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
-            var res = comboBox1.GetCommonSelectWithEnumDetails<EnumDataSource>();
-            this.PopUpTips(JsonConvert.SerializeObject(res));
+            label1.SetSlideStop();//停止
         }
 
-
-        /// <summary>
-        /// 枚举-数据源(0:创建,1:运行,2:就绪,3:阻塞,4:结束)
-        /// </summary>
-        [Description("数据源")]
-        public enum EnumDataSource
+        private void button2_Click_1(object sender, EventArgs e)
         {
-            /// <summary>
-            ///全部
-            /// </summary>
-            [Description("全部")]
-            All = -1,
-            /// <summary>
-            ///创建
-            /// </summary>
-            [Description("创建")]
-            Create = 0,
-            /// <summary>
-            ///运行
-            /// </summary>
-            [Description("运行")]
-            Run = 1,
-            /// <summary>
-            ///就绪
-            /// </summary>
-            [Description("就绪")]
-            Ready = 2,
-            /// <summary>
-            ///阻塞
-            /// </summary>
-            [Description("阻塞")]
-            Block = 3,
-            /// <summary>
-            ///结束
-            /// </summary>
-            [Description("结束")]
-            End = 4,
+            label1.Visible = false;//不显示
         }
-
     }
+
+    
 }
-
-
-

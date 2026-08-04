@@ -29,38 +29,70 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            comboBox1 = new ComboBox();
+            label1 = new Label();
+            textBox1 = new TextBox();
             button1 = new Button();
+            button3 = new Button();
+            numericUpDown1 = new NumericUpDown();
             button2 = new Button();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
-            // comboBox1
+            // label1
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(132, 119);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(489, 23);
-            comboBox1.TabIndex = 0;
+            label1.AutoSize = true;
+            label1.Font = new Font("宋体", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = Color.Red;
+            label1.Location = new Point(381, 131);
+            label1.Name = "label1";
+            label1.Size = new Size(88, 23);
+            label1.TabIndex = 0;
+            label1.Text = "label1";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(208, 256);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(376, 25);
+            textBox1.TabIndex = 1;
             // 
             // button1
             // 
-            button1.Location = new Point(217, 214);
+            button1.Location = new Point(607, 253);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
-            button1.TabIndex = 1;
-            button1.Text = "button1";
+            button1.TabIndex = 2;
+            button1.Text = "重新设置";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // button3
+            // 
+            button3.Location = new Point(718, 252);
+            button3.Name = "button3";
+            button3.Size = new Size(94, 29);
+            button3.TabIndex = 4;
+            button3.Text = "停止";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Location = new Point(494, 301);
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(90, 25);
+            numericUpDown1.TabIndex = 5;
+            numericUpDown1.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            // 
             // button2
             // 
-            button2.Location = new Point(372, 214);
+            button2.Location = new Point(832, 252);
             button2.Name = "button2";
             button2.Size = new Size(94, 29);
-            button2.TabIndex = 2;
-            button2.Text = "button2";
+            button2.TabIndex = 6;
+            button2.Text = "不显示";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            button2.Click += button2_Click_1;
             // 
             // Form1
             // 
@@ -68,21 +100,28 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1003, 501);
             Controls.Add(button2);
+            Controls.Add(numericUpDown1);
+            Controls.Add(button3);
             Controls.Add(button1);
-            Controls.Add(comboBox1);
+            Controls.Add(textBox1);
+            Controls.Add(label1);
             Font = new Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form100";
-            Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private ComboBox comboBox1;
+        private Label label1;
+        private TextBox textBox1;
         private Button button1;
+        private Button button3;
+        private NumericUpDown numericUpDown1;
         private Button button2;
     }
 }
