@@ -87,7 +87,7 @@ namespace WinformLib
 
 
         /// <summary>
-        /// 输入文件夹路径，打开文件夹
+        /// 输入文件夹路径（绝对路径），打开文件夹
         /// </summary>
         public static void OpenFolder(string FolderPath)
         {
