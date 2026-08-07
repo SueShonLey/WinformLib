@@ -10,7 +10,7 @@ namespace WinformLib
     public class FormSettings
     {
         /// <summary>
-        /// 标题
+        /// 标题(覆盖原窗体标题)
         /// </summary>
         public string TitleText { get; set; } = string.Empty;
 
@@ -28,13 +28,18 @@ namespace WinformLib
         /// 是否询问退出
         /// </summary>
         public bool isExitAsk { get; set; } = true;
+
+        /// <summary>
+        /// 是否开启调试防崩（调试状态下遇到错误避免系统崩溃）
+        /// </summary>
+        public bool NoDebugCrash { get; set; } = true;
     }
 
     public static class FormExtentions
     {
         #region 初始化相关
         /// <summary>
-        /// 初始化默认设置（禁调大小、窗口居中、标题设定、询问退出）
+        /// 初始化默认设置（禁调大小、窗口居中、标题设定、询问退出、调试报错防崩溃）
         /// </summary>
         public static void SetCommon(this Form form, FormSettings settings = null)
         {
@@ -58,6 +63,10 @@ namespace WinformLib
             if (settings.isExitAsk)
             {
                 form.FormClosing += Form_FormClosing;
+            }
+            if (settings.NoDebugCrash)
+            {
+                FormExtentions.SetGlobalErrorTips();
             }
         }
 
@@ -360,7 +369,7 @@ namespace WinformLib
                 {
                     MessageBox.Show(
                         $"程序运行出错：{e.Exception.Message}\r\n详细信息：{e.Exception.StackTrace}",
-                        "错误提示",
+                        "【调试防崩错误提示】",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
   
@@ -373,7 +382,7 @@ namespace WinformLib
                     {
                         MessageBox.Show(
                             $"后台线程出错：{ex.Message}\r\n详细信息：{ex.StackTrace}\r\n{(e.IsTerminating ? "程序即将退出" : "")}",
-                            "后台错误",
+                            "【调试防崩错误提示】",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }

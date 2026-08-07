@@ -10,7 +10,7 @@ namespace WinFormsApp1
         [STAThread]
         static void Main()
         {
-            FormExtentions.SetGlobalErrorTips();
+
 
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
