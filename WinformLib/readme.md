@@ -59,6 +59,7 @@
 
 ### FlowLayoutPanelExtentions
 - **AddButtons**: 为流布局控件增加按钮（ButtonList）
+- **SetCommonFlowMsg**: 添加流动消息效果
 
 ### GroupBoxExtentions
 - **ClearAll**: 清空文本框、复选框、富文本框

@@ -29,99 +29,48 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            label1 = new Label();
-            textBox1 = new TextBox();
             button1 = new Button();
-            button3 = new Button();
-            numericUpDown1 = new NumericUpDown();
-            button2 = new Button();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            panelChat2 = new FlowLayoutPanel();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("宋体", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = Color.Red;
-            label1.Location = new Point(381, 131);
-            label1.Name = "label1";
-            label1.Size = new Size(88, 23);
-            label1.TabIndex = 0;
-            label1.Text = "label1";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(208, 256);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(376, 25);
-            textBox1.TabIndex = 1;
             // 
             // button1
             // 
-            button1.Location = new Point(607, 253);
+            button1.Location = new Point(886, 32);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
-            button1.TabIndex = 2;
-            button1.Text = "重新设置";
+            button1.TabIndex = 1;
+            button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // button3
+            // panelChat2
             // 
-            button3.Location = new Point(718, 252);
-            button3.Name = "button3";
-            button3.Size = new Size(94, 29);
-            button3.TabIndex = 4;
-            button3.Text = "停止";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Location = new Point(494, 301);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(90, 25);
-            numericUpDown1.TabIndex = 5;
-            numericUpDown1.Value = new decimal(new int[] { 4, 0, 0, 0 });
-            // 
-            // button2
-            // 
-            button2.Location = new Point(832, 252);
-            button2.Name = "button2";
-            button2.Size = new Size(114, 29);
-            button2.TabIndex = 6;
-            button2.Text = "显示/不显示";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click_1;
+            panelChat2.Location = new Point(124, 25);
+            panelChat2.Name = "panelChat2";
+            panelChat2.Size = new Size(756, 690);
+            panelChat2.TabIndex = 2;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1003, 501);
-            Controls.Add(button2);
-            Controls.Add(numericUpDown1);
-            Controls.Add(button3);
+            BackColor = Color.FromArgb(255, 255, 192);
+            ClientSize = new Size(1003, 727);
+            Controls.Add(panelChat2);
             Controls.Add(button1);
-            Controls.Add(textBox1);
-            Controls.Add(label1);
             Font = new Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form100";
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
-        private TextBox textBox1;
+        private RichTextBox richTextBox1;
         private Button button1;
-        private Button button3;
-        private NumericUpDown numericUpDown1;
-        private Button button2;
+        private FlowLayoutPanel panelChat2;
+
     }
 }

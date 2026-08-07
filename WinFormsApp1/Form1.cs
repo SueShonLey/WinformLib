@@ -1,38 +1,52 @@
 ﻿using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing.Text;
+using System.Net;
+using System.Runtime.InteropServices;
 using WinformLib;
-using static WinformLib.LinkLabel1Extensions;
+using static WinformLib.FlowLayoutPanelExtentions;
 
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
-        private System.Windows.Forms.Timer scrollTimer;
-        private int currentPosition = 0;
-        // 要滚动的文本
-        private string scrollText = "这是一段很长的文字，用于演示滚动效果，欢迎使用C# WinForm开发！";
-
         public Form1()
         {
             InitializeComponent();
-            label1.SetSlideStart(scrollText);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            label1.SetSlideStart(textBox1.Text,speedPixel: Convert.ToInt32(numericUpDown1.Value));
+            var pc = panelChat2;
+            pc.SetCommonFlowMsg(new ChatMessage
+            {
+                ChatType = ChatMessageEnum.Text,
+                Msg = "【张三】"+ $"你好，这是一条聊天消息({DateTime.Now})",
+                funsLabel = (label) =>
+                {
+                    label.ForeColor = Color.Red;
+                }
+            });
+            pc.SetCommonFlowMsg(new ChatMessage
+            {
+                ChatType = ChatMessageEnum.Text,
+                Msg = "【王五】"+ $"你好，我在的！这是一条聊天消息({DateTime.Now})",
+                funsLabel = (label) =>
+                {
+                    label.ForeColor = Color.Blue;
+                }
+            });
+            pc.SetCommonFlowMsg(new ChatMessage
+            {
+                ChatType = ChatMessageEnum.Image,
+                Msg = "https://img1.baidu.com/it/u=1064052654,1225889315&fm=253&app=138&f=JPEG?w=800&h=800",
+                PicSize = (200, 200)
+            });
+
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            label1.SetSlideStop();//停止
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            label1.Visible = !label1.Visible;//不显示
-        }
     }
 
-    
+
 }
