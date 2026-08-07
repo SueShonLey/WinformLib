@@ -156,6 +156,7 @@ namespace WinformLib
                         Width = width,
                         TabStop =false,//不自动获取焦点
                         Text = defaultValues.FirstOrDefault() ?? string.Empty,
+                        Enabled = input.Enable,
                     };
                     control = textBox;
                     break;                
@@ -166,7 +167,8 @@ namespace WinformLib
                     {
                         Dock = DockStyle.Fill,
                         Anchor = AnchorStyles.Left,
-                        Width = width
+                        Width = width,
+                        Enabled = input.Enable,
                     };
                     if (!string.IsNullOrEmpty(input.DefaultValue))
                     {
@@ -183,6 +185,7 @@ namespace WinformLib
                         Anchor = AnchorStyles.Left,
                         Width = width,
                         DropDownStyle = ComboBoxStyle.DropDownList, // 仅选择，不可输入
+                        Enabled = input.Enable,
                     };
                     comboBox.Items.AddRange(input.Value.ToArray());
                     // 设置默认值
@@ -212,6 +215,7 @@ namespace WinformLib
                         {
                             Text = option,
                             Name = radioGroupName,
+                            Enabled = input.Enable,
                         };
                         // 设置默认选中
                         if (defaultValues.Contains(option))
@@ -239,6 +243,7 @@ namespace WinformLib
                         CheckBox cb = new CheckBox
                         {
                             Text = option,
+                            Enabled = input.Enable,
                         };
                         // 设置默认选中
                         if (defaultValues.Contains(option))

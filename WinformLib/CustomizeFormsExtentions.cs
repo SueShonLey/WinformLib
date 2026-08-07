@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,17 @@ namespace WinformLib
             /// 自定义窗体的大小(可选)
             /// </summary>
             public (int Width, int Height) Size { get; set; } = (-1, -1);
+
+            /// <summary>
+            /// 是否继承原来窗体的背景图片
+            /// </summary>
+            public bool IsinheritBackPics { get; set; } = true;
+
+            /// <summary>
+            /// 自定义窗体的回调事件
+            /// </summary>
+            public Action<Form> funsForm { get; set; } = null;
+
         }
 
         /// <summary>
@@ -59,6 +71,11 @@ namespace WinformLib
             /// 默认值(英文逗号分隔)
             /// </summary>
             public string DefaultValue { get; set; } = string.Empty;
+
+            /// <summary>
+            /// 是否启用
+            /// </summary>
+            public bool Enable { get; set; } = true;
         }
 
         /// <summary>
@@ -96,14 +113,20 @@ namespace WinformLib
                 FormBorderStyle = FormBorderStyle.FixedSingle,
                 Icon = form.Icon //继承原来的窗体的图标
             };
+            if (inputDto.IsinheritBackPics)
+            {
+                inputForm.BackColor = form.BackColor;
+                inputForm.BackgroundImage = form.BackgroundImage;
+                inputForm.BackgroundImageLayout = form.BackgroundImageLayout;
+            }
 
             // 常量声明，统一维护
             int defualtHeight = 30;
             int currentY = 15;
-            int FormPadding = 30;//窗体内边距
+            int FormPadding = 15;//窗体内边距
             int defualtControlWidth = 250;//默认控件宽度（textbox,combobox）
             int horizontalSpacing = 10; // 单选框/复选框横向间距（解决文本重叠）
-            int btnTopMargin = 10; // 按钮与上方控件的间距（解决高度不足）
+            //int btnTopMargin = 10; // 按钮与上方控件的间距（解决高度不足）
 
             // 存储各控件组
             Dictionary<string, List<CheckBox>> checkBoxGroups = new Dictionary<string, List<CheckBox>>();
@@ -139,7 +162,8 @@ namespace WinformLib
                         {
                             Location = new System.Drawing.Point(FormPadding + LabelAndValuePadding, currentY),
                             Width = defualtControlWidth,
-                            Height = defualtHeight
+                            Height = defualtHeight,
+                            Enabled = input.Enable
                         };
                         inputForm.Controls.Add(textBox);
                         textBoxes[input.Label] = textBox;
@@ -153,7 +177,8 @@ namespace WinformLib
                         {
                             Location = new System.Drawing.Point(FormPadding + LabelAndValuePadding, currentY),
                             Width = defualtControlWidth,
-                            Height = defualtHeight
+                            Height = defualtHeight,
+                            Enabled = input.Enable
                         };
                         inputForm.Controls.Add(number);
                         NumberBoxes[input.Label] = number;
@@ -169,7 +194,8 @@ namespace WinformLib
                             Location = new System.Drawing.Point(FormPadding + LabelAndValuePadding, currentY),
                             Width = defualtControlWidth,
                             Height = defualtHeight,
-                            DropDownStyle = ComboBoxStyle.DropDownList
+                            DropDownStyle = ComboBoxStyle.DropDownList,
+                            Enabled = input.Enable
                         };
                         comboBox.Items.AddRange(input.Value.ToArray());
                         inputForm.Controls.Add(comboBox);
@@ -195,7 +221,7 @@ namespace WinformLib
                         {
                             Location = new System.Drawing.Point(FormPadding + LabelAndValuePadding, currentY),
                             Height = defualtHeight,
-                            Width = 0 // 宽度动态计算
+                            Width = 0 ,// 宽度动态计算
                         };
                         radioButtonGroups[input.Label] = new List<RadioButton>();
                         foreach (var value in input.Value)
@@ -205,7 +231,8 @@ namespace WinformLib
                                 Text = value,
                                 Location = new System.Drawing.Point(radioButtonX, 0), // Panel内X轴从0开始
                                 AutoSize = true,
-                                Height = defualtHeight
+                                Height = defualtHeight,
+                                Enabled = input.Enable,
                             };
                             radioButtonGroups[input.Label].Add(radioButton);
                             if (!string.IsNullOrEmpty(input.DefaultValue) && value == input.DefaultValue)
@@ -243,7 +270,8 @@ namespace WinformLib
                                 Text = value,
                                 Location = new System.Drawing.Point(checkButtonX, 0), // Panel内X轴从0开始
                                 AutoSize = true,
-                                Height = defualtHeight
+                                Height = defualtHeight,
+                                Enabled = input.Enable
                             };
                             checkBoxGroups[input.Label].Add(checkBox);
                             if (defaultValues.Contains(value))
@@ -270,15 +298,8 @@ namespace WinformLib
             var FormWidth = FormPadding * 3 + LabelAndValuePadding + maxControlWidth;
             inputForm.Width = FormWidth;
 
-            // 所有控件同宽度
-            foreach (Control item in inputForm.Controls)
-            {
-                item.Width = maxControlWidth;
-                if (item is Label)
-                {
-                    item.SendToBack();
-                }
-            }
+            // 设置所有控件同宽度
+            SetControlWidthRecursive(inputForm, maxControlWidth- horizontalSpacing);
 
             // 创建一个任务以便返回选定的值
             var tcs = new Dictionary<string, string>();
@@ -289,7 +310,8 @@ namespace WinformLib
                 Text = "确定",
                 Height = defualtHeight,
                 Width = 80,
-                Location = new System.Drawing.Point(FormPadding + LabelAndValuePadding, currentY + btnTopMargin)
+                BackColor = Color.White,
+                Location = new System.Drawing.Point(FormPadding + LabelAndValuePadding, currentY)
             };
             btnOK.Click += (s, args) =>
             {
@@ -335,7 +357,8 @@ namespace WinformLib
                 Text = "取消",
                 Height = defualtHeight,
                 Width = 80,
-                Location = new System.Drawing.Point(btnOK.Right + 80, currentY + btnTopMargin)
+                BackColor = Color.White,
+                Location = new System.Drawing.Point(btnOK.Right + 80, currentY)
             };
 
             btnCancel.Click += (s, args) =>
@@ -361,15 +384,39 @@ namespace WinformLib
             //调整按钮位置
             var btnOk_X = (inputForm.ClientSize.Width - 80 * 3) / 2;
             var btnCancel_X = btnOk_X + 80*2;
-            btnOK.Location = new Point(btnOk_X, currentY + btnTopMargin);
-            btnCancel.Location = new Point(btnCancel_X, currentY + btnTopMargin);
+            btnOK.Location = new Point(btnOk_X, currentY);
+            btnCancel.Location = new Point(btnCancel_X, currentY );
 
+            if (inputDto.funsForm != null)
+            {
+                inputDto.funsForm(inputForm);
+            }
 
             // 显示窗体并等待用户操作
             inputForm.ShowDialog();
 
             // 返回用户输入的结果
             return tcs;
+        }
+
+        /// <summary>
+        /// 递归设置指定类型控件宽度，跳过AutoSize控件、Panel容器、按钮
+        /// </summary>
+        static void SetControlWidthRecursive(Control container, int targetWidth)
+        {
+            foreach (Control c in container.Controls)
+            {
+                if (c is TextBox || c is NumericUpDown || c is ComboBox)
+                {
+                    //这类控件AutoSize默认false，可以修改Width
+                    c.Width = targetWidth;
+                }
+                //继续递归进入Panel等容器
+                if (c.HasChildren)
+                {
+                    SetControlWidthRecursive(c, targetWidth);
+                }
+            }
         }
 
         /// <summary>

@@ -5,6 +5,7 @@ using System.Drawing.Text;
 using System.Net;
 using System.Runtime.InteropServices;
 using WinformLib;
+using static WinformLib.CustomizeFormsExtentions;
 using static WinformLib.FlowLayoutPanelExtentions;
 
 namespace WinFormsApp1
@@ -18,31 +19,99 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var pc = panelChat2;
-            pc.SetCommonFlowMsg(new ChatMessage
+            //组装入参Dto
+            CustomizeFormInput dto = new CustomizeFormInput
             {
-                ChatType = ChatMessageEnum.Text,
-                Msg = "【张三】"+ $"你好，这是一条聊天消息({DateTime.Now})",
-                funsLabel = (label) =>
+                FormTitle = "批量参数配置弹窗",
+                LabelLocationX = 90, //标签和输入控件的X偏移
+                Size = (-1, -1),      //交给内部自动计算窗体大小
+                inputs = new List<CustomizeValueInput>
+        {
+            //1.普通输入框
+            new CustomizeValueInput
+            {
+                Label = "项目名称",
+                FormControlType = FormControlType.InputBox,
+                DefaultValue = "测试项目A",
+                //VertiPadding = 45,
+               Enable = true,
+                Value = new List<string>()
+            },
+            //2.数字输入框
+            new CustomizeValueInput
+            {
+                Label = "超时秒数",
+                FormControlType = FormControlType.NumberBox,
+                DefaultValue = "30",
+               // VertiPadding = 45,
+              Enable = true,
+                Value = new List<string>()
+            },
+            //3.下拉选择框
+            new CustomizeValueInput
+            {
+                Label = "运行模式",
+                FormControlType = FormControlType.DropDown,
+                DefaultValue = "正式",
+                //VertiPadding = 45,
+               Enable = true,
+                Value = new List<string>{"开发","测试","正式","预发布"}
+            },
+            //4.单选框组
+            new CustomizeValueInput
+            {
+                Label = "日志级别",
+                FormControlType = FormControlType.RadioButton,
+                DefaultValue = "Info",
+                //VertiPadding = 45,
+                Enable = true,
+                Value = new List<string>{"Debug","Info","Warn","Error"}
+            },
+            //5.复选框组（多选，DefaultValue逗号分隔）
+            new CustomizeValueInput
+            {
+                Label = "启用模块",
+                FormControlType = FormControlType.CheckBox,
+                DefaultValue = "数据库,缓存",
+                //VertiPadding = 45,
+                Enable = false,
+                Value = new List<string>{"数据库","缓存","消息队列","文件日志"}
+            },
+        },
+                IsinheritBackPics = true,
+                funsForm = (form) =>
                 {
-                    label.ForeColor = Color.Red;
+                    //form.Width = 530;
+                    //MessageBox.Show(form.Width.ToString());
                 }
-            });
-            pc.SetCommonFlowMsg(new ChatMessage
+            };
+
+            //调用扩展方法，弹出自定义窗体
+            Dictionary<string, string> resultDict = this.SetCustomizeForms(dto);
+
+            //判断：取消弹窗返回空字典；点击确定会有key‑value
+            if (resultDict == null || resultDict.Count == 0)
             {
-                ChatType = ChatMessageEnum.Text,
-                Msg = "【王五】"+ $"你好，我在的！这是一条聊天消息({DateTime.Now})",
-                funsLabel = (label) =>
-                {
-                    label.ForeColor = Color.Blue;
-                }
-            });
-            pc.SetCommonFlowMsg(new ChatMessage
-            {
-                ChatType = ChatMessageEnum.Image,
-                Msg = "https://img1.baidu.com/it/u=1064052654,1225889315&fm=253&app=138&f=JPEG?w=800&h=800",
-                PicSize = (200, 200)
-            });
+                
+                return;
+            }
+
+            //读取各个控件返回值，Key就是每个CustomizeValueInput的Label
+            string projectName = resultDict["项目名称"];
+            string timeoutSec = resultDict["超时秒数"];
+            string runMode = resultDict["运行模式"];
+            string logLevel = resultDict["日志级别"];
+            string enableModules = resultDict["启用模块"]; //复选框返回逗号拼接字符串
+
+            //输出到弹窗看结果
+            string showMsg =
+                $"项目名称：{projectName}\r\n" +
+                $"超时秒数：{timeoutSec}\r\n" +
+                $"运行模式：{runMode}\r\n" +
+                $"日志级别：{logLevel}\r\n" +
+                $"启用模块：{enableModules}";
+
+            MessageBox.Show(showMsg, "获取弹窗返回结果");
 
         }
 
