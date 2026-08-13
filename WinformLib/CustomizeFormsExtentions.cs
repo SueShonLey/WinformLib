@@ -151,7 +151,8 @@ namespace WinformLib
                 {
                     Text = input.Label,
                     Location = new System.Drawing.Point(FormPadding, currentY + 2),
-                    AutoSize = true
+                    AutoSize = true,
+                    BackColor = Color.Transparent
                 };
                 inputForm.Controls.Add(label);
 

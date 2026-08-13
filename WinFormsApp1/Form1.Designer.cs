@@ -55,9 +55,12 @@
             AutoScaleDimensions = new SizeF(8F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 255, 192);
+            BackgroundImage = Properties.Resources.blue;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1003, 727);
             Controls.Add(panelChat2);
             Controls.Add(button1);
+            DoubleBuffered = true;
             Font = new Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);

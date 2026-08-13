@@ -20,8 +20,16 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int a = 0;
-            int b = 2 / a;
+            this.SetCustomizeForms(new CustomizeFormInput
+            {
+                inputs = new List<CustomizeValueInput>
+                {
+                    new CustomizeValueInput
+                    {
+                        Label="111111"
+                    }
+                }
+            });
 
         }
 

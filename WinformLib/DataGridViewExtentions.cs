@@ -120,6 +120,7 @@ namespace WinformLib
         /// <summary>
         /// 渲染DataGridView（可控制UI）
         /// </summary>
+        [Obsolete("请使用最新的SetCommonWithCell")]
         public static void SetCommonWithUI<T>(this DataGridView dataGridView, DataDisplayEntity<T> input) where T : class
         {
             if (input == null || input.DataList == null || !input.DataList.Any())
