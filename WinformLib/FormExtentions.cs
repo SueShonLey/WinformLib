@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -388,6 +389,17 @@ namespace WinformLib
                     }
                 };
             }
+        }
+        #endregion
+
+        #region 机器码
+        /// <summary>
+        /// 获取机器码（重装系统后机器码会变）
+        /// </summary>
+        public static string GetMachineGuid()
+        {
+            using var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Cryptography");
+            return key?.GetValue("MachineGuid")?.ToString() ?? "";
         }
         #endregion
     }
