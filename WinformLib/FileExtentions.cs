@@ -108,20 +108,73 @@ namespace WinformLib
         /// <summary>
         /// 输入文件路径，打开文件
         /// </summary>
-        public static void OpenFile(string FilePath)
+        public static void OpenFile(string filePath)
         {
-            if (File.Exists(FilePath))
+            // exe真正所在目录，不受工作目录改变影响
+            string exeDir = AppContext.BaseDirectory;
+            string absolutePath;
+
+            if (Path.IsPathRooted(filePath))
             {
-                // 打开指定路径的 Excel 文件
-                Process.Start(new ProcessStartInfo()
-                {
-                    FileName = FilePath,
-                    UseShellExecute = true  // 启用 shell 执行以便打开 Excel 文件
-                });
+                // 传入是绝对路径，直接使用
+                absolutePath = filePath;
             }
             else
             {
-                MessageBox.Show("指定的文件不存在！");
+                // 传入相对路径，拼接exe目录
+                absolutePath = Path.Combine(exeDir, filePath);
+            }
+
+            if (!File.Exists(absolutePath))
+            {
+                MessageBox.Show($"指定的文件不存在：{absolutePath}");
+                return;
+            }
+
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = absolutePath,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"打开文件失败：{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="filePath">路径</param>
+        /// <param name="content">保存内容</param>
+        /// <returns></returns>
+        public static bool SaveFile(string filePath,string content)
+        {
+            try
+            {
+                // exe真正所在目录，不受工作目录改变影响
+                string exeDir = AppContext.BaseDirectory;
+                string absolutePath;
+
+                if (Path.IsPathRooted(filePath))
+                {
+                    // 传入是绝对路径，直接使用
+                    absolutePath = filePath;
+                }
+                else
+                {
+                    // 传入相对路径，拼接exe目录
+                    absolutePath = Path.Combine(exeDir, filePath);
+                }
+                File.WriteAllText(absolutePath, content);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 

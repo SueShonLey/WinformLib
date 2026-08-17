@@ -41,7 +41,8 @@
 - **PopUpFile**: 文件选择
 - **PopUpMutiFile**: 多文件选择
 - **OpenFolder**: 打开指定的文件夹
-- **OpenFile**: 打开文件
+- **OpenFile**: 打开文件（支持相对、绝对路径）
+- **SaveFile**: 保存文件（支持相对、绝对路径）
 - **SplitFileName**: 劈分文件名
 
 ### FormExtentions
