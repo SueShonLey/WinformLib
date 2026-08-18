@@ -317,6 +317,12 @@ namespace WinformLib
                     dataGridView.Columns[item.ButtonName].Width = item.Width;
                 }
             }
+            //允许单元格内容换行
+            if (input.IsAllowWrap)
+            {
+                dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            }
             // 处理合并表头
             if (input.IsMergeHeader)
             {
@@ -606,21 +612,8 @@ namespace WinformLib
         {
             dgv.SelectionChanged += (s, e) =>
             {
-                foreach (int col in context.ColMergeAreas.Keys)
-                    dgv.InvalidateColumn(col);
-
-                foreach (int row in context.RowMergeAreas.Keys)
-                {
-                    if (row == -1)
-                    {
-                        dgv.Invalidate(); // 表头重绘
-                    }
-                    // 加这行范围校验，彻底避免行号越界
-                    else if (row >= 0 && row < dgv.Rows.Count)
-                    {
-                        dgv.InvalidateRow(row);
-                    }
-                }
+                // 禁止局部InvalidateColumn / InvalidateRow！局部刷新不会触发Paint事件，文字重影
+                dgv.Invalidate();
             };
 
 
@@ -683,7 +676,7 @@ namespace WinformLib
                         Color fore = selected ? dgv.DefaultCellStyle.SelectionForeColor : dgv.DefaultCellStyle.ForeColor;
                         TextRenderer.DrawText(e.Graphics, dgv[col, area.startRow].Value?.ToString() ?? "",
                             dgv.DefaultCellStyle.Font, rect, fore,
-                            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoClipping);
+                            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
                     }
                 }
 
@@ -707,7 +700,7 @@ namespace WinformLib
                             Font font = dgv.ColumnHeadersDefaultCellStyle.Font;
                             TextRenderer.DrawText(e.Graphics, dgv.Columns[area.startCol].HeaderText ?? "",
                                 font, rect, fore,
-                                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoClipping);
+                                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
                         }
                         continue;
                     }
@@ -724,9 +717,15 @@ namespace WinformLib
                         Color fore = selected ? dgv.DefaultCellStyle.SelectionForeColor : dgv.DefaultCellStyle.ForeColor;
                         TextRenderer.DrawText(e.Graphics, dgv[area.startCol, row].Value?.ToString() ?? "",
                             dgv.DefaultCellStyle.Font, rect, fore,
-                            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoClipping);
+                            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
                     }
                 }
+            };
+
+            dgv.Scroll += (s, e) =>
+            {
+                //滚动时强制全部重绘，解决Paint事件不触发导致文字残留重影
+                dgv.Invalidate();
             };
 
             dgv.Disposed += (s, e) => _gridDict.Remove(dgv);
@@ -895,6 +894,10 @@ namespace WinformLib
             /// 是否自动合并表头
             /// </summary>
             public bool IsMergeHeader { get; set; } = true;
+            /// <summary>
+            /// 是否允许单元格内容换行
+            /// </summary>
+            public bool IsAllowWrap { get; set; } = false;
 
         }
         #endregion
