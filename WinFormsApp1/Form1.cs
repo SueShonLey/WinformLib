@@ -85,10 +85,10 @@ namespace WinFormsApp1
                 {
                     DataList = new List<AAA>()
                     {
-                        new AAA() { Detail = "1班", Name = "学生A", Before = "A1", After = "A2" },
-                        new AAA() { Detail = "1班", Name = "学生B", Before = "B1", After = "B2" },
-                        new AAA() { Detail = "2班", Name = "学生C", Before = "B1", After = "C2" },
-                        new AAA() { Detail = "2班", Name = "学生D", Before = "D1", After = "D2" },
+                        //new AAA() { Detail = "1班", Name = "学生A", Before = "A1", After = "A2" },
+                        //new AAA() { Detail = "1班", Name = "学生B", Before = "B1", After = "B2" },
+                        //new AAA() { Detail = "2班", Name = "学生C", Before = "B1", After = "C2" },
+                        //new AAA() { Detail = "2班", Name = "学生D", Before = "D1", After = "D2" },
                     },
                     ButtonList = new List<(string ButtonName, string TitileName, int Width)>()
                 {

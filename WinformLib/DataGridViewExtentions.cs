@@ -311,8 +311,11 @@ namespace WinformLib
             // 处理按钮宽度
             foreach (var item in input.ButtonList)
             {
-                dataGridView.Columns[item.ButtonName].HeaderText =item.TitileName;
-                dataGridView.Columns[item.ButtonName].Width = item.Width;
+                if (dataGridView.Columns[item.ButtonName] != null)
+                {
+                    dataGridView.Columns[item.ButtonName].HeaderText = item.TitileName;
+                    dataGridView.Columns[item.ButtonName].Width = item.Width;
+                }
             }
             // 处理合并表头
             if (input.IsMergeHeader)
