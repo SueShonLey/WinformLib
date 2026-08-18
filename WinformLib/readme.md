@@ -35,6 +35,9 @@
 - **GetCommonByButton**: 根据按钮上的文字获取实体
 - **SetCommonWithUI**: 设置表格内容+UI（复杂情况）
 - **SetCommonWithCell**: 设置表格内容+行、列、单元格调整（复杂情况）
+- **MergeHeader**: 自动进行表头合并（水平合并）
+- **MergeCols**: 传入列的索引，自动进行传入列合并（垂直合并）,默认会调用MergeHeader
+- **MergeRows**: 传入行的索引，自动进行传入行合并（水平合并）,默认会调用MergeHeader
 
 ### FileExtentions
 - **PopUpFolder**: 文件夹选择

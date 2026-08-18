@@ -21,6 +21,7 @@ namespace WinformLib
         /// <param name="ButtonList">按钮名称，可为空</param>
         public static void SetCommon<T>(this DataGridView dataGridView, List<T> list, List<(Expression<Func<T, object>> fields, string name, int width)> headtext, List<string> ButtonList = null) where T : class
         {
+            dataGridView.ClearMerge();
             if (list == null || !list.Any())//无数据
             {
                 dataGridView.Rows.Clear();
@@ -123,6 +124,7 @@ namespace WinformLib
         [Obsolete("请使用最新的SetCommonWithCell")]
         public static void SetCommonWithUI<T>(this DataGridView dataGridView, DataDisplayEntity<T> input) where T : class
         {
+            dataGridView.ClearMerge();
             if (input == null || input.DataList == null || !input.DataList.Any())
             {
                 dataGridView.Rows.Clear();
@@ -298,7 +300,7 @@ namespace WinformLib
 
                 }
             }
-            //列操作
+            // 列操作
             foreach (DataGridViewColumn item in dataGridView.Columns)
             {
                 if (input.ColumnAction != null)
@@ -311,6 +313,11 @@ namespace WinformLib
             {
                 dataGridView.Columns[item.ButtonName].HeaderText =item.TitileName;
                 dataGridView.Columns[item.ButtonName].Width = item.Width;
+            }
+            // 处理合并表头
+            if (input.IsMergeHeader)
+            {
+                dataGridView.MergeHeader();
             }
         }
 
@@ -398,13 +405,403 @@ namespace WinformLib
         /// <returns></returns>
         public static T? GetCommonByButton<T>(this DataGridView dataGridView1, string title, DataGridViewCellEventArgs e) where T : class, new()
         {
-            if (e.ColumnIndex == dataGridView1.Columns[title].Index && e.RowIndex >= 0)//若点击了【title】按钮
+            if (e.ColumnIndex == dataGridView1.Columns[title]?.Index && e.RowIndex >= 0)//若点击了【title】按钮
             {
                 return dataGridView1.Rows[e.RowIndex].Tag as T;
             }
             return null;
         }
 
+        #region 表格合并处理
+        private static readonly Dictionary<DataGridView, MergeContext> _gridDict = new Dictionary<DataGridView, MergeContext>();
+
+        private class MergeContext
+        {
+            public Dictionary<int, List<(int startRow, int endRow)>> ColMergeAreas { get; }
+                = new Dictionary<int, List<(int, int)>>();
+            // key=-1 代表表头行，其余为数据行
+            public Dictionary<int, List<(int startCol, int endCol)>> RowMergeAreas { get; }
+                = new Dictionary<int, List<(int, int)>>();
+            public bool EventBinded { get; set; }
+        }
+
+        #region 表头合并
+        /// <summary>
+        /// 自动进行表头合并（水平合并）
+        /// </summary>
+        public static void MergeHeader(this DataGridView dgv)
+        {
+            if (dgv == null) return;
+            var context = GetOrCreateContext(dgv);
+
+            // 清空旧表头合并区域
+            context.RowMergeAreas[-1] = new List<(int startCol, int endCol)>();
+            var areaList = context.RowMergeAreas[-1];
+
+            int colCount = dgv.Columns.Count;
+            if (colCount < 2) return;
+
+            // 线性扫描表头列标题
+            string currentValue = dgv.Columns[0].HeaderText ?? string.Empty;
+            int startCol = 0;
+
+            for (int col = 1; col < colCount; col++)
+            {
+                string val = dgv.Columns[col].HeaderText ?? string.Empty;
+                if (val != currentValue)
+                {
+                    if (col - 1 > startCol)
+                        areaList.Add((startCol, col - 1));
+                    startCol = col;
+                    currentValue = val;
+                }
+            }
+            // 处理最后一组
+            if (colCount - 1 > startCol)
+                areaList.Add((startCol, colCount - 1));
+
+            EnsureEventsBinded(dgv, context);
+            dgv.Invalidate(); // 重绘整个控件，刷新表头
+
+            //背景色重置
+            foreach (DataGridViewColumn col in dgv.Columns)
+            {
+                col.HeaderCell.Style.BackColor = Color.White;
+            }
+        }
+        #endregion
+
+        #region 垂直列合并
+        /// <summary>
+        /// 传入列的索引，自动进行传入列合并（垂直合并）
+        /// </summary>
+        public static void MergeCols(this DataGridView dgv, List<int> cols)
+        {
+            if (dgv == null || cols == null || cols.Count == 0) return;
+            GetOrCreateContext(dgv).RowMergeAreas.Clear();
+            var context = GetOrCreateContext(dgv);
+
+            foreach (int col in cols)
+            {
+                if (col < 0 || col >= dgv.Columns.Count) continue;
+                context.ColMergeAreas[col] = new List<(int, int)>();
+                var areaList = context.ColMergeAreas[col];
+
+                if (dgv.Rows.Count == 0) continue;
+                string currentValue = dgv.Rows[0].Cells[col].Value?.ToString() ?? string.Empty;
+                int startRow = 0;
+
+                for (int i = 1; i < dgv.Rows.Count; i++)
+                {
+                    string val = dgv.Rows[i].Cells[col].Value?.ToString() ?? string.Empty;
+                    if (val != currentValue)
+                    {
+                        if (i - 1 > startRow)
+                            areaList.Add((startRow, i - 1));
+                        startRow = i;
+                        currentValue = val;
+                    }
+                }
+                if (dgv.Rows.Count - 1 > startRow)
+                    areaList.Add((startRow, dgv.Rows.Count - 1));
+
+                EnsureEventsBinded(dgv, context);
+                dgv.InvalidateColumn(col);
+            }
+            dgv.Invalidate();
+
+            //列头合并
+            dgv.MergeHeader();
+        }
+        #endregion
+
+        #region 水平行合并
+        /// <summary>
+        /// 传入行的索引，自动进行传入行合并（水平合并）
+        /// 不传则默认所有行进行内容合并
+        /// </summary>
+        public static void MergeRows(this DataGridView dgv, List<int> rows = null)
+        {
+            if (dgv == null) return;
+            GetOrCreateContext(dgv).ColMergeAreas.Clear();
+            var context = GetOrCreateContext(dgv);
+
+            List<int> targetRows = rows ?? new List<int>();
+            if (targetRows.Count == 0)
+            {
+                for (int i = 0; i < dgv.Rows.Count; i++)
+                    targetRows.Add(i);
+            }
+
+            foreach (int row in targetRows)
+            {
+                if (row < 0 || row >= dgv.Rows.Count) continue;
+                if (dgv.Rows[row].IsNewRow) continue;
+
+                context.RowMergeAreas[row] = new List<(int, int)>();
+                var areaList = context.RowMergeAreas[row];
+
+                int colCount = dgv.Columns.Count;
+                if (colCount < 2) continue;
+
+                string currentValue = dgv.Rows[row].Cells[0].Value?.ToString() ?? string.Empty;
+                int startCol = 0;
+                for (int col = 1; col < colCount; col++)
+                {
+                    string val = dgv.Rows[row].Cells[col].Value?.ToString() ?? string.Empty;
+                    if (val != currentValue)
+                    {
+                        if (col - 1 > startCol)
+                            areaList.Add((startCol, col - 1));
+                        startCol = col;
+                        currentValue = val;
+                    }
+                }
+                if (colCount - 1 > startCol)
+                    areaList.Add((startCol, colCount - 1));
+
+                EnsureEventsBinded(dgv, context);
+                dgv.InvalidateRow(row);
+            }
+            dgv.Invalidate();
+
+            //列头合并
+            dgv.MergeHeader();
+        }
+        #endregion
+
+        #region 辅助方法
+        private static MergeContext GetOrCreateContext(DataGridView dgv)
+        {
+            if (!_gridDict.TryGetValue(dgv, out var context))
+            {
+                context = new MergeContext();
+                _gridDict[dgv] = context;
+
+                dgv.DataSourceChanged += (s, e) =>
+                {
+                    if (_gridDict.TryGetValue(dgv, out var ctx))
+                    {
+                        ctx.ColMergeAreas.Clear();
+                        ctx.RowMergeAreas.Clear();
+                    }
+                };
+            }
+            return context;
+        }
+
+        private static void EnsureEventsBinded(DataGridView dgv, MergeContext context)
+        {
+            if (context.EventBinded) return;
+            BindMergeEvents(dgv, context);
+            context.EventBinded = true;
+        }
+        #endregion
+
+        #region 统一事件绑定
+        private static void BindMergeEvents(DataGridView dgv, MergeContext context)
+        {
+            dgv.SelectionChanged += (s, e) =>
+            {
+                foreach (int col in context.ColMergeAreas.Keys)
+                    dgv.InvalidateColumn(col);
+
+                foreach (int row in context.RowMergeAreas.Keys)
+                {
+                    if (row == -1)
+                    {
+                        dgv.Invalidate(); // 表头重绘
+                    }
+                    // 加这行范围校验，彻底避免行号越界
+                    else if (row >= 0 && row < dgv.Rows.Count)
+                    {
+                        dgv.InvalidateRow(row);
+                    }
+                }
+            };
+
+
+            dgv.CellPainting += (s, e) =>
+            {
+                bool handled = false;
+
+                // 垂直合并（仅数据行）
+                if (e.RowIndex >= 0 && context.ColMergeAreas.TryGetValue(e.ColumnIndex, out var colAreas))
+                {
+                    foreach (var area in colAreas)
+                    {
+                        if (e.RowIndex >= area.startRow && e.RowIndex <= area.endRow)
+                        {
+                            DrawVerticalCell(dgv, e, area);
+                            handled = true;
+                            break;
+                        }
+                    }
+                }
+
+                // 水平合并（兼容表头行-1和数据行）
+                if (context.RowMergeAreas.TryGetValue(e.RowIndex, out var rowAreas))
+                {
+                    foreach (var area in rowAreas)
+                    {
+                        if (e.ColumnIndex >= area.startCol && e.ColumnIndex <= area.endCol)
+                        {
+                            DrawHorizontalCell(dgv, e, area, handled);
+                            handled = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (handled) e.Handled = true;
+            };
+
+            dgv.Paint += (s, e) =>
+            {
+                int firstRow = dgv.FirstDisplayedScrollingRowIndex;
+                int lastRow = firstRow + dgv.DisplayedRowCount(false);
+                if (lastRow >= dgv.Rows.Count) lastRow = dgv.Rows.Count - 1;
+
+                // 垂直合并文字
+                foreach (var colPair in context.ColMergeAreas)
+                {
+                    int col = colPair.Key;
+                    foreach (var area in colPair.Value)
+                    {
+                        if (area.endRow < firstRow || area.startRow > lastRow) continue;
+                        int sss = Math.Max(area.startRow, firstRow);
+                        int end = Math.Min(area.endRow, lastRow);
+
+                        Rectangle top = dgv.GetCellDisplayRectangle(col, sss, false);
+                        Rectangle bottom = dgv.GetCellDisplayRectangle(col, end, false);
+                        Rectangle rect = new Rectangle(top.X, top.Y, top.Width, bottom.Bottom - top.Y);
+
+                        bool selected = IsColGroupSelected(dgv, col, area);
+                        Color fore = selected ? dgv.DefaultCellStyle.SelectionForeColor : dgv.DefaultCellStyle.ForeColor;
+                        TextRenderer.DrawText(e.Graphics, dgv[col, area.startRow].Value?.ToString() ?? "",
+                            dgv.DefaultCellStyle.Font, rect, fore,
+                            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoClipping);
+                    }
+                }
+
+                // 水平合并文字（表头+数据行）
+                foreach (var rowPair in context.RowMergeAreas)
+                {
+                    int row = rowPair.Key;
+                    var areas = rowPair.Value;
+
+                    // 表头行：永远可见，跳过可见性判断
+                    if (row == -1)
+                    {
+                        foreach (var area in areas)
+                        {
+                            Rectangle left = dgv.GetCellDisplayRectangle(area.startCol, -1, false);
+                            Rectangle right = dgv.GetCellDisplayRectangle(area.endCol, -1, false);
+                            Rectangle rect = new Rectangle(left.X, left.Y, right.Right - left.X, left.Height);
+
+                            // 用表头样式
+                            Color fore = dgv.ColumnHeadersDefaultCellStyle.ForeColor;
+                            Font font = dgv.ColumnHeadersDefaultCellStyle.Font;
+                            TextRenderer.DrawText(e.Graphics, dgv.Columns[area.startCol].HeaderText ?? "",
+                                font, rect, fore,
+                                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoClipping);
+                        }
+                        continue;
+                    }
+
+                    // 数据行：可见性判断
+                    if (row < firstRow || row > lastRow) continue;
+                    foreach (var area in areas)
+                    {
+                        Rectangle left = dgv.GetCellDisplayRectangle(area.startCol, row, false);
+                        Rectangle right = dgv.GetCellDisplayRectangle(area.endCol, row, false);
+                        Rectangle rect = new Rectangle(left.X, left.Y, right.Right - left.X, left.Height);
+
+                        bool selected = IsRowGroupSelected(dgv, row, area);
+                        Color fore = selected ? dgv.DefaultCellStyle.SelectionForeColor : dgv.DefaultCellStyle.ForeColor;
+                        TextRenderer.DrawText(e.Graphics, dgv[area.startCol, row].Value?.ToString() ?? "",
+                            dgv.DefaultCellStyle.Font, rect, fore,
+                            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoClipping);
+                    }
+                }
+            };
+
+            dgv.Disposed += (s, e) => _gridDict.Remove(dgv);
+        }
+
+        private static void DrawVerticalCell(DataGridView dgv, DataGridViewCellPaintingEventArgs e, (int startRow, int endRow) area)
+        {
+            bool selected = IsColGroupSelected(dgv, e.ColumnIndex, area);
+            Color back = selected ? e.CellStyle.SelectionBackColor : e.CellStyle.BackColor;
+
+            using (Brush brush = new SolidBrush(back))
+                e.Graphics.FillRectangle(brush, e.CellBounds);
+
+            using (Pen pen = new Pen(dgv.GridColor))
+            {
+                e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Left, e.CellBounds.Bottom);
+                e.Graphics.DrawLine(pen, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
+                if (e.RowIndex == area.startRow)
+                    e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Right, e.CellBounds.Top);
+                if (e.RowIndex == area.endRow)
+                    e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1);
+            }
+        }
+
+        private static void DrawHorizontalCell(DataGridView dgv, DataGridViewCellPaintingEventArgs e, (int startCol, int endCol) area, bool hasVerticalMerge)
+        {
+            bool selected = e.RowIndex >= 0 && IsRowGroupSelected(dgv, e.RowIndex, area);
+            Color back = selected ? e.CellStyle.SelectionBackColor : e.CellStyle.BackColor;
+
+            if (!hasVerticalMerge)
+            {
+                using (Brush brush = new SolidBrush(back))
+                    e.Graphics.FillRectangle(brush, e.CellBounds);
+            }
+
+            using (Pen pen = new Pen(dgv.GridColor))
+            {
+                e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Right, e.CellBounds.Top);
+                e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1);
+                if (e.ColumnIndex == area.startCol)
+                    e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Left, e.CellBounds.Bottom);
+                if (e.ColumnIndex == area.endCol)
+                    e.Graphics.DrawLine(pen, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
+            }
+        }
+
+        private static bool IsColGroupSelected(DataGridView dgv, int col, (int startRow, int endRow) area)
+        {
+            for (int r = area.startRow; r <= area.endRow; r++)
+                if (dgv[col, r].Selected) return true;
+            return false;
+        }
+
+        private static bool IsRowGroupSelected(DataGridView dgv, int row, (int startCol, int endCol) area)
+        {
+            for (int c = area.startCol; c <= area.endCol; c++)
+                if (dgv[c, row].Selected) return true;
+            return false;
+        }
+        #endregion
+
+        #region 手动清空
+        /// <summary>
+        /// 手动清空合并表格的相关字典
+        /// </summary>
+        /// <param name="dgv"></param>
+        public static void ClearMerge(this DataGridView dgv)
+        {
+            if (_gridDict.TryGetValue(dgv, out var context))
+            {
+                context.ColMergeAreas.Clear();
+                context.RowMergeAreas.Clear();
+                dgv.Invalidate();
+            }
+        }
+        #endregion
+
+        #endregion
 
         #region 辅助方法
         /// <summary>
@@ -490,6 +887,11 @@ namespace WinformLib
             /// 示例：if(user.Name.Equals("张三") && col.Name.Equals("Name"))cell.Style.BackColor = Color.Yellow;
             /// </summary>
             public Action<T, DataGridViewColumn, DataGridViewCell>? CellAction { get; set; } = null;
+
+            /// <summary>
+            /// 是否自动合并表头
+            /// </summary>
+            public bool IsMergeHeader { get; set; } = true;
 
         }
         #endregion
