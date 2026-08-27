@@ -19,7 +19,7 @@ namespace WinformLib
         /// <param name="list">数据集</param>
         /// <param name="headtext">字段、展示名称、宽度</param>
         /// <param name="ButtonList">按钮名称，可为空</param>
-        public static void SetCommon<T>(this DataGridView dataGridView, List<T> list, List<(Expression<Func<T, object>> fields, string name, int width)> headtext, List<string> ButtonList = null) where T : class
+        public static void SetCommon<T>(this DataGridView dataGridView, List<T> list, List<(Expression<Func<T, object>> fields, string name, int width)> headtext, List<string> ButtonList = null,bool IsUseCheckbox = false) where T : class
         {
             dataGridView.ClearMerge();
             if (list == null || !list.Any())//无数据
@@ -42,6 +42,11 @@ namespace WinformLib
                 .OrderBy(x => propertyNames.Contains(x.Name) ? propertyNames.IndexOf(x.Name) : int.MaxValue)
                 .ToList();
 
+            var boolField = field.Select((entity, index)=> (entity, index))
+                                .Where(x => x.entity.PropertyType == typeof(bool))
+                                .Select(x => x.index)
+                                .ToList();
+
             //设置表头样式和属性
             dataGridView.AllowUserToAddRows = false;//不允许添加、删除
             dataGridView.AllowUserToDeleteRows = false;
@@ -62,6 +67,21 @@ namespace WinformLib
             dataGridView.Columns.Clear();
             foreach (var item in headtext)
             {
+                var nowIndex = headtext.FindIndex(x => x == item);
+                if (IsUseCheckbox && boolField.Contains(nowIndex))
+                {
+                    dataGridView.Columns.Add(new DataGridViewCheckBoxColumn  //增加文字列
+                    {
+                        DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter },//剧中对齐
+                        HeaderText = item.name,//中文标题
+                        MinimumWidth = 6,
+                        Name = field[headtext.FindIndex(x => x == item)].Name,//字段的名字 例如ID Name
+                        ReadOnly = false,
+                        SortMode = DataGridViewColumnSortMode.NotSortable,//不要列头排序，否则无法居中
+                        Width = item.width
+                    });
+                    continue;
+                }
                 dataGridView.Columns.Add(new DataGridViewTextBoxColumn  //增加文字列
                 {
                     DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter },//剧中对齐
@@ -119,168 +139,12 @@ namespace WinformLib
         }
 
         /// <summary>
-        /// 渲染DataGridView（可控制UI）
-        /// </summary>
-        [Obsolete("请使用最新的SetCommonWithCell")]
-        public static void SetCommonWithUI<T>(this DataGridView dataGridView, DataDisplayEntity<T> input) where T : class
-        {
-            dataGridView.ClearMerge();
-            if (input == null || input.DataList == null || !input.DataList.Any())
-            {
-                dataGridView.Rows.Clear();
-                return;
-            }
-            if (input.headtextList == null || !input.headtextList.Any()) return;
-
-            var list = input.DataList;
-            var headtext = input.headtextList;
-            var ButtonList = input.ButtonList;
-
-            // 1. 解析表头配置，获取字段名称（通用逻辑，不绑定具体字段）
-            var propertyNames = headtext
-                .Select(x =>
-                    x.fields.Body is MemberExpression memberExpr
-                    ? memberExpr.Member.Name
-                    : ((MemberExpression)((UnaryExpression)x.fields.Body).Operand).Member.Name)
-                .ToList();
-
-            var entityProperties = typeof(T).GetProperties()
-                .Where(x => propertyNames.Contains(x.Name))
-                .OrderBy(x => propertyNames.IndexOf(x.Name))
-                .ToList();
-
-            // 2. 基础样式+列配置（通用）
-            dataGridView.AllowUserToAddRows = false;
-            dataGridView.AllowUserToDeleteRows = false;
-            dataGridView.ReadOnly = input.IsReadOnly;
-            dataGridView.RowHeadersVisible = false;
-            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            dataGridView.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
-            {
-                Alignment = DataGridViewContentAlignment.MiddleCenter,
-                BackColor = Color.LightGray,
-                ForeColor = Color.Black,
-                Font = new Font("宋体", 10, FontStyle.Bold),
-            };
-
-            // 清空旧数据
-            dataGridView.Columns.Clear();
-            dataGridView.Rows.Clear();
-
-            // 3. 添加普通列（通用，根据配置动态生成）
-            foreach (var header in headtext)
-            {
-                var propName = entityProperties[headtext.FindIndex(x => x == header)].Name;
-                dataGridView.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter },
-                    HeaderText = header.name,
-                    Name = propName,
-                    Width = header.width,
-                    ReadOnly = input.IsReadOnly,
-                    SortMode = DataGridViewColumnSortMode.NotSortable
-                });
-            }
-
-            // 4. 添加按钮列（通用，根据配置动态生成）
-            if (ButtonList != null && ButtonList.Any())
-            {
-                foreach (var btnName in ButtonList)
-                {
-                    dataGridView.Columns.Add(new DataGridViewButtonColumn
-                    {
-                        DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter },
-                        HeaderText = "操作",
-                        Name = btnName,
-                        Width = 110,
-                        ReadOnly = true,
-                        SortMode = DataGridViewColumnSortMode.NotSortable
-                    });
-                }
-            }
-
-            // 5. 填充数据（核心：全通用，无任何硬编码字段）
-            foreach (var dataItem in list)
-            {
-                int rowIndex = dataGridView.Rows.Add();
-                var currentRow = dataGridView.Rows[rowIndex];
-
-                // 5.1 填充普通单元格+执行单元格样式（通用）
-                foreach (var prop in entityProperties)
-                {
-                    // 赋值单元格值
-                    var cellValue = prop.GetValue(dataItem) ?? string.Empty;
-                    currentRow.Cells[prop.Name].Value = cellValue;
-
-                    // 执行单元格样式规则（用户自定义，方法不干预）
-                    if (input.changeCellFunsList != null)
-                    {
-                        string fieldName = prop.Name;
-                        string fieldValue = cellValue.ToString() ?? string.Empty;
-                        foreach (var cellStyleFunc in input.changeCellFunsList)
-                        {
-                            cellStyleFunc(fieldName, fieldValue, currentRow.Cells[fieldName].Style);
-                        }
-                    }
-                }
-
-                // 5.2 执行行样式规则（通用：遍历所有字段传递给用户委托，由用户决定判断逻辑）
-                if (input.changeLineFuns != null)
-                {
-                    foreach (var prop in entityProperties)
-                    {
-                        string fieldName = prop.Name;
-                        string fieldValue = prop.GetValue(dataItem)?.ToString() ?? string.Empty;
-                        input.changeLineFuns(fieldName, fieldValue, currentRow.DefaultCellStyle);
-                    }
-                }
-
-                // 5.3 处理按钮显示规则
-                if (ButtonList != null && ButtonList.Any())
-                {
-                    foreach (var btnName in ButtonList)
-                    {
-                        bool isShowBtn = true;
-                        // 遍历所有按钮规则，由用户规则决定是否显示
-                        foreach (var btnRuleFunc in input.changeBtnList)
-                        {
-                            foreach (var prop in entityProperties)
-                            {
-                                string fieldName = prop.Name;
-                                string fieldValue = prop.GetValue(dataItem)?.ToString() ?? string.Empty;
-                                isShowBtn = btnRuleFunc(fieldName, fieldValue, btnName);
-                                if (!isShowBtn) break;
-                            }
-                            if (!isShowBtn) break;
-                        }
-
-                        // 处理按钮单元格（修复ReadOnly顺序）
-                        if (isShowBtn)
-                        {
-                            var btnCell = new DataGridViewButtonCell { Value = btnName };
-                            currentRow.Cells[btnName] = btnCell;
-                            btnCell.ReadOnly = false;
-                        }
-                        else
-                        {
-                            var textCell = new DataGridViewTextBoxCell { Value = string.Empty };
-                            currentRow.Cells[btnName] = textCell;
-                            textCell.ReadOnly = true;
-                        }
-                    }
-                }
-
-                currentRow.Tag = dataItem;
-            }
-        }
-
-        /// <summary>
         /// 渲染DataGridView（可控制Cell/UI，加强版）
         /// </summary>
         public static void SetCommonWithCell<T>(this DataGridView dataGridView, DataDisplayEntityCell<T> input) where T : class, new()
         {
             // 先渲染数据
-            dataGridView.SetCommon(input.DataList, input.HeadtextList, input.ButtonList.Select(x => x.ButtonName).ToList());
+            dataGridView.SetCommon(input.DataList, input.HeadtextList, input.ButtonList.Select(x => x.ButtonName).ToList(),input.IsUseCheckbox);
             // 单独处理UI
             foreach (DataGridViewRow item in dataGridView.Rows)
             {
@@ -416,7 +280,27 @@ namespace WinformLib
         {
             if (e.ColumnIndex == dataGridView1.Columns[title]?.Index && e.RowIndex >= 0)//若点击了【title】按钮
             {
-                return dataGridView1.Rows[e.RowIndex].Tag as T;
+                //bool类型的列
+                var boolIndexList = dataGridView1.Columns.Cast<DataGridViewColumn>()
+                                        .Select((entity, index) => (entity, index))
+                                        .Where(p => p.entity.CellType == typeof(DataGridViewCheckBoxCell))
+                                        .Select(x => x.index)
+                                        .ToList();
+                //获取点击的行
+                var row = dataGridView1.Rows[e.RowIndex];
+                //获取Tag
+                var output = row.Tag as T;
+                if (output != null)
+                {
+                    //反射维护bool类型的列
+                    foreach (var item in boolIndexList)
+                    {
+                        //反射赋值一下
+                        var feildName = row.Cells[item].OwningColumn.Name;
+                        output.GetType().GetProperty(feildName)?.SetValue(output, row.Cells[item].Value);
+                    }
+                }
+                return output;
             }
             return null;
         }
@@ -805,6 +689,114 @@ namespace WinformLib
 
         #endregion
 
+        #region 获取选择checkbox的数据
+        /// <summary>
+        /// 获取选择checkbox的数据
+        /// </summary>
+        public static List<T> GetCommonByCheckbox<T>(this DataGridView dgv, Expression<Func<T, object>> exp) where T : class
+        {
+            List<T> resultList = new List<T>();
+
+            //获取复选框列
+            int index = GetColIndex(dgv, exp);
+
+            //bool类型的列
+            var boolIndexList = dgv.Columns.Cast<DataGridViewColumn>()
+                                    .Select((entity,index)=>(entity,index))
+                                    .Where(p => p.entity.CellType == typeof(DataGridViewCheckBoxCell))
+                                    .Select(x=>x.index)
+                                    .ToList();
+
+            //遍历所有数据行，跳过新行（底部*那一行）
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (row.IsNewRow)
+                {
+                    continue;
+                }
+
+                //复选框列，取单元格bool值
+                var cellCheck = row.Cells[index];
+                bool isChecked = cellCheck.Value != null && (bool)cellCheck.Value;
+
+                if (isChecked)
+                {
+                    T model = row.Tag as T;
+                    if (model != null)
+                    {
+                        foreach (var item in boolIndexList)
+                        {
+                            //反射赋值一下
+                            var feildName = row.Cells[item].OwningColumn.Name;
+                            model.GetType().GetProperty(feildName)?.SetValue(model, row.Cells[item].Value);
+                        }
+                        resultList.Add(model);
+                    }
+                }
+            }
+            return resultList;
+        }
+
+
+        /// <summary>
+        /// DataGridView 全选/取消全选 指定列的复选框
+        /// </summary>
+        /// <param name="dgv">表格控件</param>
+        /// <param name="isCheck">true=全选，false=全部取消</param>
+        public static void SetAllCheckbox<T>(this DataGridView dgv, Expression<Func<T, object>> exp, bool isCheck = true) where T : class
+        {
+            try
+            {
+                //获取复选框列
+                int index = GetColIndex(dgv, exp);
+
+                foreach (DataGridViewRow row in dgv.Rows)
+                {
+                    if (row.IsNewRow) continue; //跳过底部新增行
+                    row.Cells[index].Value = isCheck; //第0列是复选框列
+                }
+                //提交编辑，刷新界面状态
+                dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                dgv.Refresh();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 获取复选框列
+        /// </summary>
+        private static int GetColIndex<T>(DataGridView dgv, Expression<Func<T, object>> exp) where T : class
+        {
+            //获取字段名称
+            string FeildName = string.Empty;
+            if (exp.Body is MemberExpression memberExpr)
+            {
+                FeildName = memberExpr.Member.Name;
+            }
+            else
+            {
+                FeildName = ((MemberExpression)((UnaryExpression)exp.Body).Operand).Member.Name;
+            }
+
+            //找出是哪一列
+            var rows = dgv.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.Equals(FeildName));
+            int index = -1;
+            if (rows != null)
+            {
+                index = rows.Index;
+            }
+            else
+            {
+                throw new Exception("找不到复选框列");
+            }
+
+            return index;
+        }
+        #endregion
+
         #region 辅助方法
         /// <summary>
         /// 通用数据展示实体（包含数据列表、表头配置、按钮列表）
@@ -898,6 +890,11 @@ namespace WinformLib
             /// 是否允许单元格内容换行
             /// </summary>
             public bool IsAllowWrap { get; set; } = false;
+
+            /// <summary>
+            /// 是否使用CheckBox渲染
+            /// </summary>
+            public bool IsUseCheckbox { get; set; } = false;
 
         }
         #endregion

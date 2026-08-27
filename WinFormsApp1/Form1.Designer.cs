@@ -31,19 +31,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             button1 = new Button();
             dataGridView1 = new DataGridView();
-            radioButton1 = new RadioButton();
-            radioButton2 = new RadioButton();
-            radioButton3 = new RadioButton();
+            button2 = new Button();
+            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(886, 32);
+            button1.Location = new Point(876, 32);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 1;
-            button1.Text = "button1";
+            button1.Text = "渲染";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -58,37 +57,25 @@
             dataGridView1.TabIndex = 2;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
-            // radioButton1
+            // button2
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(867, 118);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(73, 19);
-            radioButton1.TabIndex = 4;
-            radioButton1.Text = "测试列";
-            radioButton1.UseVisualStyleBackColor = true;
+            button2.Location = new Point(867, 92);
+            button2.Name = "button2";
+            button2.Size = new Size(113, 29);
+            button2.TabIndex = 3;
+            button2.Text = "获取选择的行";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
-            // radioButton2
+            // button3
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(867, 155);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(73, 19);
-            radioButton2.TabIndex = 5;
-            radioButton2.Text = "测试行";
-            radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton3
-            // 
-            radioButton3.AutoSize = true;
-            radioButton3.Checked = true;
-            radioButton3.Location = new Point(867, 81);
-            radioButton3.Name = "radioButton3";
-            radioButton3.Size = new Size(88, 19);
-            radioButton3.TabIndex = 6;
-            radioButton3.TabStop = true;
-            radioButton3.Text = "测试表头";
-            radioButton3.UseVisualStyleBackColor = true;
+            button3.Location = new Point(876, 153);
+            button3.Name = "button3";
+            button3.Size = new Size(94, 29);
+            button3.TabIndex = 4;
+            button3.Text = "全选选择2";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // Form1
             // 
@@ -98,9 +85,8 @@
             BackgroundImage = Properties.Resources.blue;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1003, 727);
-            Controls.Add(radioButton3);
-            Controls.Add(radioButton2);
-            Controls.Add(radioButton1);
+            Controls.Add(button3);
+            Controls.Add(button2);
             Controls.Add(dataGridView1);
             Controls.Add(button1);
             DoubleBuffered = true;
@@ -111,7 +97,6 @@
             Text = "Form100";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -119,8 +104,7 @@
         private RichTextBox richTextBox1;
         private Button button1;
         private DataGridView dataGridView1;
-        private RadioButton radioButton1;
-        private RadioButton radioButton2;
-        private RadioButton radioButton3;
+        private Button button2;
+        private Button button3;
     }
 }

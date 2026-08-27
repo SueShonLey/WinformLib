@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing.Text;
+using System.Linq.Expressions;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -26,86 +27,32 @@ namespace WinFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
 
-            if (radioButton1.Checked)
+            dataGridView1.SetCommonWithCell(new DataGridViewExtentions.DataDisplayEntityCell<AAA>
             {
-                dataGridView1.SetCommonWithCell(new DataGridViewExtentions.DataDisplayEntityCell<AAA>
-                {
-                    DataList = new List<AAA>()
+                DataList = new List<AAA>()
                     {
-                        new AAA() { Detail = "1班", Name = "学生A", Before = "A1", After = "A2" },
-                        new AAA() { Detail = "1班", Name = "学生B", Before = "B1", After = "B2" },
-                        new AAA() { Detail = "2班", Name = "学生C", Before = "B1", After = "C2" },
-                        new AAA() { Detail = "2班", Name = "学生D", Before = "D1", After = "D2" },
-                        new AAA() { Detail = "2班", Name = "学生E", Before = "E1", After = "E2" },
+                        new AAA() {Id=1, Detail = "1班", Name = "学生A", Before = "A1", After = "A2" },
+                        new AAA() {Id=2, Detail = "1班", Name = "学生B", Before = "B1", After = "B2" },
+                        new AAA() {Id=3, Detail = "2班", Name = "学生C", Before = "B1", After = "C2" },
+                        new AAA() { Id=4,Detail = "2班", Name = "学生D", Before = "D1", After = "D2"},
+                        new AAA() {Id=5, Detail = "2班", Name = "学生E", Before = "E1", After = "E2" },
                     },
-                    ButtonList = new List<(string ButtonName, string TitileName, int Width)>()
+                ButtonList = new List<(string ButtonName, string TitileName, int Width)>()
                 {
                     ("点击", "操作", 100),
                     ("点击5", "操作", 100),
                 },
-                    HeadtextList = new List<(System.Linq.Expressions.Expression<Func<AAA, object>> Feild, string TitileName, int Width)>
+                HeadtextList = new List<(System.Linq.Expressions.Expression<Func<AAA, object>> Feild, string TitileName, int Width)>
                 {
+                    //(x => x.IsCheck, "选择1", 80),
                     (x => x.Detail, "明细", 100),
                     (x => x.Name, "姓名", 100),
                     (x => x.Before, "分班前", 100),
                     (x => x.After, "分班后", 100),
-                }
-                });
-                dataGridView1.MergeCols(new List<int> { 0, 2 });
-            }
-            else if (radioButton2.Checked)
-            {
-                dataGridView1.SetCommonWithCell(new DataGridViewExtentions.DataDisplayEntityCell<AAA>
-                {
-                    DataList = new List<AAA>()
-                {
-                    new AAA() { Detail = "1班", Name = "学生A", Before = "学生A", After = "A2" },
-                    new AAA() { Detail = "2班", Name = "学生B", Before = "B1", After = "B2" },
-                    new AAA() { Detail = "3班", Name = "学生C", Before = "学生C", After = "学生C" },
-                    new AAA() { Detail = "4班", Name = "学生D", Before = "D1", After = "D2" },
+                    //(x => x.IsCheck2, "选择2", 100),
                 },
-                    ButtonList = new List<(string ButtonName, string TitileName, int Width)>()
-                {
-                    ("点击1", "操作", 100),
-                    ("点击2", "操作", 100),
-                },
-                    HeadtextList = new List<(System.Linq.Expressions.Expression<Func<AAA, object>> Feild, string TitileName, int Width)>
-                {
-                    (x => x.Detail, "明细", 100),
-                    (x => x.Name, "姓名", 100),
-                    (x => x.Before, "分班前", 100),
-                    (x => x.After, "分班后", 100),
-                }
-                });
-                dataGridView1.MergeRows();
-            }
-            else if (radioButton3.Checked)
-            {
-                dataGridView1.SetCommonWithCell(new DataGridViewExtentions.DataDisplayEntityCell<AAA>
-                {
-                    DataList = new List<AAA>()
-                    {
-                        new AAA() { Detail = "1班", Name = "学生A", Before = "A1", After = "A2" },
-                        new AAA() { Detail = "1班", Name = "学生B", Before = "B1", After = "B2" },
-                        new AAA() { Detail = "2班", Name = "学生C", Before = "B1", After = "C2" },
-                        new AAA() { Detail = "2班", Name = "学生D", Before = "D1", After = "D2" },
-                    },
-                    ButtonList = new List<(string ButtonName, string TitileName, int Width)>()
-                {
-                    ("点击", "操作", 100),
-                    ("点击5", "操作", 100),
-                },
-                    HeadtextList = new List<(System.Linq.Expressions.Expression<Func<AAA, object>> Feild, string TitileName, int Width)>
-                {
-                    (x => x.Detail, "明细", 100),
-                    (x => x.Name, "姓名", 100),
-                    (x => x.Before, "分班前", 100),
-                    (x => x.After, "分班后", 100),
-                }
-                    ,IsMergeHeader = true
-                });
-                //dataGridView1.MergeHeader();
-            }
+                IsUseCheckbox = true,
+            });
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -118,18 +65,45 @@ namespace WinFormsApp1
             {
                 this.PopUpTips(JsonConvert.SerializeObject(print));
             }
+        }
+
+        /// <summary>
+        /// 获取选中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //var list = dataGridView1.GetCommonByCheckbox<AAA>( x=>x.IsCheck);
+            //this.PopUpTips(JsonConvert.SerializeObject(list, Formatting.Indented));
+        }
 
 
+
+
+        /// <summary>
+        /// 设置选中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //dataGridView1.SetAllCheckbox<AAA>(x=>x.IsCheck,true);
         }
     }
 
     public class AAA
     {
+        public int Id { get; set; }
         public string Detail { get; set; }
         public string Name { get; set; }
         public string Before { get; set; }
         public string After { get; set; }
+
+        //public bool IsCheck     { get; set; }
+        //public bool IsCheck2     { get; set; }
     }
+
 
 
 
