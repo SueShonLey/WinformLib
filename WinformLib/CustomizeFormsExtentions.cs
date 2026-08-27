@@ -403,7 +403,7 @@ namespace WinformLib
         /// <summary>
         /// 递归设置指定类型控件宽度，跳过AutoSize控件、Panel容器、按钮
         /// </summary>
-        static void SetControlWidthRecursive(Control container, int targetWidth)
+        private static void SetControlWidthRecursive(Control container, int targetWidth)
         {
             foreach (Control c in container.Controls)
             {
