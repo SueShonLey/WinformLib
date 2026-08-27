@@ -38,6 +38,8 @@
 - **MergeHeader**: 自动进行表头合并（水平合并）
 - **MergeCols**: 传入列的索引，自动进行传入列合并（垂直合并）,默认会调用MergeHeader
 - **MergeRows**: 传入行的索引，自动进行传入行合并（水平合并）,默认会调用MergeHeader
+- **GetCommonByCheckbox**: 传入字段，获取相应列选中的实体列表
+- **SetAllCheckbox**: 传入字段，选中或者取消选中相应列
 
 ### FileExtentions
 - **PopUpFolder**: 文件夹选择
@@ -56,7 +58,7 @@
 - **CheckNotNull**: 判断控件值都非空
 - **IsRunningByAdmin**: 是否以管理员身份运行该Winform程序
 - **SetMenuMDIForm**: MDI窗体设计
-- **ShowOnlyOne**: 打开窗体（不重复）
+- **ShowOnlyOne**: 打开子窗体（不会重复打开），并且可传入是否继承父窗体UI
 - **SetGlobalErrorTips**: 全局报错不退出系统（仅限开发环境）
 - **GetChildrenControls**: 获取指定类型的子控件
 - **GetMachineGuid**: 获取当前设备机器码
