@@ -26,89 +26,25 @@ namespace WinFormsApp1
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            dataGridView1.SetCommonWithCell(new DataGridViewExtentions.DataDisplayEntityCell<AAA>
-            {
-                DataList = new List<AAA>()
-                    {
-                        new AAA() {Id=1, Detail = "1班", Name = "学生A", Before = "A1", After = "A2" },
-                        new AAA() {Id=2, Detail = "1班", Name = "学生B", Before = "B1", After = "B2" },
-                        new AAA() {Id=3, Detail = "2班", Name = "学生C", Before = "B1", After = "C2" },
-                        new AAA() { Id=4,Detail = "2班", Name = "学生D", Before = "D1", After = "D2"},
-                        new AAA() {Id=5, Detail = "2班", Name = "学生E", Before = "E1", After = "E2" },
-                    },
-                ButtonList = new List<(string ButtonName, string TitileName, int Width)>()
-                {
-                    ("点击", "操作", 100),
-                    ("点击5", "操作", 100),
-                },
-                HeadtextList = new List<(System.Linq.Expressions.Expression<Func<AAA, object>> Feild, string TitileName, int Width)>
-                {
-                    //(x => x.IsCheck, "选择1", 80),
-                    (x => x.Detail, "明细", 100),
-                    (x => x.Name, "姓名", 100),
-                    (x => x.Before, "分班前", 100),
-                    (x => x.After, "分班后", 100),
-                    //(x => x.IsCheck2, "选择2", 100),
-                },
-                IsUseCheckbox = true,
-            });
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var entity = dataGridView1.GetCommonByButton<AAA>("点击", e);
-            var entity1 = dataGridView1.GetCommonByButton<AAA>("点击1", e);
-            var entity2 = dataGridView1.GetCommonByButton<AAA>("点击2", e);
-            AAA print = entity ?? entity1 ?? entity2;
-            if (print != null)
-            {
-                this.PopUpTips(JsonConvert.SerializeObject(print));
-            }
-        }
-
-        /// <summary>
-        /// 获取选中
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //var list = dataGridView1.GetCommonByCheckbox<AAA>( x=>x.IsCheck);
-            //this.PopUpTips(JsonConvert.SerializeObject(list, Formatting.Indented));
-
-            var entity = comboBox1.GetCommonSelectWithEntity<AAA>();
-            //var res = (entity) == EnumDataSource.Run;
-            this.PopUpTips(JsonConvert.SerializeObject(entity));
-        }
-
-
-
-
-        /// <summary>
-        /// 设置选中
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button3_Click(object sender, EventArgs e)
-        {
-            //dataGridView1.SetAllCheckbox<AAA>(x=>x.IsCheck,true);
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1.SetCommonWithEntity<AAA>(new List<AAA>()
-                    {
-                        new AAA() {Id=1, Detail = "1班", Name = "学生A", Before = "A1", After = "A2" },
-                        new AAA() {Id=2, Detail = "1班", Name = "学生B", Before = "B1", After = "B2" },
-                        new AAA() {Id=3, Detail = "2班", Name = "学生C", Before = "B1", After = "C2" },
-                        new AAA() { Id=4,Detail = "2班", Name = "学生D", Before = "D1", After = "D2"},
-                        new AAA() {Id=5, Detail = "2班", Name = "学生E", Before = "E1", After = "E2" },
-                    },x=>x.Name,isSuggest:true);
+            tabControl1.SetTransMenu(new List<string> { "项目1", "项目2", "项目3" });
+
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            tabControl1.SetTransMenuSelect("项目1");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.PopUpTips($"{tabControl1.GetTransMenuSelect()}");
+        }
+
     }
+
+
 
     public class AAA
     {

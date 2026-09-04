@@ -8,6 +8,16 @@
 
 您如果有疑问或建议，敬请联系：sueshonley@qq.com
 
+# WinformLib
+
+Welcome to **WinformLib**! I am the author **SueShonley**. This NuGet package provides practical extension method encapsulations for many commonly used controls. We look forward to your feedback and suggestions!
+
+You can watch the following video to obtain more information: [Watch Video](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
+
+You can visit Github to view the source code: [Link](https://github.com/SueShonLey/WinformLib)
+
+If you have any questions or suggestions, please contact: sueshonley@qq.com
+
 ## 扩展方法说明
 
 ### CheckedListBoxExtentions
@@ -136,143 +146,12 @@
 ### LabelExtensions
 - **SetSlideStart**:开启Label滑动条效果
 - **SetSlideStop**:关闭Label滑动条效果，变为静态效果
+- 
+### TabControlExtensions
+- **SetTransMenu**:设置透明Tab
+- **SetTransMenuSelect**:跳转透明Tab的指定界面
+- **GetTransMenuSelect**:获取当前选择的透明Tab的界面
 
 
 ##### 感谢您的使用与支持！如有任何建议，请随时联系我。
-
-
-# WinformLib
-
-Welcome to **WinformLib**! I am the author **SueShonley**. This NuGet package provides practical extension method encapsulations for many commonly used controls. We look forward to your feedback and suggestions!
-
-You can watch the following video to obtain more information: [Watch Video](https://www.bilibili.com/video/BV1frq6BTEnM/?vd_source=686b87d4b7bcc024dd5ea31a4b332769)
-
-You can visit Github to view the source code: [Link](https://github.com/SueShonLey/WinformLib)
-
-If you have any questions or suggestions, please contact: sueshonley@qq.com
-
-## Description of extension methods
-
-### CheckedListBoxExtentions
-- **SetCommon**: Set data source
-- **SetCommonAll**: Set to select all and cancel all
-- **GetCommonStatus**: Get the selected or unselected data
-
-### ClipboardExtentions
-- **ToClipboard**: Export the string to the clipboard
-- **GetClipboard**: Read data from the clipboard
-
-### ComboBoxExtentions
-- **SetCommon**: Set the content of the dropdown box
-- **GetCommonSelect**: Gets the current selection index/text
-- **SetCommonItems**: Lock the dropdown box based on the text
-- **SetCommonWithEntity**: Render a dropdown box based on an entity list and specified fields
-- **GetCommonSelectWithEntity**: Obtain the entity based on the selected dropdown box
-- **SetCommonWithEnum**: Render a dropdown box based on the enumeration
-- **GetCommonSelectWithEnum**: Get the enumeration based on the selected dropdown box
-- **GetCommonSelectWithEnumDetails**: Obtain enumeration details based on the selected dropdown box
-
-### DataGridViewExtentions
-- **SetCommon**: Set table content
-- **GetCommon**: Get table content
-- **GetCommonByButton**: Obtain an entity based on the text on the button
-- **SetCommonWithUI**: Set table content + UI (complex case)
-- **SetCommonWithCell**: Set table content + adjust rows, columns, and cells (complex scenarios)
-
-### FileExtentions
-- **PopUpFolder**: Folder selection
-- **PopUpFile**: File selection
-- **PopUpMutiFile**: Multi-file selection
-- **OpenFolder**: Open the specified folder
-- **OpenFile**: Open a file
-- **SplitFileName**: Split file name
-
-### FormExtentions
-- **SetCommon**: Common window settings
-- **BindForm**: Bind two-way form transmission
-- **SendMessage**: Send a string to another form
-- **HideForm**: Hides the taskbar window and displays it in the lower right corner tray
-- **CheckNotNull**: Check that the control values are not null
-- **IsRunningByAdmin**: Whether to run the Winform program as an administrator
-- **SetMenuMDIForm**: MDI window design
-- **ShowOnlyOne**: Open the window (without duplication)
-- **SetGlobalErrorTips**: Display global error tips without exiting the system (only in development environment)
-- **GetChildrenControls**: Gets child controls of a specified type
-- **GetMachineGuid**: Obtain the current device's machine GUID
-
-
-### FlowLayoutPanelExtentions
-- **AddButtons**: Adds buttons (ButtonList) to the flow layout control
-- **SetCommonFlowMsg**: Add flow message effect
-
-### GroupBoxExtentions
-- **ClearAll**: Clear the text box, check box, and rich text box
-- **SetAllEnable**: Set the availability of controls
-
-### PanelExtentions
-- **SetCommonDefault**: Set the default window (for subsequent restoration)
-- **SetCommonRecover**: Restores the default form (the default form must be set before it can be restored)
-- **SetCommon**: Switch window
-- **ReceiveFiles**: Allows the panel to receive file drag-and-drop (single file)
-- **ReceiveMutiFiles**: Allows the panel to receive file drag-and-drop (multiple files)
-
-### ProgressBarExtentions
-- **SetCommon**: Set the progress bar
-
-### RichTextBoxExtentions
-- **SetCommonWithColors**: Set rich text box colors
-
-### StatusStripExtensions
-- **SetStatusStripCommon**: Set the text and progress of the StatusStrip (bottom border bar)
-- **SetStatusStripTextAndRate**: Updates the text and progress of the StatusStrip
-
-### TaskExtentions
-- **TaskRun**: Background execution (synchronous)
-- **TaskRunAsync**: Run in the background (asynchronously)
-- **TaskRunWithUI**: Background execution + UI update (synchronous)
-- **TaskRunWithUIAsync**: Background operation + UI update (asynchronous)
-- **UISafeInvoke**: UI update (synchronous)
-- **UISafeInvokeAsync**: UI update (asynchronous)
-
-### TipsForm
-- **PopUpTips**: Pop-up tips
-- **PopUpTipsRight**: Pop-up tips (located in the bottom right corner)
-- **PopUpDialog**: Pop-up dialog for inquiry
-
-### TimerExtentions
-- **RegisterTimer**: Timer registration (method can be passed in)
-- **StartTimer**: Timer start
-- **StopTimer**: Timer stop
-- **ReStartTimer**: Timer restart
-- **ResetInterval**: Reset the timer interval
-- **GetStatus**: Get the status of the timer
-
-
-### TableLayoutPanelExtentions
-- **SetCommon**: Set the table container
-- **GetCommon**: Get the table container
-
-### CustomizeFormsExtentions
-- **SetCustomizeForms**: Customize forms (pass in controls and their contents)
-
-### ObjExtentions
-- **ToControl**: Attempt to convert the object sender into a control
-- **SetDoubleBuffered**: Enable double buffering for any WinForm control
-
-### DateTimePickerExtentions
-- **SetCommon**: Render date/time/date and time effects
-- **GetCommon**: Get the date value and day of the week
-
-### LinkLabel1Extensions
-- **OpenLink**: Open a link (website/file/folder can be specified)
-
-### ListBoxExtentions
-- **SetCommon**: Set the content of the ListBox (render list content, call back selected content)
-- **SetRightCommon**: Sets the right-click menu function of the ListBox (right-click list content, callback = selected content + right-click menu name)
-
-### LabelExtensions
-- **SetSlideStart**: Enable the Label slider effect
-- **SetSlideStop**: Disables the Label slider effect, turning it into a static effect
-
-
 ##### Thank you for your use and support! If you have any suggestions, please feel free to contact me.
