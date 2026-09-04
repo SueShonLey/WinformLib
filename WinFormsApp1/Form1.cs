@@ -28,13 +28,13 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            tabControl1.SetTransMenu(new List<string> { "项目1", "项目2", "项目3" });
+            tabControl1.SetTransMenu(new List<string> { "项目1", "项目2", "项目3", "项目4" },this);
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            tabControl1.SetTransMenuSelect("项目1");
+            tabControl1.SetTransMenuSelect($"项目{numericUpDown1.Value}");
         }
 
         private void button2_Click(object sender, EventArgs e)

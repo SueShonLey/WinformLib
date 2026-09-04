@@ -41,11 +41,13 @@
             button1 = new Button();
             label5 = new Label();
             button2 = new Button();
+            numericUpDown1 = new NumericUpDown();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             tabPage3.SuspendLayout();
             tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -57,7 +59,7 @@
             tabControl1.Location = new Point(105, 30);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(853, 445);
+            tabControl1.Size = new Size(853, 483);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -67,10 +69,9 @@
             tabPage1.Location = new Point(4, 25);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(845, 416);
+            tabPage1.Size = new Size(845, 454);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
-
             // 
             // label1
             // 
@@ -85,10 +86,10 @@
             // tabPage2
             // 
             tabPage2.Controls.Add(label2);
-            tabPage2.Location = new Point(4, 29);
+            tabPage2.Location = new Point(4, 25);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(845, 412);
+            tabPage2.Size = new Size(845, 416);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
@@ -105,10 +106,10 @@
             // tabPage3
             // 
             tabPage3.Controls.Add(label3);
-            tabPage3.Location = new Point(4, 29);
+            tabPage3.Location = new Point(4, 25);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(845, 412);
+            tabPage3.Size = new Size(845, 416);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "tabPage3";
             tabPage3.UseVisualStyleBackColor = true;
@@ -125,10 +126,10 @@
             // tabPage4
             // 
             tabPage4.Controls.Add(label4);
-            tabPage4.Location = new Point(4, 29);
+            tabPage4.Location = new Point(4, 25);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(845, 412);
+            tabPage4.Size = new Size(845, 416);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "tabPage4";
             tabPage4.UseVisualStyleBackColor = true;
@@ -164,13 +165,21 @@
             // 
             // button2
             // 
-            button2.Location = new Point(557, 530);
+            button2.Location = new Point(557, 519);
             button2.Name = "button2";
             button2.Size = new Size(94, 29);
             button2.TabIndex = 3;
             button2.Text = "button2";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
+            // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Location = new Point(186, 522);
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(150, 25);
+            numericUpDown1.TabIndex = 4;
+            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // Form1
             // 
@@ -180,6 +189,7 @@
             BackgroundImage = Properties.Resources.blue;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1003, 727);
+            Controls.Add(numericUpDown1);
             Controls.Add(button2);
             Controls.Add(label5);
             Controls.Add(button1);
@@ -200,6 +210,7 @@
             tabPage3.PerformLayout();
             tabPage4.ResumeLayout(false);
             tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -219,5 +230,6 @@
         private Button button1;
         private Label label5;
         private Button button2;
+        private NumericUpDown numericUpDown1;
     }
 }
