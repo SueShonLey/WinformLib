@@ -93,7 +93,7 @@ namespace WinformLib
         /// <param name="isSelectFirst">是否自动选中第一项</param>
         /// <param name="isLazyLoading">是否启用后台延迟加载</param>
         /// <param name="isSuggest">是否启用输入联想提示</param>
-        public static void SetCommonWithEntity<T>(this ComboBox comboBox, List<T> dataList, Func<T, object> funs, bool isSelectFirst = true, bool isLazyLoading = true)
+        public static void SetCommonWithEntity<T>(this ComboBox comboBox, List<T> dataList, Func<T, object> funs, bool isSelectFirst = true, bool isLazyLoading = true, bool isSuggest = true)
         {
             // 空值校验：防止空引用异常
             if (comboBox == null) throw new ArgumentNullException(nameof(comboBox), "下拉框控件不能为空");
@@ -107,14 +107,14 @@ namespace WinformLib
                     // 后台线程仅处理数据转换，UI操作通过BeginInvoke切回主线程（WinForm UI线程安全要求）
                     comboBox.BeginInvoke(new Action(() =>
                     {
-                        SetDataWithEntity<T>(comboBox, dataList, funs, isSelectFirst);
+                        SetDataWithEntity<T>(comboBox, dataList, funs, isSelectFirst, isSuggest);
                     }));
                 });
             }
             else
             {
                 // 同步加载：直接在当前线程（需确保是UI线程）更新下拉框
-                SetDataWithEntity<T>(comboBox, dataList, funs, isSelectFirst);
+                SetDataWithEntity<T>(comboBox, dataList, funs, isSelectFirst, isSuggest);
             }
         }
 
@@ -151,9 +151,18 @@ namespace WinformLib
         /// <param name="funs">自定义显示字段的委托（入参：实体，出参：要显示的字段值）</param>
         /// <param name="isSelectFirst">是否自动选中第一项</param>
         /// <param name="isSuggest">是否启用输入联想提示</param>
-        private static void SetDataWithEntity<T>(ComboBox comboBox, List<T> dataList, Func<T, object> funs, bool isSelectFirst)
+        private static void SetDataWithEntity<T>(ComboBox comboBox, List<T> dataList, Func<T, object> funs, bool isSelectFirst,bool isSuggest)
         {
-            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;//实体类的都需要列表形式
+            if (isSuggest)
+            {
+                comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+                comboBox.DropDownStyle = ComboBoxStyle.DropDown;
+            }
+            else
+            {
+                comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            }
             // 1. 清空下拉框原有数据和映射关系，避免数据残留
             comboBox.Items.Clear();
             _comboEntityMap.TryRemove(comboBox, out _);
@@ -190,10 +199,10 @@ namespace WinformLib
         /// <param name="comboBox">下拉框</param>
         /// <param name="isSelectFirst">是否选中第一个</param>
         /// <param name="isLazyLoading">是否延迟加载</param>
-        public static void SetCommonWithEnum<T>(this ComboBox comboBox, bool isSelectFirst = true, bool isLazyLoading = true) where T : Enum
+        public static void SetCommonWithEnum<T>(this ComboBox comboBox, bool isSelectFirst = true, bool isLazyLoading = true, bool isSuggest=true) where T : Enum
         {
             List<WinformLibEnumExtensions.WinformLibEnumDetails<T>> datalist = WinformLibEnumExtensions.GetEnumDetails<T>();
-            SetCommonWithEntity(comboBox,datalist, x=> x.Description,isSelectFirst,isLazyLoading);
+            SetCommonWithEntity(comboBox,datalist, x=> x.Description,isSelectFirst,isLazyLoading, isSuggest);
         }
 
         /// <summary>
@@ -202,10 +211,10 @@ namespace WinformLib
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="comboBox">目标下拉框</param>
         /// <returns>选中的实体（无选中项/无映射时返回default(T)）</returns>
-        public static Enum GetCommonSelectWithEnum<T>(this ComboBox comboBox) where T : Enum
+        public static T GetCommonSelectWithEnum<T>(this ComboBox comboBox) where T : Enum
         {
             var entity = comboBox.GetCommonSelectWithEnumDetails<T>(); 
-            return entity?.EnumData;
+            return (T)entity?.EnumData;
         }
 
         /// <summary>

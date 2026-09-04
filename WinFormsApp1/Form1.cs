@@ -22,6 +22,8 @@ namespace WinFormsApp1
             InitializeComponent();
             this.SetCommon();
             this.TopMost = true;
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -76,6 +78,10 @@ namespace WinFormsApp1
         {
             //var list = dataGridView1.GetCommonByCheckbox<AAA>( x=>x.IsCheck);
             //this.PopUpTips(JsonConvert.SerializeObject(list, Formatting.Indented));
+
+            var entity = comboBox1.GetCommonSelectWithEntity<AAA>();
+            //var res = (entity) == EnumDataSource.Run;
+            this.PopUpTips(JsonConvert.SerializeObject(entity));
         }
 
 
@@ -89,6 +95,18 @@ namespace WinFormsApp1
         private void button3_Click(object sender, EventArgs e)
         {
             //dataGridView1.SetAllCheckbox<AAA>(x=>x.IsCheck,true);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            comboBox1.SetCommonWithEntity<AAA>(new List<AAA>()
+                    {
+                        new AAA() {Id=1, Detail = "1班", Name = "学生A", Before = "A1", After = "A2" },
+                        new AAA() {Id=2, Detail = "1班", Name = "学生B", Before = "B1", After = "B2" },
+                        new AAA() {Id=3, Detail = "2班", Name = "学生C", Before = "B1", After = "C2" },
+                        new AAA() { Id=4,Detail = "2班", Name = "学生D", Before = "D1", After = "D2"},
+                        new AAA() {Id=5, Detail = "2班", Name = "学生E", Before = "E1", After = "E2" },
+                    },x=>x.Name);
         }
     }
 
@@ -104,6 +122,38 @@ namespace WinFormsApp1
         //public bool IsCheck2     { get; set; }
     }
 
+    /// <summary>
+    /// 枚举-数据源(0:创建,1:运行,2:就绪,3:阻塞,4:结束)
+    /// </summary>
+    [Description("数据源")]
+    public enum EnumDataSource
+    {
+        /// <summary>
+        ///创建
+        /// </summary>
+        [Description("创建")]
+        Create = 0,
+        /// <summary>
+        ///运行
+        /// </summary>
+        [Description("运行")]
+        Run = 1,
+        /// <summary>
+        ///就绪
+        /// </summary>
+        [Description("就绪")]
+        Ready = 2,
+        /// <summary>
+        ///阻塞
+        /// </summary>
+        [Description("阻塞")]
+        Block = 3,
+        /// <summary>
+        ///结束
+        /// </summary>
+        [Description("结束")]
+        End = 4,
+    }
 
 
 

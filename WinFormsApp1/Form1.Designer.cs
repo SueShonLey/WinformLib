@@ -33,6 +33,7 @@
             dataGridView1 = new DataGridView();
             button2 = new Button();
             button3 = new Button();
+            comboBox1 = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -53,7 +54,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(840, 688);
+            dataGridView1.Size = new Size(840, 346);
             dataGridView1.TabIndex = 2;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -77,6 +78,14 @@
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
             // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(168, 483);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(684, 23);
+            comboBox1.TabIndex = 5;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 15F);
@@ -85,6 +94,7 @@
             BackgroundImage = Properties.Resources.blue;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1003, 727);
+            Controls.Add(comboBox1);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(dataGridView1);
@@ -95,6 +105,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form100";
+            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
@@ -106,5 +117,6 @@
         private DataGridView dataGridView1;
         private Button button2;
         private Button button3;
+        private ComboBox comboBox1;
     }
 }
