@@ -106,7 +106,7 @@ namespace WinFormsApp1
                         new AAA() {Id=3, Detail = "2班", Name = "学生C", Before = "B1", After = "C2" },
                         new AAA() { Id=4,Detail = "2班", Name = "学生D", Before = "D1", After = "D2"},
                         new AAA() {Id=5, Detail = "2班", Name = "学生E", Before = "E1", After = "E2" },
-                    },x=>x.Name);
+                    },x=>x.Name,isSuggest:true);
         }
     }
 

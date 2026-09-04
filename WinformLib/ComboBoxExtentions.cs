@@ -199,7 +199,7 @@ namespace WinformLib
         /// <param name="comboBox">下拉框</param>
         /// <param name="isSelectFirst">是否选中第一个</param>
         /// <param name="isLazyLoading">是否延迟加载</param>
-        public static void SetCommonWithEnum<T>(this ComboBox comboBox, bool isSelectFirst = true, bool isLazyLoading = true, bool isSuggest=true) where T : Enum
+        public static void SetCommonWithEnum<T>(this ComboBox comboBox, bool isSelectFirst = true, bool isLazyLoading = true, bool isSuggest=false) where T : Enum
         {
             List<WinformLibEnumExtensions.WinformLibEnumDetails<T>> datalist = WinformLibEnumExtensions.GetEnumDetails<T>();
             SetCommonWithEntity(comboBox,datalist, x=> x.Description,isSelectFirst,isLazyLoading, isSuggest);
