@@ -255,6 +255,11 @@ namespace WinformLib
             {
                 comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                 comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+                comboBox.DropDownStyle = ComboBoxStyle.DropDown;
+            }
+            else
+            {
+                comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             }
 
             // 设置默认选中第一个项（如果启用）
