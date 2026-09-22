@@ -307,7 +307,7 @@ namespace WinformLib
 
         /// <summary>
         /// 根据表格的文字内容获取实体
-        /// 示例：var entity = dataGridView1.GetCommonByButton<Product>("名称",e);
+        /// 示例：var entity = dataGridView1.GetCommonByButton<Product>("名称",e); 如果传空字符串，则不筛选标题名
         /// </summary>
         public static T GetCommonByContent<T>(this DataGridView dataGridView1, string title, DataGridViewCellEventArgs e) where T : class, new()
         {
@@ -317,7 +317,7 @@ namespace WinformLib
                 if (e.RowIndex < 0)// 排除点击表头（RowIndex=-1）
                     return null;
                 DataGridViewColumn col = dataGridView1.Columns[e.ColumnIndex];
-                if (!col.HeaderText.Equals(title))
+                if (!string.IsNullOrEmpty(title) && !col.HeaderText.Equals(title))
                 {
                     return null;
                 }
