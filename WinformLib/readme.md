@@ -43,6 +43,7 @@ If you have any questions or suggestions, please contact: sueshonley@qq.com
 - **SetCommon**: 设置表格内容
 - **GetCommon**: 获取表格内容
 - **GetCommonByButton**: 根据按钮上的文字获取实体
+- **GetCommonByContent**: 根据表格的文字内容获取实体
 - **SetCommonWithUI**: 设置表格内容+UI（复杂情况）
 - **SetCommonWithCell**: 设置表格内容+行、列、单元格调整（复杂情况）
 - **MergeHeader**: 自动进行表头合并（水平合并）

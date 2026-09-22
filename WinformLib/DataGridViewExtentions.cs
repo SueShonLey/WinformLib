@@ -305,6 +305,30 @@ namespace WinformLib
             return null;
         }
 
+        /// <summary>
+        /// 根据表格的文字内容获取实体
+        /// 示例：var entity = dataGridView1.GetCommonByButton<Product>("名称",e);
+        /// </summary>
+        public static T GetCommonByContent<T>(this DataGridView dataGridView1, string title, DataGridViewCellEventArgs e) where T : class, new()
+        {
+            //点中标题头不算；点中指定列单元格才算；
+            try
+            {
+                if (e.RowIndex < 0)// 排除点击表头（RowIndex=-1）
+                    return null;
+                DataGridViewColumn col = dataGridView1.Columns[e.ColumnIndex];
+                if (!col.HeaderText.Equals(title))
+                {
+                    return null;
+                }
+                return dataGridView1?.Rows[e.RowIndex]?.Tag as T;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         #region 表格合并处理
         private static readonly Dictionary<DataGridView, MergeContext> _gridDict = new Dictionary<DataGridView, MergeContext>();
 
