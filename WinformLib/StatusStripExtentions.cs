@@ -121,7 +121,8 @@ namespace WinformLib
                     return;
                 }
 
-                var rateValue = Math.Min(rates.Value, 100);
+                decimal ratePercent = rates.Value * 100m;
+                decimal rateValue = Math.Min(ratePercent, 100m);
                 var add = rates.Value != 100 ? " " : "";
                 controls.ProgressBar.Value = Convert.ToInt32(rateValue);
                 controls.PercentLabel.Text = $"{add}{rates.Value*100:F2}%";
