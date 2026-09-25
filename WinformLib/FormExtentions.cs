@@ -40,7 +40,7 @@ namespace WinformLib
     {
         #region 初始化相关
         /// <summary>
-        /// 初始化默认设置（禁调大小、窗口居中、标题设定、询问退出、调试报错防崩溃）
+        /// 【请在构造函数中使用】初始化默认设置（禁调大小、窗口居中、标题设定、询问退出、调试报错防崩溃）
         /// </summary>
         public static void SetCommon(this Form form, FormSettings settings = null)
         {

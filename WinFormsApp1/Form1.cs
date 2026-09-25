@@ -28,18 +28,32 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            tabControl1.SetTransMenu(new List<string> { "项目1", "项目2", "项目3", "项目4" },this);
+           
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            tabControl1.SetTransMenuSelect($"项目{numericUpDown1.Value}");
+            List<AAA> list = new List<AAA>();
+            dataGridView1.SetCommonWithCell(new DataGridViewExtentions.DataDisplayEntityCell<AAA>
+            {
+                DataList = list,
+                ButtonList = new List<(string ButtonName, string TitileName, int Width)>
+                    {
+                        ("扫描","操作",60)
+                    },
+                HeadtextList = new List<(System.Linq.Expressions.Expression<Func<AAA, object>> Feild, string TitileName, int Width)>
+                    {
+                        (x=>x.Id,"文件名称",180),
+                        (x=>x.Name,"大小",100),
+                        (x=>x.After,"修改时间",180),
+                    }
+            });
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.PopUpTips($"{tabControl1.GetTransMenuSelect()}");
+          
         }
 
     }
