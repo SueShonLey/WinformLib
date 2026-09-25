@@ -17,13 +17,14 @@ namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
+        private static NotifyIcon notifyIcon1 = new NotifyIcon();
         public Form1()
         {
             InitializeComponent();
-            this.SetCommon();
-            this.TopMost = true;
-
-
+            this.SetCommon(new FormSettings
+            {
+           
+            });
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -34,26 +35,13 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<AAA> list = new List<AAA>();
-            dataGridView1.SetCommonWithCell(new DataGridViewExtentions.DataDisplayEntityCell<AAA>
-            {
-                DataList = list,
-                ButtonList = new List<(string ButtonName, string TitileName, int Width)>
-                    {
-                        ("扫描","操作",60)
-                    },
-                HeadtextList = new List<(System.Linq.Expressions.Expression<Func<AAA, object>> Feild, string TitileName, int Width)>
-                    {
-                        (x=>x.Id,"文件名称",180),
-                        (x=>x.Name,"大小",100),
-                        (x=>x.After,"修改时间",180),
-                    }
-            });
+            var form = new Form2();
+            form.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-          
+            this.HideForm();
         }
 
     }

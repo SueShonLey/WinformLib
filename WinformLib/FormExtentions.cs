@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Win32;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Principal;
@@ -34,10 +35,16 @@ namespace WinformLib
         /// 是否开启调试防崩（调试状态下遇到错误避免系统崩溃）
         /// </summary>
         public bool NoDebugCrash { get; set; } = true;
+
+        /// <summary>
+        /// 是否使用最小化托盘
+        /// </summary>
+        public bool IsUseNotifyIcon { get; set; } = true;
     }
 
     public static class FormExtentions
     {
+        internal static ConcurrentDictionary<Form, NotifyIcon> NotifyIconDict = new ConcurrentDictionary<Form, NotifyIcon>();//托盘字典
         #region 初始化相关
         /// <summary>
         /// 【请在构造函数中使用】初始化默认设置（禁调大小、窗口居中、标题设定、询问退出、调试报错防崩溃）
@@ -68,6 +75,32 @@ namespace WinformLib
             if (settings.NoDebugCrash)
             {
                 FormExtentions.SetGlobalErrorTips();
+            }
+            if (settings.IsUseNotifyIcon)
+            {
+                var notifyIcon = NotifyIconDict.GetValueOrDefault(form);
+                if(notifyIcon == null)
+                {
+                    notifyIcon = new NotifyIcon()
+                    {
+                        Icon = form.Icon,
+                        Text = form.Text,
+                        Visible = true,
+                    };
+                    notifyIcon.Click += (sender, obj) =>
+                    {
+                        form.Show();
+                        form.WindowState = FormWindowState.Normal;
+                        form.Activate();
+                    };
+                    form.FormClosing += (s, e) =>
+                    {
+                        NotifyIconDict.Remove(form, out _); // 先移除字典引用
+                        notifyIcon.Visible = false;
+                        notifyIcon.Dispose();
+                    };
+                    NotifyIconDict[form] = notifyIcon;
+                }
             }
         }
 
@@ -404,6 +437,9 @@ namespace WinformLib
         #endregion
     }
 
+    /// <summary>
+    /// 隐藏到托盘
+    /// </summary>
     public static class HideFormExtensions
     {
         private static NotifyIcon notifyIcon = new NotifyIcon();
@@ -415,6 +451,9 @@ namespace WinformLib
             notifyIcon.Click += NotifyIcon_Click;
         }
 
+        /// <summary>
+        /// 点击托盘弹出窗体
+        /// </summary>
         private static void NotifyIcon_Click(object sender, EventArgs e)
         {
             // 这里可以通过某种方式获取当前活动的窗体
@@ -426,14 +465,22 @@ namespace WinformLib
         }
 
         /// <summary>
-        /// 任务栏隐藏该窗体，并且显示右下角托盘图标（点击图标恢复）
+        /// 【说明】任务栏隐藏该窗体，并且显示右下角托盘图标（点击图标恢复）
         /// </summary>
         public static void HideForm(this Form form)
         {
+            var dictnotifyIcon = FormExtentions.NotifyIconDict.GetValueOrDefault(form);
+            if (dictnotifyIcon != null) 
+            {
+                FormExtentions.NotifyIconDict.Remove(form, out _); // 先移除字典引用
+                dictnotifyIcon.Visible = false;
+                dictnotifyIcon.Dispose();
+            }
             MainForm = form;
             form.Hide(); // 隐藏窗体
             notifyIcon.Visible = true; // 显示托盘图标
             notifyIcon.Icon = form.Icon;
+            notifyIcon.Text = form.Text;
         }
     }
 }
